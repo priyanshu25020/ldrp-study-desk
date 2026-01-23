@@ -628,29 +628,34 @@
  // Purana: const API_BASE = "http://localhost:3000";
 // Naya:
 // --- 1. GLOBAL VARIABLES ---
-    const API_BASE = ""; 
+    const API_BASE = ""; // Live domain automatic le lega
     const socket = io();
 
-    // Data Holders
+    // Data Holders (Empty Arrays)
     let subjects = [];
     let textbooks = [];
     let notes = [];
     let pyqs = [];
     
-    // 👇 Ye 3 naye arrays add karne zaroori hain
+    // 👇 YE 3 NAYE ARRAY ADD KARNA ZAROORI HAI (Missing Data Fix)
     let imp_topics = [];
     let practicals = [];
     let assignments = [];
 
     let cachedStats = { totalVisits: '...', visitsToday: '...', online: '...' };
 
-    // ... socket code same rahega ...
+    // --- SOCKET LISTENER (Live Users Fix) ---
+    socket.on("updateStats", (data) => {
+        // Backend se ab 'online' key aa rahi hai (Server Code 1 ki wajah se)
+        cachedStats = data; 
+        updateStatsDOM();
+    });
 
-    // --- FETCH DATA (Updated) ---
+    // --- FETCH DATA FUNCTION (Updated to fetch ALL 7 categories) ---
     async function fetchAllData() {
         console.log("🔄 Fetching data...");
         try {
-            // 1. Basic Data
+            // 1. Basic Data fetch karo
             const [subRes, noteRes, txtRes, pyqRes] = await Promise.all([
                 fetch(`${API_BASE}/api/subjects`),
                 fetch(`${API_BASE}/api/notes`),
@@ -663,7 +668,7 @@
             if(txtRes.ok) textbooks = await txtRes.json();
             if(pyqRes.ok) pyqs = await pyqRes.json();
 
-            // 2. 👇 New Data Categories (Jo humne add kiye the)
+            // 2. 👇 New Data Categories fetch karo (Jo missing thi)
             const [impRes, pracRes, assiRes] = await Promise.all([
                 fetch(`${API_BASE}/api/imp_topics`),
                 fetch(`${API_BASE}/api/practicals`),
@@ -1114,77 +1119,79 @@
 
         // --- MODIFIED OPEN VIEWER (SECURITY INTEGRATED) ---
        // --- MODIFIED OPEN VIEWER (For Google Drive Proxy) ---
-function openViewer(docTitle, type, fileId) {
-    const modal = document.getElementById('viewerModal');
-    const title = document.getElementById('viewerTitle');
-    const viewerContent = document.getElementById('viewerContent');
-    const wrapper = document.getElementById('zoomWrapper');
+// --- MODIFIED OPEN VIEWER (Proxy Integration) ---
+    function openViewer(docTitle, type, fileId) {
+        const modal = document.getElementById('viewerModal');
+        const title = document.getElementById('viewerTitle');
+        const viewerContent = document.getElementById('viewerContent');
+        const wrapper = document.getElementById('zoomWrapper');
 
-    // Reset UI
-    currentZoom = 1.0;
-    renderedZoom = 1.0;
-    const level = document.getElementById('zoomLevel');
-    if (level) level.innerText = '100%';
+        // Reset UI
+        currentZoom = 1.0;
+        renderedZoom = 1.0;
+        const level = document.getElementById('zoomLevel');
+        if (level) level.innerText = '100%';
 
-    document.getElementById('textbookList').classList.add('hidden');
-    viewerContent.classList.add('hidden');
-    if (wrapper) wrapper.innerHTML = '';
+        document.getElementById('textbookList').classList.add('hidden');
+        viewerContent.classList.add('hidden');
+        if (wrapper) wrapper.innerHTML = '';
 
-    title.innerText = `Viewing: ${docTitle}`;
-    modal.classList.remove('hidden');
+        title.innerText = `Viewing: ${docTitle}`;
+        modal.classList.remove('hidden');
 
-    // 🚀 MAGIC LINE: Hum Path nahi, Proxy URL bana rahe hain ID se
-    const proxyUrl = `/api/proxy-pdf?id=${fileId}`;
+        // 🚀 MAGIC LINE: Hum Path nahi, Proxy URL bana rahe hain ID se
+        // Ye backend ke /api/proxy-pdf route ko hit karega
+        const proxyUrl = `/api/proxy-pdf?id=${fileId}`;
 
-    // CASE 1: TEXTBOOK (Download Allowed - Direct Drive Link)
-    if (type === 'textbook') {
-        pdfDoc = null; 
-        
-        // Google Drive ka direct download link (user ke liye)
-        const directDriveLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
-
-        viewerContent.innerHTML = `
-            <div class="flex flex-col h-full w-full">
-                <div class="bg-indigo-50 p-3 flex justify-between items-center border-b border-indigo-100 rounded-t-xl shrink-0">
-                    <span class="text-sm text-indigo-800 font-medium"><i class="fas fa-book-open mr-2"></i> Textbook Mode</span>
-                    <a href="${directDriveLink}" download target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md transition-all flex items-center">
-                        <i class="fas fa-download mr-2"></i> Download
-                    </a>
-                </div>
-                <iframe src="${proxyUrl}" class="w-full flex-grow rounded-b-xl border-none"></iframe>
-            </div>`;
-        
-        viewerContent.classList.remove('hidden');
-        if (wrapper) wrapper.classList.add('hidden');
-    }
-    // CASE 2: SECURE NOTES (Canvas Mode - No Download)
-    else {
-        if (wrapper) {
-            wrapper.classList.remove('hidden');
-            wrapper.innerHTML = `
-                <div id="canvas-container" style="display: flex; justify-content: center; background: #2c2c2c; min-height: 100%; padding: 20px; overflow: auto; -webkit-overflow-scrolling: touch;">
-                    <canvas id="the-canvas" style="box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: block; margin: auto; transition: transform 0.1s ease-out; transform-origin: top center;"></canvas>
-                </div>
-                <div style="position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); padding: 8px 16px; border-radius: 30px; display: flex; gap: 15px; align-items: center; z-index: 100; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1);">
-                    <button onclick="changePage(-1)" class="text-white hover:text-indigo-400 p-2"><i class="fas fa-chevron-left"></i></button>
-                    <span id="page_info" class="text-white text-sm font-mono font-bold">Loading...</span>
-                    <button onclick="changePage(1)" class="text-white hover:text-indigo-400 p-2"><i class="fas fa-chevron-right"></i></button>
-                </div>
-            `;
-            setTimeout(setupZoomListeners, 100);
+        // CASE 1: TEXTBOOK (Download Allowed - Direct Drive Link)
+        if (type === 'textbook') {
+            pdfDoc = null; 
             
-            // Yahan hum Proxy URL bhej rahe hain canvas loader ko
-            loadSecurePdfToCanvas(proxyUrl);
-        }
-    }
+            // Google Drive ka direct download link (user ke liye)
+            const directDriveLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
 
-    requestAnimationFrame(() => {
-        modal.classList.remove('opacity-0', 'pointer-events-none');
-        document.getElementById('viewerModalContent').classList.remove('scale-95');
-        document.getElementById('viewerModalContent').classList.add('scale-100');
-    });
-    document.body.style.overflow = 'hidden';
-}
+            viewerContent.innerHTML = `
+                <div class="flex flex-col h-full w-full">
+                    <div class="bg-indigo-50 p-3 flex justify-between items-center border-b border-indigo-100 rounded-t-xl shrink-0">
+                        <span class="text-sm text-indigo-800 font-medium"><i class="fas fa-book-open mr-2"></i> Textbook Mode</span>
+                        <a href="${directDriveLink}" download target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md transition-all flex items-center">
+                            <i class="fas fa-download mr-2"></i> Download
+                        </a>
+                    </div>
+                    <iframe src="${proxyUrl}" class="w-full flex-grow rounded-b-xl border-none"></iframe>
+                </div>`;
+            
+            viewerContent.classList.remove('hidden');
+            if (wrapper) wrapper.classList.add('hidden');
+        }
+        // CASE 2: SECURE NOTES (Canvas Mode - No Download)
+        else {
+            if (wrapper) {
+                wrapper.classList.remove('hidden');
+                wrapper.innerHTML = `
+                    <div id="canvas-container" style="display: flex; justify-content: center; background: #2c2c2c; min-height: 100%; padding: 20px; overflow: auto; -webkit-overflow-scrolling: touch;">
+                        <canvas id="the-canvas" style="box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: block; margin: auto; transition: transform 0.1s ease-out; transform-origin: top center;"></canvas>
+                    </div>
+                    <div style="position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); padding: 8px 16px; border-radius: 30px; display: flex; gap: 15px; align-items: center; z-index: 100; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1);">
+                        <button onclick="changePage(-1)" class="text-white hover:text-indigo-400 p-2"><i class="fas fa-chevron-left"></i></button>
+                        <span id="page_info" class="text-white text-sm font-mono font-bold">Loading...</span>
+                        <button onclick="changePage(1)" class="text-white hover:text-indigo-400 p-2"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                `;
+                setTimeout(setupZoomListeners, 100);
+                
+                // Yahan hum Proxy URL bhej rahe hain canvas loader ko
+                loadSecurePdfToCanvas(proxyUrl);
+            }
+        }
+
+        requestAnimationFrame(() => {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('viewerModalContent').classList.remove('scale-95');
+            document.getElementById('viewerModalContent').classList.add('scale-100');
+        });
+        document.body.style.overflow = 'hidden';
+    }
 
         function openTextbooks(subjectId) {
             const wrapper = document.getElementById('zoomWrapper');
@@ -1913,208 +1920,208 @@ function renderSubjects() {
             `;
         }
 
-       function renderPracticalDetail(subjectId) {
-    const subject = subjects.find(s => s.id === subjectId);
-    
-    // Filter data specifically for this subject
-    const subjectPracticals = practicals.filter(p => p.subject_id === subjectId);
-    const subjectAssignments = assignments.filter(a => a.subject_id === subjectId);
+      function renderPracticalDetail(subjectId) {
+        const subject = subjects.find(s => s.id === subjectId);
+        
+        // 🔥 FIX: Hardcoded data hata diya. Ab backend wale arrays filter kar rahe hain.
+        const subjectPracticals = practicals.filter(p => p.subject_id === subjectId);
+        const subjectAssignments = assignments.filter(a => a.subject_id === subjectId);
 
-    return `
-        <div class="max-w-7xl mx-auto px-4 py-12 animate-stagger">
-            <button onclick="router('practicals')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
-                <i class="fas fa-chevron-left mr-2"></i> Back to Subjects List
-            </button>
-            
-            <div class="reveal-on-scroll bg-white p-10 rounded-3xl shadow-sm border border-indigo-100 mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-center md:text-left">
-                    <h1 class="text-3xl md:text-4xl font-black text-gray-900">${subject.name}</h1>
-                    <p class="text-indigo-600 font-bold uppercase tracking-widest text-sm mt-2">${subject.code} • Labs & Assignments</p>
-                </div>
-                <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-2xl shadow-inner">
-                    <i class="fas fa-laptop-code"></i>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="reveal-on-scroll reveal-left">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-b-2 border-purple-500 pb-2">
-                        <i class="fas fa-microscope text-purple-500 mr-3"></i> Practicals
-                    </h2>
-                    <div class="space-y-4">
-                        ${subjectPracticals.length > 0 ? subjectPracticals.map(item => `
-                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex justify-between items-center group">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">${item.title}</h4>
-                                    <p class="text-xs text-gray-500 max-w-[200px] truncate">${item.subtitle || 'Lab Session'}</p>
-                                </div>
-                                <button onclick="openViewer('${subject.code} - ${item.title}', 'practical', '${item.file}')" class="bg-purple-50 text-purple-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-purple-600 hover:text-white transition-all btn-click-effect">
-                                    View
-                                </button>
-                            </div>
-                        `).join('') : `
-                            <div class="text-gray-400 italic bg-gray-50 p-4 rounded-xl text-center border border-dashed border-gray-200">
-                                No Practicals Available
-                            </div>
-                        `}
+        return `
+            <div class="max-w-7xl mx-auto px-4 py-12 animate-stagger">
+                <button onclick="router('practicals')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
+                    <i class="fas fa-chevron-left mr-2"></i> Back to Subjects List
+                </button>
+                
+                <div class="reveal-on-scroll bg-white p-10 rounded-3xl shadow-sm border border-indigo-100 mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="text-center md:text-left">
+                        <h1 class="text-3xl md:text-4xl font-black text-gray-900">${subject.name}</h1>
+                        <p class="text-indigo-600 font-bold uppercase tracking-widest text-sm mt-2">${subject.code} • Labs & Assignments</p>
+                    </div>
+                    <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-2xl shadow-inner">
+                        <i class="fas fa-laptop-code"></i>
                     </div>
                 </div>
 
-                <div class="reveal-on-scroll reveal-right">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-b-2 border-indigo-500 pb-2">
-                        <i class="fas fa-clipboard-list text-indigo-500 mr-3"></i> Assignments
-                    </h2>
-                    <div class="space-y-4">
-                        ${subjectAssignments.length > 0 ? subjectAssignments.map(item => `
-                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex justify-between items-center group">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">${item.title}</h4>
-                                    <p class="text-xs text-gray-500">${item.subtitle || 'Unit Assignment'}</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="reveal-on-scroll reveal-left">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-b-2 border-purple-500 pb-2">
+                            <i class="fas fa-microscope text-purple-500 mr-3"></i> Practicals
+                        </h2>
+                        <div class="space-y-4">
+                            ${subjectPracticals.length > 0 ? subjectPracticals.map(item => `
+                                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex justify-between items-center group">
+                                    <div>
+                                        <h4 class="font-bold text-gray-800">${item.title}</h4>
+                                        <p class="text-xs text-gray-500 max-w-[200px] truncate">${item.subtitle || 'Lab Session'}</p>
+                                    </div>
+                                    <button onclick="openViewer('${subject.code} - ${item.title}', 'practical', '${item.file}')" class="bg-purple-50 text-purple-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-purple-600 hover:text-white transition-all btn-click-effect">
+                                        View
+                                    </button>
                                 </div>
-                                <button onclick="openViewer('${subject.code} - ${item.title}', 'assignment', '${item.file}')" class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-600 hover:text-white transition-all btn-click-effect">
-                                    View
-                                </button>
-                            </div>
-                        `).join('') : `
-                            <div class="text-gray-400 italic bg-gray-50 p-4 rounded-xl text-center border border-dashed border-gray-200">
-                                No Assignments Available
-                            </div>
-                        `}
+                            `).join('') : `
+                                <div class="text-gray-400 italic bg-gray-50 p-4 rounded-xl text-center border border-dashed border-gray-200">
+                                    No Practicals Available
+                                </div>
+                            `}
+                        </div>
+                    </div>
+
+                    <div class="reveal-on-scroll reveal-right">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-b-2 border-indigo-500 pb-2">
+                            <i class="fas fa-clipboard-list text-indigo-500 mr-3"></i> Assignments
+                        </h2>
+                        <div class="space-y-4">
+                            ${subjectAssignments.length > 0 ? subjectAssignments.map(item => `
+                                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex justify-between items-center group">
+                                    <div>
+                                        <h4 class="font-bold text-gray-800">${item.title}</h4>
+                                        <p class="text-xs text-gray-500">${item.subtitle || 'Unit Assignment'}</p>
+                                    </div>
+                                    <button onclick="openViewer('${subject.code} - ${item.title}', 'assignment', '${item.file}')" class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-600 hover:text-white transition-all btn-click-effect">
+                                        View
+                                    </button>
+                                </div>
+                            `).join('') : `
+                                <div class="text-gray-400 italic bg-gray-50 p-4 rounded-xl text-center border border-dashed border-gray-200">
+                                    No Assignments Available
+                                </div>
+                            `}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    `;
-}
+        `;
+    }
 
-   function renderSubjectDetail(subjectId) {
-    const subject = subjects.find(s => s.id === subjectId);
-    const subjectNotes = notes.filter(n => n.subject_id === subjectId);
+  function renderSubjectDetail(subjectId) {
+        const subject = subjects.find(s => s.id === subjectId);
+        const subjectNotes = notes.filter(n => n.subject_id === subjectId);
 
-    // FIX: Sahi variable use kiya aur IMP Topic ID nikali
-    const subImpTopics = imp_topics.filter(i => i.subject_id === subject.id);
-    const impFileId = subImpTopics.length > 0 ? subImpTopics[0].fileUrl : null;
+        // 🔥 FIX: Sahi variable use kiya aur IMP Topic ID nikali
+        const subImpTopics = imp_topics.filter(i => i.subject_id === subject.id);
+        const impFileId = subImpTopics.length > 0 ? subImpTopics[0].fileUrl : null;
 
-    return `
-        <div class="max-w-7xl mx-auto px-4 py-12">
-            <button onclick="router('subjects')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
-                <i class="fas fa-chevron-left mr-2"></i> Back to Subjects
-            </button>
-            
-            <div class="reveal-on-scroll bg-white p-10 rounded-3xl shadow-sm border border-indigo-100 mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="text-center md:text-left">
-                    <h1 class="text-4xl font-black text-gray-900">${subject.name}</h1>
-                    <p class="text-indigo-600 font-bold uppercase tracking-widest text-sm mt-2">${subject.code} • Engineering First Year</p>
+        return `
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <button onclick="router('subjects')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
+                    <i class="fas fa-chevron-left mr-2"></i> Back to Subjects
+                </button>
+                
+                <div class="reveal-on-scroll bg-white p-10 rounded-3xl shadow-sm border border-indigo-100 mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="text-center md:text-left">
+                        <h1 class="text-4xl font-black text-gray-900">${subject.name}</h1>
+                        <p class="text-indigo-600 font-bold uppercase tracking-widest text-sm mt-2">${subject.code} • Engineering First Year</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="bg-green-100 text-green-700 px-4 py-1 rounded-full text-xs font-bold shadow-sm">LDRP Curriculum</span>
+                        <span class="bg-indigo-100 text-indigo-700 px-4 py-1 rounded-full text-xs font-bold shadow-sm">GTU Compatible</span>
+                    </div>
                 </div>
-                <div class="flex gap-3">
-                    <span class="bg-green-100 text-green-700 px-4 py-1 rounded-full text-xs font-bold shadow-sm">LDRP Curriculum</span>
-                    <span class="bg-indigo-100 text-indigo-700 px-4 py-1 rounded-full text-xs font-bold shadow-sm">GTU Compatible</span>
-                </div>
-            </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                <div class="lg:col-span-2 space-y-8">
-                    <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-indigo-500 inline-block pb-1 reveal-on-scroll">Chapter Wise Notes</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                    <div class="lg:col-span-2 space-y-8">
+                        <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-indigo-500 inline-block pb-1 reveal-on-scroll">Chapter Wise Notes</h2>
+                        
+                        ${subjectNotes.length > 0 ? subjectNotes.map((note, idx) => `
+                            <div class="reveal-on-scroll bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-hover flex flex-col sm:flex-row justify-between items-start sm:items-center group" style="transition-delay: ${idx * 0.1}s">
+                                <div class="mb-6 sm:mb-0">
+                                    <div class="text-[10px] font-black text-indigo-500 uppercase tracking-[0.2em] mb-1">${note.chapter}</div>
+                                    <h3 class="text-2xl font-bold text-gray-800 group-hover:text-indigo-700 transition-colors">${note.title}</h3>
+                                    <p class="text-gray-500 mt-2 max-w-md text-sm">${note.description}</p>
+                                </div>
+                                <button onclick="openViewer('${note.title}', 'note', '${note.fileUrl}')" 
+                                        class="bg-indigo-600 text-white px-8 py-3 rounded-full font-bold hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-200 btn-click-effect transform group-hover:scale-105">
+                                        Read Online
+                                </button>
+                            </div>
+                        `).join('') : `
+                            <div class="reveal-on-scroll bg-white p-12 rounded-3xl border-2 border-dashed border-gray-200 text-center opacity-70">
+                                <i class="fas fa-folder-open text-gray-300 text-5xl mb-4"></i>
+                                <p class="text-gray-400 font-medium">We are currently uploading notes for this subject. Check back soon!</p>
+                            </div>
+                        `}
+                    </div>
                     
-                    ${subjectNotes.length > 0 ? subjectNotes.map((note, idx) => `
-                        <div class="reveal-on-scroll bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-hover flex flex-col sm:flex-row justify-between items-start sm:items-center group" style="transition-delay: ${idx * 0.1}s">
-                            <div class="mb-6 sm:mb-0">
-                                <div class="text-[10px] font-black text-indigo-500 uppercase tracking-[0.2em] mb-1">${note.chapter}</div>
-                                <h3 class="text-2xl font-bold text-gray-800 group-hover:text-indigo-700 transition-colors">${note.title}</h3>
-                                <p class="text-gray-500 mt-2 max-w-md text-sm">${note.description}</p>
+                    <div class="space-y-8">
+                        <div class="reveal-on-scroll reveal-right bg-slate-900 text-white p-8 rounded-3xl shadow-2xl">
+                            <h3 class="font-bold text-xl mb-6 flex items-center">
+                                <i class="fas fa-bolt text-yellow-400 mr-2 animate-pulse"></i> Quick Tools
+                            </h3>
+                            <div class="space-y-4">
+                                <button onclick="router('sem-select', 'pyqs')" class="w-full flex items-center justify-between p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group backdrop-blur-sm btn-click-effect">
+                                    <span class="flex items-center"><i class="fas fa-history text-indigo-400 mr-3"></i> Past Papers</span>
+                                    <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
+                                </button>
+                                <button onclick="openTextbooks(${subject.id})" class="w-full flex items-center justify-between p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group backdrop-blur-sm btn-click-effect">
+                                    <span class="flex items-center"><i class="fas fa-book-open text-emerald-400 mr-3"></i> Textbooks</span>
+                                    <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
+                                </button>
+                                
+                                <button onclick="${impFileId ? `openViewer('IMP Topics - ${subject.name}', 'note', '${impFileId}')` : `alert('Coming Soon')`}" 
+                                        class="w-full flex items-center justify-between p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group backdrop-blur-sm btn-click-effect">
+                                    <span class="flex items-center"><i class="fas fa-star text-orange-400 mr-3"></i> Important Questions</span>
+                                    <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
+                                </button>
                             </div>
-                            <button onclick="openViewer('${note.title}', 'note', '${note.fileUrl}')" 
-                                    class="bg-indigo-600 text-white px-8 py-3 rounded-full font-bold hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-200 btn-click-effect transform group-hover:scale-105">
-                                    Read Online
-                            </button>
                         </div>
-                    `).join('') : `
-                        <div class="reveal-on-scroll bg-white p-12 rounded-3xl border-2 border-dashed border-gray-200 text-center opacity-70">
-                            <i class="fas fa-folder-open text-gray-300 text-5xl mb-4"></i>
-                            <p class="text-gray-400 font-medium">We are currently uploading notes for this subject. Check back soon!</p>
-                        </div>
-                    `}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+function renderPYQs() {
+        return `
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <button onclick="router('sem-select', 'pyqs')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
+                    <i class="fas fa-chevron-left mr-2"></i> Back to Semester Select
+                </button>
+                <div class="mb-12 reveal-on-scroll">
+                    <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight mb-2">Previous Year Questions</h2>
+                    <p class="text-gray-500">Official Exam Papers Archive (2022 - 2025)</p>
                 </div>
                 
-                <div class="space-y-8">
-                    <div class="reveal-on-scroll reveal-right bg-slate-900 text-white p-8 rounded-3xl shadow-2xl">
-                        <h3 class="font-bold text-xl mb-6 flex items-center">
-                            <i class="fas fa-bolt text-yellow-400 mr-2 animate-pulse"></i> Quick Tools
-                        </h3>
-                        <div class="space-y-4">
-                            <button onclick="router('sem-select', 'pyqs')" class="w-full flex items-center justify-between p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group backdrop-blur-sm btn-click-effect">
-                                <span class="flex items-center"><i class="fas fa-history text-indigo-400 mr-3"></i> Past Papers</span>
-                                <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
-                            </button>
-                            <button onclick="openTextbooks(${subject.id})" class="w-full flex items-center justify-between p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group backdrop-blur-sm btn-click-effect">
-                                <span class="flex items-center"><i class="fas fa-book-open text-emerald-400 mr-3"></i> Textbooks</span>
-                                <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
-                            </button>
-                            
-                            <button onclick="${impFileId ? `openViewer('IMP Topics - ${subject.name}', 'note', '${impFileId}')` : `alert('Coming Soon')`}" 
-                                    class="w-full flex items-center justify-between p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group backdrop-blur-sm btn-click-effect">
-                                <span class="flex items-center"><i class="fas fa-star text-orange-400 mr-3"></i> Important Questions</span>
-                                <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
-                            </button>
-                        </div>
+                <div class="reveal-on-scroll bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-indigo-50">
+                                <tr>
+                                    <th class="px-8 py-5 text-sm font-black text-indigo-900 uppercase tracking-widest">Subject</th>
+                                    <th class="px-8 py-5 text-sm font-black text-indigo-900 uppercase tracking-widest">Type</th>
+                                    <th class="px-8 py-5 text-sm font-black text-indigo-900 uppercase tracking-widest">Year</th>
+                                    <th class="px-8 py-5 text-sm font-black text-indigo-900 uppercase tracking-widest text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                ${pyqs.map((paper, idx) => {
+                                    const sub = subjects.find(s => s.id === paper.subject_id);
+                                    return `
+                                        <tr class="reveal-on-scroll hover:bg-indigo-50/50 transition-colors duration-200" style="transition-delay: ${idx * 0.03}s">
+                                            <td class="px-8 py-6">
+                                                <div class="font-bold text-gray-800">${sub ? sub.code : 'UNKNOWN'}</div>
+                                                <div class="text-xs text-gray-500 truncate max-w-[150px]">${sub ? sub.name : ''}</div>
+                                            </td>
+                                            <td class="px-8 py-6 text-gray-600 font-medium">${paper.exam}</td>
+                                            <td class="px-8 py-6">
+                                                <span class="bg-gray-100 px-3 py-1 rounded-md text-sm font-bold text-gray-700">${paper.year}</span>
+                                            </td>
+                                            <td class="px-8 py-6 text-right">
+                                                <button onclick="openViewer('${sub ? sub.code : ''} - ${paper.year} Paper', 'pyq', '${paper.fileUrl}')" 
+                                                        class="text-indigo-600 hover:text-indigo-900 font-bold transition-all flex items-center justify-end ml-auto transform hover:scale-105">
+                                                    View PDF <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-    `;
-}
-        function renderPYQs() {
-            return `
-                <div class="max-w-7xl mx-auto px-4 py-16">
-                    <button onclick="router('sem-select', 'pyqs')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
-                        <i class="fas fa-chevron-left mr-2"></i> Back to Semester Select
-                    </button>
-                    <div class="mb-12 reveal-on-scroll">
-                        <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight mb-2">Previous Year Questions</h2>
-                        <p class="text-gray-500">Official Exam Papers Archive (2022 - 2025)</p>
-                    </div>
-                    
-                    <div class="reveal-on-scroll bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left">
-                                <thead class="bg-indigo-50">
-                                    <tr>
-                                        <th class="px-8 py-5 text-sm font-black text-indigo-900 uppercase tracking-widest">Subject</th>
-                                        <th class="px-8 py-5 text-sm font-black text-indigo-900 uppercase tracking-widest">Type</th>
-                                        <th class="px-8 py-5 text-sm font-black text-indigo-900 uppercase tracking-widest">Year</th>
-                                        <th class="px-8 py-5 text-sm font-black text-indigo-900 uppercase tracking-widest text-right">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-100">
-                                    ${pyqs.map((paper, idx) => {
-                const sub = subjects.find(s => s.id === paper.subject_id);
-                return `
-                                            <tr class="reveal-on-scroll hover:bg-indigo-50/50 transition-colors duration-200" style="transition-delay: ${idx * 0.03}s">
-                                                <td class="px-8 py-6">
-                                                    <div class="font-bold text-gray-800">${sub.code}</div>
-                                                    <div class="text-xs text-gray-500 truncate max-w-[150px]">${sub.name}</div>
-                                                </td>
-                                                <td class="px-8 py-6 text-gray-600 font-medium">${paper.exam}</td>
-                                                <td class="px-8 py-6">
-                                                    <span class="bg-gray-100 px-3 py-1 rounded-md text-sm font-bold text-gray-700">${paper.year}</span>
-                                                </td>
-                                                <td class="px-8 py-6 text-right">
-                                                    <button onclick="openViewer('${sub.code} - ${paper.year} Paper', 'pyq', '${paper.fileUrl}')" 
-                                                            class="text-indigo-600 hover:text-indigo-900 font-bold transition-all flex items-center justify-end ml-auto transform hover:scale-105">
-                                                        View PDF <i class="fas fa-external-link-alt ml-2 text-xs"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            `;
-            }).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
+        `;
+    }
         function renderSyllabus() {
             return `
                 <div class="max-w-4xl mx-auto px-4 py-16">

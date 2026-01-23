@@ -1,6 +1,6 @@
 // backend/data.js
 
-// --- 1. SUBJECTS MASTER LIST (DO NOT EDIT) ---
+// 1. SUBJECTS MASTER LIST
 const subjects = [
     { id: 1, code: 'MATHS', name: 'Mathematics-I' },
     { id: 2, code: 'FOP', name: 'Fundamentals of Programming' },
@@ -11,226 +11,245 @@ const subjects = [
     { id: 7, code: 'SPORTS', name: 'Sports & Yoga' }
 ];
 
-// --- 🛠️ INPUT AREA: SIRF YAHA LINKS PASTE KARNI HAIN ---
-// Rule: Har link ko "" ke andar rakho aur baad mein comma (,) lagao.
-// Agar kisi me material nahi hai to [] khali chhod do.
+// 2. TEXTBOOKS (Restored from Reference)
+const textbooks = [
+    // --- BME (Subject ID: 5) ---
+    { id: 4, subject_id: 5, title: 'Chapter 1: Prime Movers', author: 'BME Dept', downloadUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
+    { id: 5, subject_id: 5, title: 'Chapter 2: Energy', author: 'BME Dept', downloadUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
+    { id: 6, subject_id: 5, title: 'Chapter 3: Properties of Gases', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 7, subject_id: 5, title: 'Chapter 4: Properties of Steam', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 8, subject_id: 5, title: 'Chapter 5: Heat Engine', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 9, subject_id: 5, title: 'Chapter 6: Steam Boilers', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 10, subject_id: 5, title: 'Chapter 7: Internal Combustion Engine', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 11, subject_id: 5, title: 'Chapter 8: Pumps', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 12, subject_id: 5, title: 'Chapter 9: Air Compressor', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 13, subject_id: 5, title: 'Chapter 10: Refrigeration and Air Conditioning', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 14, subject_id: 5, title: 'Chapter 11: Power Transmission', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
 
-const rawData = {
-    // 1. MATHEMATICS-I
-    'MATHS': {
-        textbooks: [
-            "1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw",
-            "1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT",
-            // Aur paste karte jao...
-        ],
-        notes: [
-            "DRIVE_ID_MATHS_NOTE_CH1",
-            "DRIVE_ID_MATHS_NOTE_CH2"
-        ],
-        imp_topics: [
-            "DRIVE_ID_MATHS_IMP_CH1",
-            "DRIVE_ID_MATHS_IMP_CH2"
-        ],
-        practicals: [], // Maths me practical nahi hote usually
-        assignments: [
-            "DRIVE_ID_MATHS_ASSI_1",
-            "DRIVE_ID_MATHS_ASSI_2"
-        ],
-        pyqs: [
-            "DRIVE_ID_MATHS_PYQ_2023",
-            "DRIVE_ID_MATHS_PYQ_2024"
-        ]
-    },
+    // --- FOP (Subject ID: 2) ---
+    { id: 100, subject_id: 2, title: 'Index of Book', author: 'FOP Dept', downloadUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
+    { id: 101, subject_id: 2, title: 'Chapter 1: Introduction to Computer & Programming', author: 'FOP Dept', downloadUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
+    { id: 102, subject_id: 2, title: 'Chapter 2: Flowcharts & Algorithms', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 103, subject_id: 2, title: 'Chapter 3: Introduction to C Language', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 104, subject_id: 2, title: 'Chapter 4: Operators and Expressions', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 105, subject_id: 2, title: 'Chapter 5: Input-Output', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 106, subject_id: 2, title: 'Chapter 6: Decision Making Structure', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 107, subject_id: 2, title: 'Chapter 7: Looping Control Structures', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 108, subject_id: 2, title: 'Chapter 8: Arrays and Strings', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 109, subject_id: 2, title: 'Chapter 9: Pointers', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 110, subject_id: 2, title: 'Chapter 10: Functions', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 111, subject_id: 2, title: 'Chapter 11: Structures and Unions', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 112, subject_id: 2, title: 'Chapter 12: Dynamic Memory Allocation', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 113, subject_id: 2, title: 'Chapter 13: File Management', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
 
-    // 2. FOP (Programming)
-    'FOP': {
-        textbooks: [
-            "DRIVE_ID_FOP_BOOK_1",
-            "DRIVE_ID_FOP_BOOK_2"
-        ],
-        notes: [
-            "DRIVE_ID_FOP_NOTE_1"
-        ],
-        imp_topics: [
-            "DRIVE_ID_FOP_IMP_1"
-        ],
-        practicals: [
-            "DRIVE_ID_FOP_EXP_1", // Exp 1
-            "DRIVE_ID_FOP_EXP_2", // Exp 2
-            "DRIVE_ID_FOP_EXP_3"  // Exp 3
-        ],
-        assignments: [
-            "DRIVE_ID_FOP_ASSI_1"
-        ],
-        pyqs: [
-            "DRIVE_ID_FOP_PYQ_ALL"
-        ]
-    },
+    // --- EPHY (Subject ID: 4) ---
+    { id: 201, subject_id: 4, title: 'Chapter 1: Architectural Acoustics', author: 'Physics Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 202, subject_id: 4, title: 'Chapter 2: Ultrasonics', author: 'Physics Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 203, subject_id: 4, title: 'Chapter 3: Crystal Physics', author: 'Physics Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 204, subject_id: 4, title: 'Chapter 4: Band Theory of Solids', author: 'Physics Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 205, subject_id: 4, title: 'Chapter 5: Lasers', author: 'Physics Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 206, subject_id: 4, title: 'Chapter 6: Optical Fibers', author: 'Physics Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 207, subject_id: 4, title: 'Chapter 7: Conducting Materials', author: 'Physics Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 208, subject_id: 4, title: 'Chapter 8: Super Conducting Material', author: 'Physics Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
 
-    // 3. BEEE (Electrical)
-    'BEEE': {
-        textbooks: [],
-        notes: [],
-        imp_topics: [],
-        practicals: [],
-        assignments: [],
-        pyqs: []
-    },
+    // --- BEEE (Subject ID: 3) ---
+    { id: 301, subject_id: 3, title: 'Chapter 1: Introduction to DC Circuit', author: 'Electrical Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 302, subject_id: 3, title: 'Chapter 2: AC Fundamentals & Analysis of AC Circuit', author: 'Electrical Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 303, subject_id: 3, title: 'Chapter 3: Polyphase (3-phase) Circuit', author: 'Electrical Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 304, subject_id: 3, title: 'Chapter 4: Electrostatics & Capacitance', author: 'Electrical Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 305, subject_id: 3, title: 'Chapter 5: Electromagnetic', author: 'Electrical Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 306, subject_id: 3, title: 'Chapter 6: Basics of Electronics', author: 'Electrical Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
 
-    // 4. EPHY (Physics)
-    'EPHY': {
-        textbooks: [],
-        notes: [],
-        imp_topics: [],
-        practicals: [],
-        assignments: [],
-        pyqs: []
-    },
+    // --- BCPS (Subject ID: 6) ---
+    { id: 401, subject_id: 6, title: 'Chapter 1: Introduction to Technical Communication', author: 'Humanities Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 402, subject_id: 6, title: 'Chapter 2: Comprehension Skills', author: 'Humanities Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 403, subject_id: 6, title: 'Chapter 3: Speaking Skills', author: 'Humanities Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 404, subject_id: 6, title: 'Chapter 4: Writing Skills', author: 'Humanities Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 405, subject_id: 6, title: 'Chapter 5: Preparing for the Profession', author: 'Humanities Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
 
-    // 5. BME (Mechanical)
-    'BME': {
-        textbooks: [],
-        notes: [],
-        imp_topics: [],
-        practicals: [],
-        assignments: [],
-        pyqs: []
-    },
+    // --- MATHS (Subject ID: 1) ---
+    { id: 500, subject_id: 1, title: 'Index of the Book', author: 'Maths Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 501, subject_id: 1, title: 'Chapter 1: Sequence and Series', author: 'Maths Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 502, subject_id: 1, title: 'Chapter 2: Taylor’s and Maclaurin’s Series', author: 'Maths Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 503, subject_id: 1, title: 'Chapter 3: Curve Sketching', author: 'Maths Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 504, subject_id: 1, title: 'Chapter 4: Indeterminate Forms', author: 'Maths Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 505, subject_id: 1, title: 'Chapter 5: Improper Integrals', author: 'Maths Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 506, subject_id: 1, title: 'Chapter 6: Applications Of Integration', author: 'Maths Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 507, subject_id: 1, title: 'Chapter 7: Partial Derivatives', author: 'Maths Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 508, subject_id: 1, title: 'Chapter 8: Applications of Partial Derivatives', author: 'Maths Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 509, subject_id: 1, title: 'Chapter 9: Multiple Integrals', author: 'Maths Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 510, subject_id: 1, title: 'FORMULAS IN MATHS', author: 'Maths Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' }
+];
 
-    // 6. BCPS (Communication)
-    'BCPS': {
-        textbooks: [],
-        notes: [],
-        imp_topics: [],
-        practicals: [],
-        assignments: [],
-        pyqs: []
-    },
+// 3. NOTES DATA (Restored from Reference)
+const notes = [
+    // MATHS (ID 1)
+    { id: 101, subject_id: 1, chapter: 'Chapter 1', title: 'Sequence and Series', description: 'Convergence, Divergence, Tests.', fileUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
+    { id: 102, subject_id: 1, chapter: 'Chapter 2', title: 'Series Expansion', description: 'Taylor and Maclaurin series.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 103, subject_id: 1, chapter: 'Chapter 3', title: 'Curve Sketching', description: 'Tracing of curves in Cartesian/Polar.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 104, subject_id: 1, chapter: 'Chapter 4', title: 'Indeterminate Forms', description: 'L-Hospital Rule applications.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 105, subject_id: 1, chapter: 'Chapter 5', title: 'Improper Integrals', description: 'Gamma and Beta functions.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 106, subject_id: 1, chapter: 'Chapter 6', title: 'Applications of Integration', description: 'Area, Volume, Length of arc.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
 
-    // 7. SPORTS
-    'SPORTS': {
-        textbooks: [],
-        notes: [],
-        imp_topics: [],
-        practicals: [],
-        assignments: [],
-        pyqs: []
-    }
-};
+    // FOP (ID 2)
+    { id: 200, subject_id: 2, chapter: 'Index', title: 'Course Index', description: 'Table of contents.', fileUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
+    { id: 201, subject_id: 2, chapter: 'Chapter 1', title: 'Intro to Programming', description: 'Basics of Computer logic.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 202, subject_id: 2, chapter: 'Chapter 2', title: 'Flowcharts & Algorithms', description: 'Logic building blocks.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 203, subject_id: 2, chapter: 'Chapter 3', title: 'Introduction to C', description: 'Structure of C program.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 204, subject_id: 2, chapter: 'Chapter 4', title: 'Operators', description: 'Arithmetic, logical operators.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 205, subject_id: 2, chapter: 'Chapter 5', title: 'Input Output', description: 'Printf, Scanf usages.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 206, subject_id: 2, chapter: 'Chapter 6', title: 'Decision Making', description: 'If-else statements.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 207, subject_id: 2, chapter: 'Chapter 7', title: 'Loops', description: 'For, While, Do-While loops.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 208, subject_id: 2, chapter: 'Chapter 8', title: 'Arrays', description: '1D and 2D arrays.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 209, subject_id: 2, chapter: 'Chapter 9', title: 'Pointers', description: 'Memory addressing.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 210, subject_id: 2, chapter: 'Chapter 10', title: 'Functions', description: 'Modular programming.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 211, subject_id: 2, chapter: 'Chapter 11', title: 'Structures', description: 'User defined data types.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 212, subject_id: 2, chapter: 'Chapter 12', title: 'Dynamic Memory', description: 'Malloc, Calloc.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 213, subject_id: 2, chapter: 'Chapter 13', title: 'File Management', description: 'File handling in C.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
 
+    // BEEE (ID 3)
+    { id: 301, subject_id: 3, chapter: 'Chapter 1', title: 'DC Circuits', description: 'KCL, KVL, Network Theorems.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 302, subject_id: 3, chapter: 'Chapter 2', title: 'AC Fundamentals', description: 'RL, RC, RLC Circuits.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 303, subject_id: 3, chapter: 'Chapter 3', title: 'Polyphase Circuits', description: '3-Phase Systems.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 304, subject_id: 3, chapter: 'Chapter 4', title: 'Electrostatics', description: 'Capacitors and Fields.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 305, subject_id: 3, chapter: 'Chapter 5', title: 'Electromagnetics', description: 'Magnetic circuits.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 306, subject_id: 3, chapter: 'Chapter 6', title: 'Electronics', description: 'Diodes and Rectifiers.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
 
-// --- ⚙️ AUTOMATIC GENERATOR ENGINE (DO NOT TOUCH BELOW) ---
-// Ye code tumhari links ko automatically format karke website par bhejega.
+    // EPHY (ID 4)
+    { id: 401, subject_id: 4, chapter: 'Chapter 1', title: 'Acoustics', description: 'Sound engineering.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 402, subject_id: 4, chapter: 'Chapter 2', title: 'Ultrasonics', description: 'Production and applications.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 403, subject_id: 4, chapter: 'Chapter 3', title: 'Crystal Physics', description: 'Lattice structures.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 404, subject_id: 4, chapter: 'Chapter 4', title: 'Band Theory', description: 'Conductivity in solids.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 405, subject_id: 4, chapter: 'Chapter 5', title: 'Lasers', description: 'Stimulated emission.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 406, subject_id: 4, chapter: 'Chapter 6', title: 'Optical Fibers', description: 'Communication physics.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 407, subject_id: 4, chapter: 'Chapter 7', title: 'Conducting Materials', description: 'Free electron theory.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 408, subject_id: 4, chapter: 'Chapter 8', title: 'Superconductors', description: 'Meissner effect.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
 
-let textbooks = [];
-let notes = [];
-let imp_topics = [];
-let practicals = [];
-let assignments = [];
-let pyqs = [];
+    // BME (ID 5)
+    { id: 501, subject_id: 5, chapter: 'Chapter 1', title: 'Prime Movers', description: 'Introduction to mechanical energy.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 502, subject_id: 5, chapter: 'Chapter 2', title: 'Energy', description: 'Renewable and Non-renewable.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 503, subject_id: 5, chapter: 'Chapter 3', title: 'Properties of Gases', description: 'Gas laws.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 504, subject_id: 5, chapter: 'Chapter 4', title: 'Steam Properties', description: 'Steam tables usage.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 505, subject_id: 5, chapter: 'Chapter 5', title: 'Heat Engine', description: 'Thermodynamic cycles.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 506, subject_id: 5, chapter: 'Chapter 6', title: 'Steam Boilers', description: 'Boiler mountings.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
 
-// Global ID Counters to keep IDs unique
-let ids = {
-    txt: 100,
-    note: 1000,
-    imp: 2000,
-    prac: 3000,
-    assi: 4000,
-    pyq: 5000
-};
+    // BCPS (ID 6)
+    { id: 601, subject_id: 6, chapter: 'Chapter 1', title: 'Tech Communication', description: 'Basics of communication.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 602, subject_id: 6, chapter: 'Chapter 2', title: 'Comprehension', description: 'Reading skills.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 603, subject_id: 6, chapter: 'Chapter 3', title: 'Speaking Skills', description: 'Oral presentation.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 604, subject_id: 6, chapter: 'Chapter 4', title: 'Writing Skills', description: 'Technical writing.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 605, subject_id: 6, chapter: 'Chapter 5', title: 'Professional Skills', description: 'Ethics and etiquette.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
 
-// Helper to find Subject ID by Code
-const getSubId = (code) => subjects.find(s => s.code === code)?.id;
+    // SPORTS (ID 7)
+    { id: 701, subject_id: 7, chapter: 'Chapter 1', title: 'Sports Theory', description: 'General Sports Notes.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 702, subject_id: 7, chapter: 'Chapter 2', title: 'Environment', description: 'Environmental Science Notes.', fileUrl: 'PASTE_DRIVE_ID_HERE' }
+];
 
-// The Grand Loop
-Object.keys(rawData).forEach(subCode => {
-    const subId = getSubId(subCode);
-    const data = rawData[subCode];
+// 4. IMP TOPICS (Based on Chapters)
+const imp_topics = [
+    { id: 1, subject_id: 1, title: 'MATHS IMP', description: 'Most likely questions', fileUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
+    { id: 2, subject_id: 2, title: 'FOP IMP', description: 'C Programs List', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 3, subject_id: 3, title: 'BEEE IMP', description: 'Circuit Problems', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 4, subject_id: 4, title: 'EPHY IMP', description: 'Physics Theory', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 5, subject_id: 5, title: 'BME IMP', description: 'Diagrams & Definitions', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 6, subject_id: 6, title: 'BCPS IMP', description: 'Grammar Rules', fileUrl: 'PASTE_DRIVE_ID_HERE' }
+];
 
-    if (!subId) {
-        console.error(`❌ Error: Subject ${subCode} not found.`);
-        return;
-    }
+// 5. PRACTICALS (Restored - Full Detail)
+const practicals = [
+    // FOP
+    { id: 1, subject_id: 2, title: 'Practical 1', subtitle: 'Experiment: SET 1', file: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
+    { id: 2, subject_id: 2, title: 'Practical 2', subtitle: 'Experiment: SET 2', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 3, subject_id: 2, title: 'Practical 3', subtitle: 'Experiment: SET 3', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 4, subject_id: 2, title: 'Practical 4', subtitle: 'Experiment: SET 4', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 5, subject_id: 2, title: 'Practical 5', subtitle: 'Experiment: SET 5', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 6, subject_id: 2, title: 'Practical 6', subtitle: 'Experiment: SET 6', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 7, subject_id: 2, title: 'Practical 7', subtitle: 'Experiment: SET 7', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 8, subject_id: 2, title: 'Practical 8', subtitle: 'Experiment: SET 8', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 9, subject_id: 2, title: 'Practical 9', subtitle: 'Experiment: SET 9', file: 'PASTE_DRIVE_ID_HERE' },
 
-    // 1. Textbooks Generator
-    if (data.textbooks) {
-        data.textbooks.forEach((link, i) => {
-            textbooks.push({
-                id: ids.txt++,
-                subject_id: subId,
-                title: `Chapter ${i + 1}`,
-                author: `${subCode} Dept`,
-                downloadUrl: link // ID for Drive
-            });
-        });
-    }
+    // BEEE
+    { id: 10, subject_id: 3, title: 'Practical 1', subtitle: 'Exp: Understand Electrical safety', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 11, subject_id: 3, title: 'Practical 2', subtitle: 'Exp: Standard symbols in EE', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 12, subject_id: 3, title: 'Practical 3', subtitle: 'Exp: Effect of temp on Resistance', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 13, subject_id: 3, title: 'Practical 4', subtitle: 'Exp: Verification of Kirchhoff\'s laws', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 14, subject_id: 3, title: 'Practical 5', subtitle: 'Exp: Power in single phase AC', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 15, subject_id: 3, title: 'Practical 6', subtitle: 'Exp: Inductance & PF in R-L Circuit', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 16, subject_id: 3, title: 'Practical 7', subtitle: 'Exp: Capacitance & PF in R-C Circuit', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 17, subject_id: 3, title: 'Practical 8', subtitle: 'Exp: Star and Delta connections', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 18, subject_id: 3, title: 'Practical 9', subtitle: 'Exp: V-I characteristics of PN Diode', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 19, subject_id: 3, title: 'Practical 10', subtitle: 'Exp: Zener Diode as regulator', file: 'PASTE_DRIVE_ID_HERE' },
 
-    // 2. Notes Generator
-    if (data.notes) {
-        data.notes.forEach((link, i) => {
-            notes.push({
-                id: ids.note++,
-                subject_id: subId,
-                chapter: `Unit ${i + 1}`,
-                title: `${subCode} Note ${i + 1}`,
-                description: `Complete notes for Unit ${i + 1}`,
-                fileUrl: link
-            });
-        });
-    }
+    // EPHY
+    { id: 20, subject_id: 4, title: 'Practical 1', subtitle: 'Exp: SOUND LEVEL METER', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 21, subject_id: 4, title: 'Practical 2', subtitle: 'Exp: YOUNG\'S MODULUS', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 22, subject_id: 4, title: 'Practical 3', subtitle: 'Exp: MOMENT OF INERTIA', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 23, subject_id: 4, title: 'Practical 4', subtitle: 'Exp: WAVELENGTH OF LASER', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 24, subject_id: 4, title: 'Practical 5', subtitle: 'Exp: NUMERICAL APERTURE (FO)', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 25, subject_id: 4, title: 'Practical 6', subtitle: 'Exp: RADIOACTIVE DECAY', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 26, subject_id: 4, title: 'Practical 7', subtitle: 'Exp: MILLER INDICES', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 27, subject_id: 4, title: 'Practical 8', subtitle: 'Exp: DE-BROGLIE RELATION', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 28, subject_id: 4, title: 'Practical 9', subtitle: 'Exp: USE OF MULTIMETER', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 29, subject_id: 4, title: 'Practical 10', subtitle: 'Exp: DIODE VOLTAGES', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 30, subject_id: 4, title: 'Practical 11', subtitle: 'Exp: PLANCK\'S CONSTANT', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 31, subject_id: 4, title: 'Practical 12', subtitle: 'Exp: NANOMATERIAL SCALE', file: 'PASTE_DRIVE_ID_HERE' },
 
-    // 3. IMP Topics Generator
-    if (data.imp_topics) {
-        data.imp_topics.forEach((link, i) => {
-            imp_topics.push({
-                id: ids.imp++,
-                subject_id: subId,
-                title: `IMP Topic ${i + 1}`,
-                description: `Most likely questions for Exam`,
-                fileUrl: link
-            });
-        });
-    }
+    // BME
+    { id: 40, subject_id: 5, title: 'Practical 1', subtitle: 'Exp: Types of boilers', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 41, subject_id: 5, title: 'Practical 2', subtitle: 'Exp: 4-stroke engines', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 42, subject_id: 5, title: 'Practical 3', subtitle: 'Exp: 2-stroke engines', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 43, subject_id: 5, title: 'Practical 4', subtitle: 'Exp: Reciprocating air compressor', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 44, subject_id: 5, title: 'Practical 5', subtitle: 'Exp: Vapor compression refrigeration', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 45, subject_id: 5, title: 'Practical 6', subtitle: 'Exp: Window AC and Split AC', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 46, subject_id: 5, title: 'Practical 7', subtitle: 'Exp: Clutches and brakes', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 47, subject_id: 5, title: 'Practical 8', subtitle: 'Exp: Power transmission drives', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 48, subject_id: 5, title: 'Practical 9', subtitle: 'Exp: Tutorials (Gases/Engines/Steam)', file: 'PASTE_DRIVE_ID_HERE' }
+];
 
-    // 4. Practicals Generator
-    if (data.practicals) {
-        data.practicals.forEach((link, i) => {
-            practicals.push({
-                id: ids.prac++,
-                subject_id: subId,
-                title: `Experiment ${i + 1}`,
-                subtitle: `Lab Session ${i + 1}`,
-                file: link
-            });
-        });
-    }
+// 6. ASSIGNMENTS (Restored)
+const assignments = [
+    // MATHS
+    { id: 1, subject_id: 1, title: 'Assignment 1', subtitle: 'Unit 1: Differential Calculus', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 2, subject_id: 1, title: 'Assignment 2', subtitle: 'Unit 2: Partial Differentiation', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 3, subject_id: 1, title: 'Assignment 3', subtitle: 'Unit 3: Applications of Partial Diff.', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 4, subject_id: 1, title: 'Assignment 4', subtitle: 'Unit 4: Multiple Integrals', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 5, subject_id: 1, title: 'Assignment 5', subtitle: 'Unit 5: Infinite Series', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 6, subject_id: 1, title: 'Assignment 6', subtitle: 'Unit 6: Vector Calculus', file: 'PASTE_DRIVE_ID_HERE' },
 
-    // 5. Assignments Generator
-    if (data.assignments) {
-        data.assignments.forEach((link, i) => {
-            assignments.push({
-                id: ids.assi++,
-                subject_id: subId,
-                title: `Assignment ${i + 1}`,
-                subtitle: `Unit ${i + 1} Questions`,
-                file: link
-            });
-        });
-    }
+    // FOP
+    { id: 10, subject_id: 2, title: 'Assignment 1', subtitle: 'Unit 1: 50 Questions', file: 'PASTE_DRIVE_ID_HERE' },
 
-    // 6. PYQs Generator
-    if (data.pyqs) {
-        data.pyqs.forEach((link, i) => {
-            pyqs.push({
-                id: ids.pyq++,
-                subject_id: subId,
-                year: `Paper ${i + 1}`, // Or 2023, 2024 automatically
-                exam: 'GTU/LDRP',
-                fileUrl: link
-            });
-        });
-    }
-});
+    // BEEE
+    { id: 20, subject_id: 3, title: 'Assignment 1', subtitle: 'UNIT 1: DC CIRCUIT', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 21, subject_id: 3, title: 'Assignment 2', subtitle: 'UNIT 2: AC CIRCUIT', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 22, subject_id: 3, title: 'Assignment 3', subtitle: 'UNIT 3: Basics of 3-phase', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 23, subject_id: 3, title: 'Assignment 4', subtitle: 'UNIT 4: Electrostatics', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 24, subject_id: 3, title: 'Assignment 5', subtitle: 'UNIT 5: Electromagnetics', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 25, subject_id: 3, title: 'Assignment 6', subtitle: 'UNIT 6: Electronic Systems', file: 'PASTE_DRIVE_ID_HERE' },
 
-// Export Everything
+    // EPHY
+    { id: 30, subject_id: 4, title: 'Assignment 1', subtitle: 'UNIT 1 : Ultrasonic & Architecture Acoustics', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 31, subject_id: 4, title: 'Assignment 2', subtitle: 'UNIT 2 : Laser', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 32, subject_id: 4, title: 'Assignment 3', subtitle: 'UNIT 3 : Fiber Optics', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 33, subject_id: 4, title: 'Assignment 4', subtitle: 'UNIT 4 : Crystal Structure', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 34, subject_id: 4, title: 'Assignment 5', subtitle: 'UINT 5 : Band Theory', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 35, subject_id: 4, title: 'Assignment 6', subtitle: 'UNIT 6 : Nanomaterials & NDT', file: 'PASTE_DRIVE_ID_HERE' },
+
+    // BCPS
+    { id: 40, subject_id: 6, title: 'Assignment 1', subtitle: 'UNIT 5: Resume making', file: 'PASTE_DRIVE_ID_HERE' },
+
+    // SPORTS
+    { id: 50, subject_id: 7, title: 'Assignment 1', subtitle: 'UNIT: Class Notes', file: 'PASTE_DRIVE_ID_HERE' }
+];
+
+// --- 7. PYQs (FIXED: 6 Subjects, 2022-2025, ALL Exams) ---
+const pyqs = [
+    { id: 1, subject_id: 1, year: '2022-2025', exam: 'ALL', fileUrl: 'PASTE_DRIVE_ID_HERE' }, // MATHS
+    { id: 2, subject_id: 2, year: '2022-2025', exam: 'ALL', fileUrl: 'PASTE_DRIVE_ID_HERE' }, // FOP
+    { id: 3, subject_id: 3, year: '2022-2025', exam: 'ALL', fileUrl: 'PASTE_DRIVE_ID_HERE' }, // BEEE
+    { id: 4, subject_id: 4, year: '2022-2025', exam: 'ALL', fileUrl: 'PASTE_DRIVE_ID_HERE' }, // EPHY
+    { id: 5, subject_id: 5, year: '2022-2025', exam: 'ALL', fileUrl: 'PASTE_DRIVE_ID_HERE' }, // BME
+    { id: 6, subject_id: 6, year: '2022-2025', exam: 'ALL', fileUrl: 'PASTE_DRIVE_ID_HERE' }  // BCPS
+];
+
 module.exports = { subjects, textbooks, notes, imp_topics, practicals, assignments, pyqs };
