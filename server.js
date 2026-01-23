@@ -106,9 +106,14 @@ app.get('/api/proxy-pdf', async (req, res) => {
         // Data bhejo
         response.data.pipe(res);
 
-    } catch (error) {
-        console.error("Proxy Error Details:", error.response ? error.response.status : error.message);
-        res.status(500).send("Error loading PDF. Google Drive blocked the request or ID is wrong.");
+} catch (error) {
+        // change this line for find real error
+        console.error("Proxy Error Details:", error.message);
+        if (error.response) {
+            console.error("Google Drive Status:", error.response.status);
+            console.error("Google Drive Data:", error.response.data);
+        }
+        res.status(500).send("Error loading PDF via Proxy.");
     }
 });
 
