@@ -651,6 +651,21 @@
         updateStatsDOM();
     });
 
+function updateStatsDOM() {
+        // IDs check karo jo renderHome() mein use huye hain
+        const reachEl = document.getElementById('stat-reach');
+        const visitsEl = document.getElementById('stat-visits');
+        const onlineEl = document.getElementById('stat-online');
+        const usersEl = document.getElementById('stat-users');
+
+        if (onlineEl) onlineEl.innerText = cachedStats.online || 0;
+        if (visitsEl) visitsEl.innerText = cachedStats.visitsToday || 0;
+        if (usersEl) usersEl.innerText = cachedStats.totalVisits || 0;
+        
+        // Monthly reach hum total visits ka 3x dikha dete hain (Logic)
+        if (reachEl) reachEl.innerText = (cachedStats.totalVisits * 3) || 0;
+    }
+
     // --- FETCH DATA FUNCTION (Updated to fetch ALL 7 categories) ---
     async function fetchAllData() {
         console.log("🔄 Fetching data...");
@@ -2483,9 +2498,23 @@ function renderPage(num) {
 
         // --- START ---
         window.addEventListener('load', async () => {
-            await fetchAllData(); // Pehle data laao
-            router('home');       // Fir website dikhao
-        });
+    // 1. Loading screen dikhao user ko
+    document.getElementById('app').innerHTML = `
+        <div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column;">
+            <h2 class="text-2xl font-bold text-indigo-700">LDRP Study Desk</h2>
+            <p class="text-gray-500">Loading resources...</p>
+        </div>`;
+
+    // 2. Data fetch karo
+    await fetchAllData(); 
+
+    // 3. Debugging ke liye (Console me check karna agar ab bhi issue ho)
+    console.log("Loaded Practicals:", practicals);
+    console.log("Loaded Assignments:", assignments);
+
+    // 4. Data aane ke baad hi Home page dikhao
+    router('home');      
+});
        
     </script>
 </body>
