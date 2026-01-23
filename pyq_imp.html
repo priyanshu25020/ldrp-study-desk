@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>LDRP Study Desk | Learn Better</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
+    <style>
+        /* --- THEME VARIABLES --- */
+        :root {
+            --primary-bg: #f8fafc;
+            --primary-text: #0f172a;
+            --accent-color: #4f46e5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
+        }
+
+        .no-select { user-select: none; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* --- ANIMATIONS --- */
+        .reveal-on-scroll { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+        .btn-click-effect:active { transform: scale(0.95); }
+        .card-hover { transition: all 0.4s; }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.15); }
+        
+        /* Modal Transitions */
+        #viewerModal { transition: opacity 0.3s ease; }
+        #viewerModalContent { transition: transform 0.3s ease; }
+        .animate-grid-item { animation: fadeInGrid 0.6s forwards; opacity: 0; }
+        @keyframes fadeInGrid { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen" oncontextmenu="return false;">
+
+    <nav class="bg-indigo-900 text-white shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center cursor-pointer group" onclick="router('home')">
+                    <span class="font-bold text-xl flex items-center">
+                        <i class="fas fa-graduation-cap mr-2 text-yellow-400"></i>
+                        <span class="tracking-wide">LDRP Study Desk</span>
+                    </span>
+                </div>
+                <div class="hidden md:flex space-x-4">
+                    <a onclick="router('home')" class="hover:bg-indigo-800 px-3 py-2 rounded-md cursor-pointer">Home</a>
+                    <a onclick="router('subjects')" class="hover:bg-indigo-800 px-3 py-2 rounded-md cursor-pointer">Subjects</a>
+                    <a onclick="router('practicals')" class="hover:bg-indigo-800 px-3 py-2 rounded-md cursor-pointer">Labs</a>
+                    <a onclick="router('pyqs')" class="hover:bg-indigo-800 px-3 py-2 rounded-md cursor-pointer">PYQs</a>
+                </div>
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-white p-2"><i class="fas fa-bars"></i></button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden bg-indigo-800 md:hidden pb-4">
+            <a onclick="router('home'); toggleMobileMenu()" class="block px-4 py-2 hover:bg-indigo-700">Home</a>
+            <a onclick="router('subjects'); toggleMobileMenu()" class="block px-4 py-2 hover:bg-indigo-700">Subjects</a>
+            <a onclick="router('practicals'); toggleMobileMenu()" class="block px-4 py-2 hover:bg-indigo-700">Labs</a>
+            <a onclick="router('pyqs'); toggleMobileMenu()" class="block px-4 py-2 hover:bg-indigo-700">PYQs</a>
+        </div>
+    </nav>
+
+    <main id="app" class="flex-grow w-full"></main>
+
+    <!-- Viewer Modal -->
+    <div id="viewerModal" class="fixed inset-0 bg-black/90 z-[60] hidden flex items-center justify-center backdrop-blur-md opacity-0 pointer-events-none">
+        <div class="bg-white w-full h-full md:w-[95%] md:h-[95%] md:rounded-xl shadow-2xl flex flex-col overflow-hidden transform scale-95" id="viewerModalContent">
+            <div class="flex justify-between items-center p-3 border-b bg-indigo-50">
+                <h3 id="viewerTitle" class="text-base font-bold text-indigo-900 truncate pr-4">Document Viewer</h3>
+                <button onclick="closeViewer()" class="w-8 h-8 rounded-full bg-red-100 text-red-500 hover:bg-red-500 hover:text-white transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="flex-grow bg-gray-900 overflow-auto flex justify-center p-4 relative" id="viewerContainer">
+                <div id="textbookList" class="hidden h-full w-full bg-gray-100 p-4 absolute top-0 left-0 overflow-y-auto"></div>
+                <div id="canvas-container" class="flex justify-center min-h-full">
+                    <canvas id="the-canvas" class="shadow-2xl origin-top transition-transform duration-200"></canvas>
+                </div>
+                <iframe id="pdfFrame" class="w-full h-full hidden"></iframe>
+                <div id="errorMsg" class="hidden text-white flex flex-col items-center justify-center h-full">
+                    <i class="fas fa-exclamation-circle text-4xl mb-2 text-red-400"></i>
+                    <p>File not found. Please check the file path.</p>
+                </div>
+            </div>
+            <div class="bg-gray-800 p-2 flex justify-center gap-4 items-center">
+                <button onclick="changePage(-1)" class="text-white hover:text-indigo-400"><i class="fas fa-chevron-left"></i> Prev</button>
+                <span id="page_info" class="text-white font-mono text-sm">Loading...</span>
+                <button onclick="changePage(1)" class="text-white hover:text-indigo-400">Next <i class="fas fa-chevron-right"></i></button>
+                <div class="ml-4 flex items-center gap-2">
+                    <button onclick="changeZoom(-0.2)" class="text-white hover:text-indigo-400"><i class="fas fa-minus-circle"></i></button>
+                    <button onclick="changeZoom(0.2)" class="text-white hover:text-indigo-400"><i class="fas fa-plus-circle"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. DYNAMIC CONFIGURATION ENGINE ---
+        
+        // Change this variable to test other semesters in future (e.g., currentSem = 2)
+        let currentSem = 1; 
+
+        // Define Subjects for each Semester
+        // Currently only Sem 1 is populated. You can add "2: [...]" later.
+        const semesterData = {
+            1: [
+                { id: 1, code: 'maths', name: 'Mathematics-I', chapters: 6 },
+                { id: 2, code: 'phy',   name: 'Physics',       chapters: 8 }, 
+                { id: 3, code: 'fop',   name: 'Fundamentals of Prog.', chapters: 10 },
+                { id: 4, code: 'bme',   name: 'Basic Mechanical', chapters: 10 },
+                { id: 5, code: 'beee',  name: 'Basic Electrical', chapters: 6 },
+                { id: 6, code: 'bcps',  name: 'Basic Civil (BCPS)', chapters: 5 }
+            ],
+            // Future Example:
+            // 2: [ { id: 11, code: 'maths2', name: 'Mathematics-II', chapters: 6 }, ... ]
+        };
+
+        // Containers for generated data
+        let subjects = [];
+        let notes = [];
+        let pracAssignData = {};
+        let pyqs = [];
+
+        // --- PATH GENERATION LOGIC (Your Requested Logic) ---
+        function generateDataForSemester(sem) {
+            // Reset Data
+            subjects = [];
+            notes = [];
+            pracAssignData = {};
+            pyqs = [];
+
+            const semSubjects = semesterData[sem];
+            if (!semSubjects) return;
+
+            semSubjects.forEach(sub => {
+                // Add to subjects list
+                subjects.push({ id: sub.id, code: sub.code.toUpperCase(), name: sub.name });
+                
+                // Initialize containers
+                const codeUpper = sub.code.toUpperCase();
+                const codeLower = sub.code.toLowerCase();
+                pracAssignData[codeUpper] = { practicals: [], assignments: [] };
+
+                // 1. NOTES (Chapter-wise)
+                // Path: notes/sem{x}/{x}note_{subject}{chapter}.pdf
+                for (let i = 1; i <= sub.chapters; i++) {
+                    notes.push({
+                        id: parseInt(`${sem}${sub.id}${i}`),
+                        subject_id: sub.id,
+                        chapter: `Chapter ${i}`,
+                        title: `${sub.name} - Unit ${i}`,
+                        description: 'Notes',
+                        fileUrl: `notes/sem${sem}/${sem}note_${codeLower}${i}.pdf`,
+                        // Imp Topics (Chapter Wise as per request 1imp_maths1.pdf)
+                        impUrl: `imp topics/sem${sem}/${sem}imp_${codeLower}${i}.pdf`
+                    });
+
+                    // 2. ASSIGNMENTS (Chapter-wise)
+                    // Path: assignments/sem{x}/{x}asii_{subject}{chapter}.pdf
+                    pracAssignData[codeUpper].assignments.push({
+                        title: `Assignment ${i}`,
+                        subtitle: `Unit ${i}`,
+                        file: `assignments/sem${sem}/${sem}asii_${codeLower}${i}.pdf`
+                    });
+
+                    // 3. PRACTICALS (Chapter-wise)
+                    // Path: practical/sem{x}/{x}prac_{subject}{chapter}.pdf
+                    pracAssignData[codeUpper].practicals.push({
+                        title: `Practical ${i}`,
+                        subtitle: `Experiment ${i}`,
+                        file: `practical/sem${sem}/${sem}prac_${codeLower}${i}.pdf`
+                    });
+                }
+
+                // 4. PYQs (One File Per Subject)
+                // Path: pyqs/sem{x}/{x}pyq_{subject}_2022-25.pdf
+                pyqs.push({
+                    id: sub.id,
+                    subject_id: sub.id,
+                    year: '2022-2025',
+                    exam: 'All Papers',
+                    fileUrl: `pyqs/sem${sem}/${sem}pyq_${codeLower}_2022-25.pdf`
+                });
+            });
+        }
+
+        // Initialize Data for Default Semester
+        generateDataForSemester(currentSem);
+
+
+        // --- 2. APP ROUTING & UI ---
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        });
+
+        function router(route, params = null) {
+            const app = document.getElementById('app');
+            window.scrollTo(0, 0);
+            
+            if (route === 'home') app.innerHTML = renderHome();
+            else if (route === 'sem-select') app.innerHTML = renderSemesterSelect(params); // Added for switching semesters
+            else if (route === 'subjects') app.innerHTML = renderSubjects();
+            else if (route === 'subject-detail') app.innerHTML = renderSubjectDetail(params);
+            else if (route === 'practicals') app.innerHTML = renderPracticals();
+            else if (route === 'practical-detail') app.innerHTML = renderPracticalDetail(params);
+            else if (route === 'pyqs') app.innerHTML = renderPYQs();
+            else if (route === 'contact') app.innerHTML = renderContact();
+            
+            setTimeout(() => {
+                document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+            }, 50);
+        }
+
+        function handleSemesterClick(sem, targetRoute) {
+            // Future Proofing: If semester data exists in config, allow switching
+            if (semesterData[sem]) {
+                currentSem = sem;
+                generateDataForSemester(currentSem); // Regenerate all paths based on new Sem ID
+                router(targetRoute);
+            } else {
+                // Lock logic for future semesters not yet configured
+                alert(`Semester ${sem} content is coming soon! Only Semester 1 is currently active.`);
+            }
+        }
+
+        // --- RENDER FUNCTIONS ---
+
+        function renderHome() {
+            return `
+            <div class="relative text-white py-24 px-4 bg-indigo-900 overflow-hidden min-h-[60vh] flex items-center justify-center">
+                <div class="absolute inset-0 bg-black/20"></div>
+                <div class="relative max-w-4xl mx-auto text-center z-10">
+                    <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight reveal-on-scroll">LDRP Study Desk</h1>
+                    <p class="text-xl text-indigo-100 mb-10 reveal-on-scroll">Semester ${currentSem} Resources</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        ${['Subjects', 'Labs', 'Assignments', 'PYQs'].map(item => `
+                            <button onclick="router('${item === 'Labs' || item === 'Assignments' ? 'practicals' : item.toLowerCase()}')" 
+                                 class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-xl hover:bg-white hover:text-indigo-900 transition-all transform hover:-translate-y-1">
+                                <h3 class="font-bold">${item}</h3>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="mt-12">
+                        <button onclick="router('sem-select', 'subjects')" class="text-sm text-indigo-300 hover:text-white underline">Change Semester</button>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function renderSemesterSelect(target) {
+            return `
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <h2 class="text-3xl font-bold text-center text-indigo-900 mb-12">Select Semester</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                    ${[1, 2, 3, 4, 5, 6, 7, 8].map(sem => `
+                        <div onclick="handleSemesterClick(${sem}, '${target || 'home'}')" 
+                             class="bg-white p-8 rounded-2xl shadow-md cursor-pointer border-2 ${sem === 1 ? 'border-green-400' : 'border-gray-100'} hover:border-indigo-500 transition-all text-center relative overflow-hidden group">
+                            ${sem === 1 ? '<div class="absolute top-0 right-0 bg-green-500 text-white text-xs px-2 py-1 rounded-bl-lg">Active</div>' : ''}
+                            <div class="text-4xl font-bold text-gray-800 group-hover:text-indigo-600 mb-2">${sem}</div>
+                            <div class="text-gray-500 text-sm">Semester</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>`;
+        }
+
+        function renderSubjects() {
+            return `
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900">Semester ${currentSem} Subjects</h2>
+                    <button onclick="router('sem-select', 'subjects')" class="text-indigo-600 font-bold text-sm">Change Sem</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    ${subjects.map((sub, idx) => `
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden card-hover reveal-on-scroll" style="transition-delay: ${idx * 0.1}s">
+                            <div class="bg-gradient-to-r from-indigo-600 to-blue-600 p-4 text-white">
+                                <h3 class="font-bold text-xl">${sub.code}</h3>
+                            </div>
+                            <div class="p-6">
+                                <h4 class="text-lg font-bold text-gray-800 mb-4 truncate">${sub.name}</h4>
+                                <button onclick="router('subject-detail', ${sub.id})" class="w-full bg-indigo-50 text-indigo-700 py-3 rounded-lg font-bold hover:bg-indigo-600 hover:text-white transition-colors">
+                                    Open Resources
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>`;
+        }
+
+        function renderSubjectDetail(id) {
+            const sub = subjects.find(s => s.id === id);
+            const subNotes = notes.filter(n => n.subject_id === id);
+            
+            return `
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <button onclick="router('subjects')" class="mb-6 text-indigo-600 font-bold"><i class="fas fa-arrow-left"></i> Back</button>
+                <h1 class="text-3xl font-bold mb-2">${sub.name}</h1>
+                <p class="text-gray-500 mb-8">Notes & Important Topics</p>
+
+                <div class="grid grid-cols-1 gap-4">
+                    ${subNotes.map((note, idx) => `
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center reveal-on-scroll" style="transition-delay: ${idx * 0.05}s">
+                            <div class="mb-3 sm:mb-0 text-center sm:text-left">
+                                <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">${note.chapter}</span>
+                                <h3 class="font-bold text-gray-800 text-lg">Class Notes</h3>
+                            </div>
+                            <div class="flex gap-3">
+                                <button onclick="openViewer('${note.title}', 'note', '${note.fileUrl}')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 transition-colors">
+                                    <i class="fas fa-book-reader mr-2"></i> Notes
+                                </button>
+                                <button onclick="openViewer('IMP - ${note.chapter}', 'note', '${note.impUrl}')" class="bg-orange-100 text-orange-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-orange-200 transition-colors">
+                                    <i class="fas fa-star mr-2"></i> Imp Topic
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>`;
+        }
+
+        function renderPracticals() {
+            return `
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900">Practical & Assignments</h2>
+                    <button onclick="router('sem-select', 'practicals')" class="text-indigo-600 font-bold text-sm">Change Sem</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    ${subjects.map((sub, idx) => `
+                        <div onclick="router('practical-detail', ${sub.id})" class="cursor-pointer bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden card-hover reveal-on-scroll" style="transition-delay: ${idx * 0.1}s">
+                            <div class="bg-purple-600 p-4 text-white">
+                                <h3 class="font-bold text-xl">${sub.code}</h3>
+                            </div>
+                            <div class="p-6 flex justify-between items-center">
+                                <h4 class="text-lg font-bold text-gray-800">${sub.name}</h4>
+                                <i class="fas fa-chevron-right text-gray-300"></i>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>`;
+        }
+
+        function renderPracticalDetail(id) {
+            const sub = subjects.find(s => s.id === id);
+            const data = pracAssignData[sub.code];
+
+            return `
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <button onclick="router('practicals')" class="mb-6 text-indigo-600 font-bold"><i class="fas fa-arrow-left"></i> Back</button>
+                <h1 class="text-3xl font-bold mb-8">${sub.name} - Files</h1>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <!-- PRACTICALS -->
+                    <div>
+                        <h2 class="text-xl font-bold text-purple-700 mb-4 border-b pb-2 flex items-center"><i class="fas fa-flask mr-2"></i> Practicals</h2>
+                        <div class="space-y-3">
+                            ${data.practicals.map(p => `
+                                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center hover:shadow-md transition-shadow">
+                                    <div>
+                                        <h4 class="font-bold text-gray-800 text-sm">${p.title}</h4>
+                                        <p class="text-xs text-gray-500">${p.subtitle}</p>
+                                    </div>
+                                    <button onclick="openViewer('${sub.code} - ${p.title}', 'practical', '${p.file}')" class="text-purple-600 font-bold text-xs bg-purple-50 px-3 py-1.5 rounded hover:bg-purple-100 transition-colors">Open PDF</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <!-- ASSIGNMENTS -->
+                    <div>
+                        <h2 class="text-xl font-bold text-indigo-700 mb-4 border-b pb-2 flex items-center"><i class="fas fa-pen-fancy mr-2"></i> Assignments</h2>
+                        <div class="space-y-3">
+                            ${data.assignments.map(a => `
+                                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center hover:shadow-md transition-shadow">
+                                    <div>
+                                        <h4 class="font-bold text-gray-800 text-sm">${a.title}</h4>
+                                        <p class="text-xs text-gray-500">${a.subtitle}</p>
+                                    </div>
+                                    <button onclick="openViewer('${sub.code} - ${a.title}', 'assignment', '${a.file}')" class="text-indigo-600 font-bold text-xs bg-indigo-50 px-3 py-1.5 rounded hover:bg-indigo-100 transition-colors">Open PDF</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function renderPYQs() {
+            return `
+            <div class="max-w-5xl mx-auto px-4 py-12">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900">PYQs (2022-25)</h2>
+                    <button onclick="router('sem-select', 'pyqs')" class="text-indigo-600 font-bold text-sm">Change Sem</button>
+                </div>
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden reveal-on-scroll">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 border-b">
+                            <tr>
+                                <th class="px-6 py-4 font-bold text-gray-600">Subject</th>
+                                <th class="px-6 py-4 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            ${pyqs.map(p => {
+                                const sub = subjects.find(s => s.id === p.subject_id);
+                                return `
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4">
+                                        <div class="font-bold text-gray-800">${sub.name}</div>
+                                        <div class="text-xs text-gray-500">${p.year}</div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button onclick="openViewer('${sub.code} PYQ', 'pyq', '${p.fileUrl}')" class="text-indigo-600 font-bold text-sm hover:underline">View Paper</button>
+                                    </td>
+                                </tr>`;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>`;
+        }
+
+        function renderContact() {
+            return `<div class="p-10 text-center">Contact Page Placeholder</div>`;
+        }
+
+        // --- VIEWER LOGIC ---
+        let pdfDoc = null;
+        let pageNum = 1;
+        let currentZoom = 1.0;
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function openViewer(title, type, url) {
+            const modal = document.getElementById('viewerModal');
+            document.getElementById('viewerTitle').innerText = title;
+            document.getElementById('errorMsg').classList.add('hidden');
+            document.getElementById('canvas-container').classList.remove('hidden');
+            
+            modal.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                document.getElementById('viewerModalContent').classList.remove('scale-95');
+                document.getElementById('viewerModalContent').classList.add('scale-100');
+            });
+
+            pdfjsLib.getDocument(url).promise.then(pdf => {
+                pdfDoc = pdf;
+                pageNum = 1;
+                renderPage(pageNum);
+            }).catch(err => {
+                console.error("PDF Error:", err);
+                document.getElementById('canvas-container').classList.add('hidden');
+                document.getElementById('errorMsg').classList.remove('hidden');
+            });
+        }
+
+        function closeViewer() {
+            const modal = document.getElementById('viewerModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('viewerModalContent').classList.remove('scale-100');
+            document.getElementById('viewerModalContent').classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function renderPage(num) {
+            pdfDoc.getPage(num).then(page => {
+                const canvas = document.getElementById('the-canvas');
+                const ctx = canvas.getContext('2d');
+                const viewport = page.getViewport({ scale: 1.5 * currentZoom });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                page.render({ canvasContext: ctx, viewport: viewport });
+                document.getElementById('page_info').innerText = `Page ${num} / ${pdfDoc.numPages}`;
+            });
+        }
+
+        function changePage(offset) {
+            if (!pdfDoc) return;
+            const newPage = pageNum + offset;
+            if (newPage >= 1 && newPage <= pdfDoc.numPages) {
+                pageNum = newPage;
+                renderPage(pageNum);
+            }
+        }
+
+        function changeZoom(delta) {
+            currentZoom += delta;
+            renderPage(pageNum);
+        }
+
+        // Initialize App
+        window.addEventListener('load', () => router('home'));
+
+    </script>
+</body>
+</html>
