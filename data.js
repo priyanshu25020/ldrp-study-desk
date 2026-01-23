@@ -14,9 +14,9 @@ const subjects = [
 // 2. TEXTBOOKS (Restored from Reference)
 const textbooks = [
     // --- BME (Subject ID: 5) ---
-    { id: 4, subject_id: 5, title: 'Chapter 1: Prime Movers', author: 'BME Dept', downloadUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
-    { id: 5, subject_id: 5, title: 'Chapter 2: Energy', author: 'BME Dept', downloadUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
-    { id: 6, subject_id: 5, title: 'Chapter 3: Properties of Gases', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 4, subject_id: 5, title: 'Chapter 1: Prime Movers', author: 'BME Dept', downloadUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
+    { id: 5, subject_id: 5, title: 'Chapter 2: Energy', author: 'BME Dept', downloadUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
+    { id: 6, subject_id: 5, title: 'Chapter 3: Properties of Gases', author: 'BME Dept', downloadUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
     { id: 7, subject_id: 5, title: 'Chapter 4: Properties of Steam', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
     { id: 8, subject_id: 5, title: 'Chapter 5: Heat Engine', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
     { id: 9, subject_id: 5, title: 'Chapter 6: Steam Boilers', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
@@ -27,8 +27,8 @@ const textbooks = [
     { id: 14, subject_id: 5, title: 'Chapter 11: Power Transmission', author: 'BME Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
 
     // --- FOP (Subject ID: 2) ---
-    { id: 100, subject_id: 2, title: 'Index of Book', author: 'FOP Dept', downloadUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
-    { id: 101, subject_id: 2, title: 'Chapter 1: Introduction to Computer & Programming', author: 'FOP Dept', downloadUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
+    { id: 100, subject_id: 2, title: 'Index of Book', author: 'FOP Dept', downloadUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
+    { id: 101, subject_id: 2, title: 'Chapter 1: Introduction to Computer & Programming', author: 'FOP Dept', downloadUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
     { id: 102, subject_id: 2, title: 'Chapter 2: Flowcharts & Algorithms', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
     { id: 103, subject_id: 2, title: 'Chapter 3: Introduction to C Language', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
     { id: 104, subject_id: 2, title: 'Chapter 4: Operators and Expressions', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
@@ -84,7 +84,7 @@ const textbooks = [
 // 3. NOTES DATA (Restored from Reference)
 const notes = [
     // MATHS (ID 1)
-    { id: 101, subject_id: 1, chapter: 'Chapter 1', title: 'Sequence and Series', description: 'Convergence, Divergence, Tests.', fileUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
+    { id: 101, subject_id: 1, chapter: 'Chapter 1', title: 'Sequence and Series', description: 'Convergence, Divergence, Tests.', fileUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
     { id: 102, subject_id: 1, chapter: 'Chapter 2', title: 'Series Expansion', description: 'Taylor and Maclaurin series.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
     { id: 103, subject_id: 1, chapter: 'Chapter 3', title: 'Curve Sketching', description: 'Tracing of curves in Cartesian/Polar.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
     { id: 104, subject_id: 1, chapter: 'Chapter 4', title: 'Indeterminate Forms', description: 'L-Hospital Rule applications.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
@@ -147,8 +147,8 @@ const notes = [
 
 // 4. IMP TOPICS (Based on Chapters)
 const imp_topics = [
-    { id: 1, subject_id: 1, title: 'MATHS IMP', description: 'Most likely questions', fileUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
-    { id: 2, subject_id: 2, title: 'FOP IMP', description: 'C Programs List', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 1, subject_id: 1, title: 'MATHS IMP', description: 'Most likely questions', fileUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
+    { id: 2, subject_id: 2, title: 'FOP IMP', description: 'C Programs List', fileUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
     { id: 3, subject_id: 3, title: 'BEEE IMP', description: 'Circuit Problems', fileUrl: 'PASTE_DRIVE_ID_HERE' },
     { id: 4, subject_id: 4, title: 'EPHY IMP', description: 'Physics Theory', fileUrl: 'PASTE_DRIVE_ID_HERE' },
     { id: 5, subject_id: 5, title: 'BME IMP', description: 'Diagrams & Definitions', fileUrl: 'PASTE_DRIVE_ID_HERE' },
@@ -158,7 +158,7 @@ const imp_topics = [
 // 5. PRACTICALS (Restored - Full Detail)
 const practicals = [
     // FOP
-    { id: 1, subject_id: 2, title: 'Practical 1', subtitle: 'Experiment: SET 1', file: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
+    { id: 1, subject_id: 2, title: 'Practical 1', subtitle: 'Experiment: SET 1', file: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
     { id: 2, subject_id: 2, title: 'Practical 2', subtitle: 'Experiment: SET 2', file: 'PASTE_DRIVE_ID_HERE' },
     { id: 3, subject_id: 2, title: 'Practical 3', subtitle: 'Experiment: SET 3', file: 'PASTE_DRIVE_ID_HERE' },
     { id: 4, subject_id: 2, title: 'Practical 4', subtitle: 'Experiment: SET 4', file: 'PASTE_DRIVE_ID_HERE' },
