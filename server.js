@@ -29,6 +29,7 @@ io.on("connection", (socket) => {
     currentStats.onlineUsers++;
     currentStats.totalVisits++;
     currentStats.visitsToday++;
+    
     io.emit("updateStats", { 
         online: currentStats.onlineUsers, 
         visitsToday: currentStats.visitsToday, 
@@ -53,9 +54,9 @@ app.use(helmet({
     crossOriginEmbedderPolicy: false 
 }));
 app.use(cors());
-app.use(express.json({ limit: '10mb' })); // Increase limit for image uploads
+app.use(express.json({ limit: '10mb' })); 
 
-// 🚨 SECURITY FIX: Only serve files from the 'public' folder
+// 🚨 SECURITY FIX: Files ab 'public' folder se serve hongi (Backend code hide ho jayega)
 app.use(express.static(path.join(__dirname, 'public')));
 
 // --- API ENDPOINTS ---
@@ -67,69 +68,52 @@ app.get('/api/imp_topics', (req, res) => res.json(imp_topics));
 app.get('/api/practicals', (req, res) => res.json(practicals));
 app.get('/api/assignments', (req, res) => res.json(assignments));
 
-// --- GOOGLE DRIVE PROXY (Superfast Caching) ---
+// --- GOOGLE DRIVE PROXY ---
 app.get('/api/proxy-pdf', async (req, res) => {
     try {
         const fileId = req.query.id;
-        if (!fileId || fileId.includes('PASTE')) {
-            return res.status(404).send("File ID not configured.");
-        }
+        if (!fileId || fileId.includes('PASTE')) return res.status(404).send("File ID not configured.");
 
         const driveUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
         
-        // Headers to mimic a browser request
-        const headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Connection': 'keep-alive'
-        };
-
         const response = await axios({
             method: 'GET',
             url: driveUrl,
             responseType: 'stream',
-            headers: headers
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8'
+            }
         });
 
-        // Content headers
         res.setHeader('Content-Type', 'application/pdf');
-        
-        // 🚀 SPEED FIX: Cache for 1 year (immutable)
         res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-        
         response.data.pipe(res);
-
     } catch (error) {
-        console.error("Proxy Error Details:", error.message);
-        res.status(500).send("Error loading PDF via Proxy.");
+        console.error("Proxy Error:", error.message);
+        res.status(500).send("Error loading PDF.");
     }
 });
 
-// --- CHAT AI (Language Logic) ---
+// --- CHAT AI ---
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.post("/api/chat", async (req, res) => {
     try {
         const { text, image } = req.body;
-
         let userContent = [];
         if (text) userContent.push({ type: "text", text: text });
-        if (image) userContent.push({ 
-            type: "image_url", 
-            image_url: { url: image } 
-        });
+        if (image) userContent.push({ type: "image_url", image_url: { url: image } });
 
-        // Use vision model if image exists, otherwise versatile model
         const modelName = image ? "llama-3.2-11b-vision-preview" : "llama-3.3-70b-versatile";
 
-        // 🚨 STRICT LANGUAGE INSTRUCTION
+        // 🔥 STRICT LANGUAGE INSTRUCTION
         const systemPrompt = `You are a helpful study assistant. 
         STRICT RULES:
         1. If user asks in ENGLISH -> Respond ONLY in ENGLISH.
         2. If user asks in HINDI -> Respond ONLY in HINDI.
         3. If user asks in GUJARATI -> Respond ONLY in GUJARATI.
-        4. Keep answers concise and helpful.`;
+        4. Keep answers concise.`;
 
         const completion = await groq.chat.completions.create({
             messages: [
@@ -137,30 +121,29 @@ app.post("/api/chat", async (req, res) => {
                 { role: "user", content: userContent },
             ],
             model: modelName,
-            temperature: 0.3, // Lower temperature for more deterministic/obedient responses
+            temperature: 0.3,
             max_tokens: 1024,
         });
 
-        const botReply = completion.choices[0].message.content;
-        res.json({ reply: botReply });
-
+        res.json({ reply: completion.choices[0].message.content });
     } catch (err) {
         console.error("AI Error:", err.message);
         res.status(500).json({ reply: "Sorry, server is busy." });
     }
 });
 
-// --- EMAIL (Fix using Gmail Service) ---
+// --- EMAIL FIX (SSL/Port 465) ---
 app.post('/api/contact', (req, res) => {
     const { name, email, inquiryType, message } = req.body;
     
-    // Immediate response to frontend
+    // Frontend ko turant success bhejo
     res.status(200).json({ success: true, message: "Request Received!" });
 
     if(process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-        // 🚨 NEW EMAIL SETTING: 'service: gmail' avoids port/timeout issues
         const transporter = nodemailer.createTransport({
-            service: 'gmail', 
+            host: 'smtp.gmail.com',  // 🔥 Force Gmail Host
+            port: 465,               // 🔥 Force SSL Port (Blocks bypass karta hai)
+            secure: true,            // 🔥 SSL True
             auth: { 
                 user: process.env.EMAIL_USER, 
                 pass: process.env.EMAIL_PASS 
@@ -169,7 +152,7 @@ app.post('/api/contact', (req, res) => {
 
         const mailOptions = {
             from: `"LDRP Desk Bot" <${process.env.EMAIL_USER}>`,
-            to: process.env.EMAIL_USER, // Send email to yourself
+            to: process.env.EMAIL_USER,
             replyTo: email, 
             subject: `🔔 New Inquiry: ${inquiryType}`,
             text: `Name: ${name}\nUser Email: ${email}\n\nMessage:\n${message}`
@@ -179,7 +162,7 @@ app.post('/api/contact', (req, res) => {
             if (error) {
                 console.error("❌ Email Failed:", error);
             } else {
-                console.log("✅ Email Sent:", info.response);
+                console.log("✅ Email Sent Successfully");
             }
         });
     } else {
@@ -187,7 +170,7 @@ app.post('/api/contact', (req, res) => {
     }
 });
 
-// Serve HTML (Now from public folder)
+// Serve HTML (Fix for ENOENT error)
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html')); 
 });

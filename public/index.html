@@ -810,38 +810,60 @@ function handleImageUpload(event) {
     }
 
     // 🔥 NEW: SMART SPEAK FUNCTION (Hindi/Eng/Guj)
+    // 🔥 NEW: SMART VOICE ENGINE (Native Hindi/Gujarati Feel)
     const synth = window.speechSynthesis;
-    let recognition = null;
 
     function speak(text) {
         if (!text) return;
-        synth.cancel();
+        synth.cancel(); // Stop previous speech
         
-        const cleanText = text.replace(/[*#_`]/g, '');
+        const cleanText = text.replace(/[*#_`]/g, ''); // Remove Markdown chars
         const utterance = new SpeechSynthesisUtterance(cleanText);
         
+        // Detect Language
         const isHindi = /[\u0900-\u097F]/.test(cleanText);
         const isGujarati = /[\u0A80-\u0AFF]/.test(cleanText);
+        
+        // Get available voices
         const voices = synth.getVoices();
+        let selectedVoice = null;
 
         if (isHindi) {
             utterance.lang = 'hi-IN';
-            const v = voices.find(v => v.lang === 'hi-IN');
-            if(v) utterance.voice = v;
-        } else if (isGujarati) {
+            // Try to find Google Hindi or Microsoft Hindi
+            selectedVoice = voices.find(v => v.lang === 'hi-IN' || v.name.includes('Hindi'));
+            utterance.rate = 0.9; // Hindi needs slightly slower pace
+            utterance.pitch = 1.0;
+        } 
+        else if (isGujarati) {
             utterance.lang = 'gu-IN';
-            const v = voices.find(v => v.lang === 'gu-IN');
-            if(v) utterance.voice = v;
-        } else {
+            // Try to find Gujarati voice
+            selectedVoice = voices.find(v => v.lang === 'gu-IN' || v.name.includes('Gujarati'));
+            // If no Gujarati voice, fallback to Hindi (better than English accent)
+            if (!selectedVoice) {
+                 selectedVoice = voices.find(v => v.lang === 'hi-IN');
+            }
+            utterance.rate = 0.85; // Gujarati sounds better slower
+            utterance.pitch = 1.0;
+        } 
+        else {
             utterance.lang = 'en-US';
-            const v = voices.find(v => v.name.includes('Google US English') || v.name.includes('Female'));
-            if(v) utterance.voice = v;
+            // Find a good English female voice (Google or Microsoft)
+            selectedVoice = voices.find(v => (v.lang === 'en-US' || v.lang === 'en-GB') && v.name.includes('Google'));
+            utterance.rate = 1.0;
         }
 
-        utterance.rate = 0.9;
-        utterance.pitch = 1.1;
+        if (selectedVoice) {
+            utterance.voice = selectedVoice;
+        }
+
         synth.speak(utterance);
     }
+    
+    // Ensure voices are loaded (Chrome bug fix)
+    window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices();
+    };
 
     function stopSpeaking() { synth.cancel(); }
 
