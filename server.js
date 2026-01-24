@@ -138,7 +138,8 @@ app.post("/api/chat", async (req, res) => {
             ];
         }
 
-        const modelName = image ? "llama-3.2-11b-vision-preview" : "llama-3.3-70b-versatile";
+       // 11b band ho gaya hai, isliye 90b use karo
+const modelName = image ? "llama-3.2-90b-vision-preview" : "llama-3.3-70b-versatile";
 
         const completion = await groq.chat.completions.create({
             messages: messages,

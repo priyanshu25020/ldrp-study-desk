@@ -733,31 +733,63 @@ const API_BASE = ""; // Live domain automatic le lega
         if (el) el.remove();
     }
     // 🔥 YEH CODE PASTE KARO (Trigger Image Upload ke upar)
+// 🔥 FIXED: SMART IMAGE COMPRESSOR (Resizes image to max 800px)
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // Canvas create karo resize karne ke liye
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
 
-function handleImageUpload(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onloadend = function() {
-            currentBase64Image = reader.result; // Image save ho gayi
-            
-            // UI Update: Button neela ho jayega
-            const camBtn = document.getElementById('camBtn');
-            if(camBtn) {
-                camBtn.style.color = "#4f46e5"; 
-                camBtn.title = "Image Selected";
+                    // Resize logic: Max dimension 800px rakho (AI ke liye kaafi hai)
+                    const MAX_DIMENSION = 800;
+                    if (width > height) {
+                        if (width > MAX_DIMENSION) {
+                            height *= MAX_DIMENSION / width;
+                            width = MAX_DIMENSION;
+                        }
+                    } else {
+                        if (height > MAX_DIMENSION) {
+                            width *= MAX_DIMENSION / height;
+                            height = MAX_DIMENSION;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Base64 me convert karo (Quality 0.6 = Low size, Good speed)
+                    currentBase64Image = canvas.toDataURL("image/jpeg", 0.6);
+
+                    // --- Button ka color change karo ---
+                    const camBtn = document.getElementById('camBtn');
+                    if(camBtn) {
+                        camBtn.style.color = "#4f46e5"; 
+                        camBtn.title = "Image Selected";
+                        camBtn.innerHTML = '<i class="fas fa-check-circle"></i>'; // Tick mark dikhao
+                    }
+                    
+                    // Input box me user ko batao
+                    const chatInput = document.getElementById('chatInput');
+                    if(chatInput) {
+                        chatInput.placeholder = "Image attached! Type your question...";
+                        chatInput.focus();
+                    }
+                }
+                img.src = e.target.result;
             }
-            
-            // Input box me likha aayega
-            const chatInput = document.getElementById('chatInput');
-            if(chatInput) {
-                chatInput.placeholder = "Image selected! Type question...";
-                chatInput.focus();
-            }
+            reader.readAsDataURL(file);
         }
-        reader.readAsDataURL(file);
     }
-}
 
     // 🔥 NEW: HANDLE IMAGE UPLOAD (Correct Position)
     function triggerImageUpload() { document.getElementById('imageInput').click(); }
