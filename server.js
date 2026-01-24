@@ -153,29 +153,29 @@ app.post("/api/chat", async (req, res) => {
 // --- EMAIL (Fix using Gmail Service) ---
 // --- EMAIL FIX (Use SSL & Port 465) ---
 // --- EMAIL LOGIC (Brevo/Sendinblue SMTP) ---
+// --- EMAIL LOGIC (Brevo SMTP - 100% Works on Render) ---
 app.post('/api/contact', (req, res) => {
     const { name, email, inquiryType, message } = req.body;
     
-    // Frontend को तुरंत बता दो कि रिक्वेस्ट मिल गई
+    // Frontend ko turant success bhejo
     res.status(200).json({ success: true, message: "Request Received!" });
 
     if(process.env.EMAIL_USER && process.env.EMAIL_PASS) {
         
-        // 🔥 BREVO SMTP CONFIGURATION
         const transporter = nodemailer.createTransport({
-            host: "smtp-relay.brevo.com",  // Brevo का सर्वर
-            port: 587,                     // Brevo पोर्ट 587 यूज करता है
-            secure: false,                 // 587 के लिए secure: false रखें
+            host: "smtp-relay.brevo.com", // 🔥 Brevo Host
+            port: 587,                    // 🔥 Brevo Port
+            secure: false,                // False for 587
             auth: { 
-                user: process.env.EMAIL_USER, // Render Env से Brevo Login Email
-                pass: process.env.EMAIL_PASS  // Render Env से SMTP Key
+                user: process.env.EMAIL_USER, // Render me set kiya hua Brevo login email
+                pass: process.env.EMAIL_PASS  // Render me set ki hui SMTP Key
             }
         });
 
         const mailOptions = {
-            from: `"LDRP Desk Bot" <${process.env.EMAIL_USER}>`, // यह वही ईमेल होना चाहिए जो Brevo में Verified है
-            to: "priyanshubharadava27@gmail.com", // यहाँ अपना पर्सनल ईमेल लिखो जहाँ मेल चाहिए
-            replyTo: email, // यूजर का ईमेल (ताकि तुम रिप्लाई कर सको)
+            from: process.env.EMAIL_USER, // Brevo Sender (Must be verified in Brevo)
+            to: "priyanshubharadava90231@gmail.com", // 🔥 Yahan tumhara personal email aayega
+            replyTo: email, 
             subject: `🔔 New Inquiry: ${inquiryType}`,
             text: `Name: ${name}\nUser Email: ${email}\n\nMessage:\n${message}`
         };
@@ -184,7 +184,7 @@ app.post('/api/contact', (req, res) => {
             if (error) {
                 console.error("❌ Email Failed:", error);
             } else {
-                console.log("✅ Email Sent via Brevo:", info.messageId);
+                console.log("✅ Email Sent via Brevo ID:", info.messageId);
             }
         });
     } else {
