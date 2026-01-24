@@ -1,25 +1,25 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const nodemailer = require('nodemailer');
 const path = require('path');
 const helmet = require('helmet');
 const http = require('http');
 const compression = require('compression');
 const { Server } = require("socket.io");
 const Groq = require("groq-sdk");
-const axios = require('axios');
+const axios = require('axios'); // Email API ke liye zaroori
 const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// --- DEBUGGING: Check Folders ---
+// --- DEBUGGING: Check Folders on Server ---
+// Ye check karega ki public folder server par pahuncha ya nahi
 const publicPath = path.join(__dirname, 'public');
 if (fs.existsSync(publicPath)) {
     console.log("✅ Public folder FOUND at:", publicPath);
 } else {
-    console.error("❌ ERROR: Public folder NOT FOUND!");
+    console.error("❌ ERROR: Public folder NOT FOUND! Make sure files are inside 'public' folder.");
 }
 
 // --- SERVER SETUP ---
@@ -61,7 +61,12 @@ app.use(helmet({
     crossOriginEmbedderPolicy: false 
 }));
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+
+// 🔥 FIX 1: Upload Limit Increased to 50MB (Badi images ke liye)
+app.use(express.json({ limit: '50mb' })); 
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+// Serve Static Files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // --- API ENDPOINTS ---
@@ -94,75 +99,106 @@ app.get('/api/proxy-pdf', async (req, res) => {
     }
 });
 
-// --- CHAT AI (Fixed Script Issue) ---
+// --- CHAT AI (Vision Fix + Language Script Fix) ---
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.post("/api/chat", async (req, res) => {
     try {
         const { text, image } = req.body;
-        let userContent = [];
-        if (text) userContent.push({ type: "text", text: text });
-        if (image) userContent.push({ type: "image_url", image_url: { url: image } });
+        let messages = [];
 
-        const modelName = image ? "llama-3.2-11b-vision-preview" : "llama-3.3-70b-versatile";
-        
-        // 🔥 UPDATE: Strict Script Instructions
-        const systemPrompt = `You are a helpful study assistant.
-        STRICT LANGUAGE RULES:
-        1. If user asks in ENGLISH -> Respond in ENGLISH.
-        2. If user asks in HINDI -> Respond in HINDI (Use Devanagari Script like 'नमस्ते', do NOT use Hinglish).
-        3. If user asks in GUJARATI -> Respond in GUJARATI (Use Gujarati Script like 'નમસ્તે').
+        // Instructions for AI (Language Script Fixed)
+        const instructions = `You are a helpful study assistant. 
+        STRICT RULES:
+        1. If user asks in Hindi, Reply in Hindi Script (Devanagari). Example: 'नमस्ते'. DO NOT use Hinglish.
+        2. If user asks in Gujarati, Reply in Gujarati Script. Example: 'નમસ્તે'.
+        3. If user asks in English, Reply in English.
         4. Keep answers short and clear.`;
 
+        // 🔥 FIX 2: Vision Model Logic
+        // Agar Image hai, to System Prompt ko User Text ke saath mila do.
+        // Kyunki Llama Vision models kabhi-kabhi alag System role support nahi karte.
+        
+        if (image) {
+            // Vision Request Structure (System role removed, integrated into user content)
+            messages = [
+                {
+                    role: "user",
+                    content: [
+                        { type: "text", text: instructions + "\n\nUser Question: " + (text || "Explain this image") },
+                        { type: "image_url", image_url: { url: image } }
+                    ]
+                }
+            ];
+        } else {
+            // Normal Text Request Structure
+            messages = [
+                { role: "system", content: instructions },
+                { role: "user", content: text }
+            ];
+        }
+
+        const modelName = image ? "llama-3.2-11b-vision-preview" : "llama-3.3-70b-versatile";
+
         const completion = await groq.chat.completions.create({
-            messages: [
-                { role: "system", content: systemPrompt },
-                { role: "user", content: userContent },
-            ],
+            messages: messages,
             model: modelName,
-            temperature: 0.3, // Lower temp follows rules better
+            temperature: 0.3,
             max_tokens: 1024,
         });
 
         res.json({ reply: completion.choices[0].message.content });
+
     } catch (err) {
-        console.error("AI Error:", err.message);
-        res.status(500).json({ reply: "Sorry, server is busy." });
+        // Error Log karo taki Render logs me dikhe
+        console.error("AI Error Details:", err.response ? err.response.data : err.message);
+        res.status(500).json({ reply: "Sorry, I am unable to process this image right now. Try a smaller image." });
     }
 });
 
-// --- EMAIL LOGIC (Port 465 Fix for Timeouts) ---
-app.post('/api/contact', (req, res) => {
+// --- 🔥 FINAL EMAIL FIX (Brevo API instead of SMTP) ---
+// SMTP ports (587/465) are blocked on Render. HTTP (API) is NOT blocked.
+app.post('/api/contact', async (req, res) => {
     const { name, email, inquiryType, message } = req.body;
+    
+    // Frontend ko turant success bhejo
     res.status(200).json({ success: true, message: "Request Received!" });
 
-    if(process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-        
-        // 🔥 FIXED: Using Port 465 (SSL) - Never times out
-        const transporter = nodemailer.createTransport({
-            host: "smtp-relay.brevo.com", 
-            port: 465,                    // SSL Port (Fastest)
-            secure: true,                 // True for 465
-            auth: { 
-                user: process.env.EMAIL_USER, 
-                pass: process.env.EMAIL_PASS  
+    if (!process.env.EMAIL_PASS || !process.env.EMAIL_USER) {
+        return console.log("⚠️ API Key Missing in Render Environment");
+    }
+
+    try {
+        // Axios se Brevo API ko call karenge (Ye kabhi block nahi hota)
+        const response = await axios.post(
+            'https://api.brevo.com/v3/smtp/email',
+            {
+                sender: { name: "LDRP Desk Bot", email: process.env.EMAIL_USER }, // Login Email (Brevo verified)
+                to: [{ email: "priyanshubharadava90231@gmail.com", name: "Priyanshu" }], // Personal Email jahan mail aayega
+                replyTo: { email: email, name: name },
+                subject: `🔔 New Inquiry: ${inquiryType}`,
+                htmlContent: `
+                    <h3>New Inquiry Received</h3>
+                    <p><strong>Name:</strong> ${name}</p>
+                    <p><strong>User Email:</strong> ${email}</p>
+                    <p><strong>Type:</strong> ${inquiryType}</p>
+                    <br>
+                    <p><strong>Message:</strong></p>
+                    <p>${message}</p>
+                `
+            },
+            {
+                headers: {
+                    'accept': 'application/json',
+                    'api-key': process.env.EMAIL_PASS, // ⚠️ Yahan Brevo API Key honi chahiye (xkeysib...)
+                    'content-type': 'application/json'
+                }
             }
-        });
+        );
+        console.log("✅ Email Sent via API! ID:", response.data.messageId);
 
-        const mailOptions = {
-            from: process.env.EMAIL_USER, // Brevo Login Email
-            to: "priyanshubharadava90231@gmail.com", // Personal Email
-            replyTo: email, 
-            subject: `🔔 New Inquiry: ${inquiryType}`,
-            text: `Name: ${name}\nUser Email: ${email}\n\nMessage:\n${message}`
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) console.error("❌ Email Failed:", error);
-            else console.log("✅ Email Sent via Brevo (SSL):", info.messageId);
-        });
-    } else {
-        console.log("⚠️ Email Credentials Missing");
+    } catch (error) {
+        console.error("❌ Email API Failed:", error.response ? error.response.data : error.message);
     }
 });
 
