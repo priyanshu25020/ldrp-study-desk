@@ -762,22 +762,6 @@ function handleImageUpload(event) {
     // 🔥 NEW: HANDLE IMAGE UPLOAD (Correct Position)
     function triggerImageUpload() { document.getElementById('imageInput').click(); }
 
-    function handleImageUpload(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = function() {
-                currentBase64Image = reader.result;
-                const camBtn = document.getElementById('camBtn');
-                camBtn.style.color = "#4f46e5"; // Indigo color
-                camBtn.title = "Image Selected";
-                document.getElementById('chatInput').placeholder = "Image selected! Type question...";
-                document.getElementById('chatInput').focus();
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
     // 🔥 NEW: UPDATED SEND MESSAGE (Supports Image)
     async function sendMessage() {
         const input = document.getElementById('chatInput');
