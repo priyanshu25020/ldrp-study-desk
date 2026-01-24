@@ -100,58 +100,40 @@ app.get('/api/proxy-pdf', async (req, res) => {
 });
 
 // --- CHAT AI (Vision Fix + Language Script Fix) ---
+// --- CHAT AI (SAFE MODE: No Vision, Only Text) ---
+// Note: Groq ne vision models band kar diye hain, isliye hum sirf text model use kar rahe hain.
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.post("/api/chat", async (req, res) => {
     try {
         const { text, image } = req.body;
-        let messages = [];
-
-        // Instructions for AI (Language Script Fixed)
-        const instructions = `You are a helpful study assistant. 
+        
+        // 1. AI Instructions (Script Rules)
+        const systemPrompt = `You are a helpful study assistant.
         STRICT RULES:
-        1. If user asks in Hindi, Reply in Hindi Script (Devanagari). Example: 'नमस्ते'. DO NOT use Hinglish.
+        1. If user asks in Hindi, Reply in Hindi Script (Devanagari). Example: 'नमस्ते'.
         2. If user asks in Gujarati, Reply in Gujarati Script. Example: 'નમસ્તે'.
         3. If user asks in English, Reply in English.
         4. Keep answers short and clear.`;
 
-        // 🔥 FIX 2: Vision Model Logic
-        // Agar Image hai, to System Prompt ko User Text ke saath mila do.
-        // Kyunki Llama Vision models kabhi-kabhi alag System role support nahi karte.
+        // 2. Model Selection (Sirf ye model abhi chal raha hai)
+        const modelName = "llama-3.3-70b-versatile"; 
         
+        // 3. User Message Preparation
+        let userContent = text;
+
+        // 4. SAFETY CHECK: Agar image aayi hai, to AI ko mat bhejo (Warna crash hoga)
         if (image) {
-            // Vision Request Structure (System role removed, integrated into user content)
-            messages = [
-                {
-                    role: "user",
-                    content: [
-                        { type: "text", text: instructions + "\n\nUser Question: " + (text || "Explain this image") },
-                        { type: "image_url", image_url: { url: image } }
-                    ]
-                }
-            ];
-        } else {
-            // Normal Text Request Structure
-            messages = [
-                { role: "system", content: instructions },
-                { role: "user", content: text }
-            ];
+            console.log("⚠️ Image received but Vision model is dead. Handling gracefully.");
+            // AI ko bas bata do ki image aayi thi
+            userContent = text + "\n\n[SYSTEM NOTE: The user uploaded an image, but I cannot see it because the vision service is down. Please kindly tell the user to type their question instead.]";
         }
 
-       // 11b band ho gaya hai, isliye 90b use karo
-// 2. Model Selection (Only Text Model works now)
-const modelName = "llama-3.3-70b-versatile"; // <-- SIRF TEXT MODEL
-
-let userContent = text;
-
-// 3. SAFETY CHECK: Image aayi to AI ko mat bhejo (Kyunki model band hai)
-if (image) {
-    console.log("⚠️ Image received but Vision model is dead. Handling gracefully.");
-    // Hum AI ko jhooth bol rahe hain ki image aayi par system down hai
-    userContent = text + "\n\n[SYSTEM NOTE: The user tried to upload an image, but the Vision AI service is currently down/decommissioned...]";
-}
         const completion = await groq.chat.completions.create({
-            messages: messages,
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userContent }, // Hum hamesha STRING bhej rahe hain (Array nahi)
+            ],
             model: modelName,
             temperature: 0.3,
             max_tokens: 1024,
@@ -160,9 +142,9 @@ if (image) {
         res.json({ reply: completion.choices[0].message.content });
 
     } catch (err) {
-        // Error Log karo taki Render logs me dikhe
-        console.error("AI Error Details:", err.response ? err.response.data : err.message);
-        res.status(500).json({ reply: "Sorry, I am unable to process this image right now. Try a smaller image." });
+        console.error("AI Error:", err.message);
+        // Agar fir bhi error aaye, to frontend ko safe reply bhejo
+        res.status(500).json({ reply: "Sorry, server busy. Please try asking in text." });
     }
 });
 
