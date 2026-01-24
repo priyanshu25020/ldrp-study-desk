@@ -628,303 +628,262 @@
  // Purana: const API_BASE = "http://localhost:3000";
 // Naya:
 // --- 1. GLOBAL VARIABLES ---
-    const API_BASE = ""; // Live domain automatic le lega
+const API_BASE = ""; // Live domain automatic le lega
     const socket = io();
 
-    // Data Holders (Empty Arrays)
-    let subjects = [];
-    let textbooks = [];
-    let notes = [];
-    let pyqs = [];
-    
-    // 👇 YE 3 NAYE ARRAY ADD KARNA ZAROORI HAI (Missing Data Fix)
-    let imp_topics = [];
-    let practicals = [];
-    let assignments = [];
-
+    // Data Holders
+    let subjects = [], textbooks = [], notes = [], pyqs = [];
+    let imp_topics = [], practicals = [], assignments = [];
     let cachedStats = { totalVisits: '...', visitsToday: '...', online: '...' };
 
-    // --- SOCKET LISTENER (Live Users Fix) ---
+    // --- SOCKET LISTENER ---
     socket.on("updateStats", (data) => {
-        // Backend se ab 'online' key aa rahi hai (Server Code 1 ki wajah se)
         cachedStats = data; 
         updateStatsDOM();
     });
 
-function updateStatsDOM() {
-        // IDs check karo jo renderHome() mein use huye hain
-        const reachEl = document.getElementById('stat-reach');
-        const visitsEl = document.getElementById('stat-visits');
-        const onlineEl = document.getElementById('stat-online');
-        const usersEl = document.getElementById('stat-users');
-
-        if (onlineEl) onlineEl.innerText = cachedStats.online || 0;
-        if (visitsEl) visitsEl.innerText = cachedStats.visitsToday || 0;
-        if (usersEl) usersEl.innerText = cachedStats.totalVisits || 0;
-        
-        // Monthly reach hum total visits ka 3x dikha dete hain (Logic)
-        if (reachEl) reachEl.innerText = (cachedStats.totalVisits * 3) || 0;
+    function updateStatsDOM() {
+        const ids = ['stat-reach', 'stat-visits', 'stat-online', 'stat-users'];
+        const vals = [(cachedStats.totalVisits * 3) || 0, cachedStats.visitsToday || 0, cachedStats.online || 0, cachedStats.totalVisits || 0];
+        ids.forEach((id, i) => { if(document.getElementById(id)) document.getElementById(id).innerText = vals[i]; });
     }
 
-    // --- FETCH DATA FUNCTION (Updated to fetch ALL 7 categories) ---
+    // --- FETCH DATA ---
     async function fetchAllData() {
         console.log("🔄 Fetching data...");
         try {
-            // 1. Basic Data fetch karo
-            const [subRes, noteRes, txtRes, pyqRes] = await Promise.all([
-                fetch(`${API_BASE}/api/subjects`),
-                fetch(`${API_BASE}/api/notes`),
-                fetch(`${API_BASE}/api/textbooks`),
-                fetch(`${API_BASE}/api/pyqs`)
-            ]);
+            const endpoints = ['subjects', 'notes', 'textbooks', 'pyqs', 'imp_topics', 'practicals', 'assignments'];
+            const responses = await Promise.all(endpoints.map(ep => fetch(`${API_BASE}/api/${ep}`)));
+            
+            [subjects, notes, textbooks, pyqs, imp_topics, practicals, assignments] = await Promise.all(responses.map(r => r.ok ? r.json() : []));
+            console.log("🎉 All Data Loaded!");
+        } catch (error) { console.error("🔥 Data Load Error:", error); }
+    }
 
-            if(subRes.ok) subjects = await subRes.json();
-            if(noteRes.ok) notes = await noteRes.json();
-            if(txtRes.ok) textbooks = await txtRes.json();
-            if(pyqRes.ok) pyqs = await pyqRes.json();
+    // --- SECURITY BLOCKERS ---
+    document.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && ['p','s','P','S'].includes(e.key)) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
 
-            // 2. 👇 New Data Categories fetch karo (Jo missing thi)
-            const [impRes, pracRes, assiRes] = await Promise.all([
-                fetch(`${API_BASE}/api/imp_topics`),
-                fetch(`${API_BASE}/api/practicals`),
-                fetch(`${API_BASE}/api/assignments`)
-            ]);
+    // --- VIEWER VARIABLES ---
+    let pdfDoc = null, pageNum = 1, pageRendering = false, pageNumPending = null;
+    let currentZoom = 1.0, renderedZoom = 1.0, zoomTimeout = null;
+    let swipeStartX = 0, swipeStartY = 0, initialDist = 0, initialZoom = 1.0;
 
-            if(impRes.ok) imp_topics = await impRes.json();
-            if(pracRes.ok) practicals = await pracRes.json();
-            if(assiRes.ok) assignments = await assiRes.json();
+    // --- CHATBOX LOGIC ---
+    let isChatOpen = false, isFirstOpen = true;
+    
+    // 🔥 NEW: IMAGE VARIABLE
+    let currentBase64Image = null;
 
-            console.log("🎉 All Data Loaded Successfully!");
-
-        } catch (error) {
-            console.error("🔥 Data Load Error:", error);
+    function toggleChat() {
+        const chatbox = document.getElementById('chatbox');
+        isChatOpen = !isChatOpen;
+        if (isChatOpen) {
+            chatbox.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                chatbox.classList.remove('opacity-0', 'scale-95');
+                chatbox.classList.add('opacity-100', 'scale-100');
+            });
+            if (isFirstOpen) {
+                addMessage("bot", "Hello buddy, ask me anything related to your studies!");
+                speak("Hello buddy, ask me anything related to your studies!");
+                isFirstOpen = false;
+            }
+        } else {
+            chatbox.classList.remove('opacity-100', 'scale-100');
+            chatbox.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => chatbox.classList.add('hidden'), 300);
         }
     }
-        // --- SECURITY BLOCKERS (Ctrl+P, Ctrl+S) ---
-        // Using capture phase (true) to intercept before other handlers
-        document.addEventListener('keydown', function (e) {
-            if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's' || e.key === 'P' || e.key === 'S')) {
-                e.preventDefault();
-                e.stopPropagation();
+
+    function clearChat() {
+        document.getElementById('chatMessages').innerHTML = '';
+        stopSpeaking();
+        addMessage("bot", "Chat cleared.");
+        currentBase64Image = null; // Clear image too
+        document.getElementById('camBtn').style.color = "";
+    }
+
+    function addMessage(sender, text) {
+        const messagesDiv = document.getElementById('chatMessages');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `chat-message ${sender === 'user' ? 'user-message' : 'bot-message'} animate-message`;
+        
+        if (sender === 'bot' && typeof marked !== 'undefined') {
+            msgDiv.innerHTML = marked.parse(text);
+        } else {
+            msgDiv.innerText = text;
+        }
+        messagesDiv.appendChild(msgDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function showTyping() {
+        const div = document.createElement('div');
+        div.id = 'typing';
+        div.className = 'chat-message bot-message typing-indicator animate-message';
+        div.innerHTML = '<span></span><span></span><span></span>';
+        document.getElementById('chatMessages').appendChild(div);
+        document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+    }
+
+    function removeTyping() {
+        const el = document.getElementById('typing');
+        if (el) el.remove();
+    }
+    // 🔥 YEH CODE PASTE KARO (Trigger Image Upload ke upar)
+
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onloadend = function() {
+            currentBase64Image = reader.result; // Image save ho gayi
+            
+            // UI Update: Button neela ho jayega
+            const camBtn = document.getElementById('camBtn');
+            if(camBtn) {
+                camBtn.style.color = "#4f46e5"; 
+                camBtn.title = "Image Selected";
             }
-        }, true);
-
-        // --- NEW SECURE VIEWER VARIABLES ---
-        let pdfDoc = null;
-        let pageNum = 1;
-        let pageRendering = false;
-        let pageNumPending = null;
-        let currentZoom = 1.0;
-        let renderedZoom = 1.0; // To track resolution
-        let zoomTimeout = null; // For debouncing
-        let canvasScale = 1.5;
-
-        // Touch variables
-        let swipeStartX = 0;
-        let swipeStartY = 0;
-        let initialDist = 0;
-        let initialZoom = 1.0;
-
-        // --- CHATBOX LOGIC ---
-        // PASTE YOUR API KEY HERE
-       
-        let isChatOpen = false;
-        let isFirstOpen = true;
-        let pendingImage = null;
-
-        function toggleChat() {
-            const chatbox = document.getElementById('chatbox');
-            isChatOpen = !isChatOpen;
-            if (isChatOpen) {
-                // Open Chat
-                chatbox.classList.remove('hidden');
-                requestAnimationFrame(() => {
-                    chatbox.classList.remove('opacity-0', 'scale-95');
-                    chatbox.classList.add('opacity-100', 'scale-100');
-                });
-
-                if (isFirstOpen) {
-                    addMessage("bot", "Hello buddy, how can I help you?");
-                    speak("Hello buddy, how can I help you?");
-                    isFirstOpen = false;
-                }
-            } else {
-                // Close Chat
-                chatbox.classList.remove('opacity-100', 'scale-100');
-                chatbox.classList.add('opacity-0', 'scale-95');
-                setTimeout(() => {
-                    chatbox.classList.add('hidden');
-                }, 300);
+            
+            // Input box me likha aayega
+            const chatInput = document.getElementById('chatInput');
+            if(chatInput) {
+                chatInput.placeholder = "Image selected! Type question...";
+                chatInput.focus();
             }
         }
+        reader.readAsDataURL(file);
+    }
+}
 
-        function clearChat() {
-            const messagesDiv = document.getElementById('chatMessages');
-            messagesDiv.innerHTML = '';
-            // Stop speaking when chat is cleared
-            stopSpeaking();
-            addMessage("bot", "Chat cleared. Ask me anything!");
-        }
+    // 🔥 NEW: HANDLE IMAGE UPLOAD (Correct Position)
+    function triggerImageUpload() { document.getElementById('imageInput').click(); }
 
-        function addMessage(sender, text) {
-            const messagesDiv = document.getElementById('chatMessages');
-            const msgDiv = document.createElement('div');
-            // 'animate-message' handles the fade/slide in
-            msgDiv.className = `chat-message ${sender === 'user' ? 'user-message' : 'bot-message'} animate-message`;
-
-            if (sender === 'bot') {
-                if (typeof marked !== 'undefined') {
-                    if (typeof marked.parse === 'function') {
-                        msgDiv.innerHTML = marked.parse(text);
-                    } else if (typeof marked === 'function') {
-                        msgDiv.innerHTML = marked(text);
-                    } else {
-                        msgDiv.innerText = text;
-                    }
-                } else {
-                    msgDiv.innerText = text;
-                }
-            } else {
-                msgDiv.innerText = text;
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                currentBase64Image = reader.result;
+                const camBtn = document.getElementById('camBtn');
+                camBtn.style.color = "#4f46e5"; // Indigo color
+                camBtn.title = "Image Selected";
+                document.getElementById('chatInput').placeholder = "Image selected! Type question...";
+                document.getElementById('chatInput').focus();
             }
-            messagesDiv.appendChild(msgDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            reader.readAsDataURL(file);
         }
+    }
 
-        function showTyping() {
-            const messagesDiv = document.getElementById('chatMessages');
-            const typingDiv = document.createElement('div');
-            typingDiv.id = 'typing';
-            typingDiv.className = 'chat-message bot-message typing-indicator animate-message';
-            typingDiv.innerHTML = '<span></span><span></span><span></span>';
-            messagesDiv.appendChild(typingDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-
-        function removeTyping() {
-            const typingDiv = document.getElementById('typing');
-            if (typingDiv) typingDiv.remove();
-        }
-
-        function triggerImageUpload() {
-            document.getElementById('imageInput').click();
-        }
-// --- NEW: Image Compression Helper ---
-// --- 1. SUPER FAST Image Compressor ---
-// --- UPDATED SEND MESSAGE (WITH DETAILED ERROR LOGGING) ---
-async function sendMessage() {
+    // 🔥 NEW: UPDATED SEND MESSAGE (Supports Image)
+    async function sendMessage() {
         const input = document.getElementById('chatInput');
         const text = input.value.trim();
         
-        if (!text && !pendingImage) return;
+        if (!text && !currentBase64Image) return;
 
-        // User Message UI
         if (text) addMessage('user', text);
-        input.value = ''; 
         
-        try { if(typeof stopSpeaking === 'function') stopSpeaking(); } catch(e) {}
-        showTyping();        
+        // Show Image in Chat
+        if (currentBase64Image) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'chat-message user-message animate-message';
+            msgDiv.innerHTML = `<img src="${currentBase64Image}" style="max-width: 100%; border-radius: 8px;">`;
+            document.getElementById('chatMessages').appendChild(msgDiv);
+        }
+
+        input.value = '';
+        showTyping();
 
         try {
-            // Backend call
             const response = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ text })
+                body: JSON.stringify({ text, image: currentBase64Image })
             });
-            
+
+            // Reset Image
+            currentBase64Image = null;
+            document.getElementById('camBtn').style.color = "";
+            document.getElementById('chatInput').placeholder = "Ask a doubt...";
+
             const data = await response.json();
-            removeTyping(); 
+            removeTyping();
 
-            // --- YAHAN CHANGE HUA HAI (Groq Logic) ---
             if (response.ok && data.reply) {
-                const reply = data.reply; // Ab direct 'reply' key use hogi
-                addMessage('bot', reply);
-                if(typeof speak === 'function') speak(reply);
+                addMessage('bot', data.reply);
+                speak(data.reply);
             } else {
-                addMessage('bot', "❌ Error: AI is taking a nap. Try again.");
+                addMessage('bot', "❌ Error: AI is confused.");
             }
-            // -----------------------------------------
-
         } catch (error) {
             removeTyping();
-            console.error("Network Error:", error);
-            addMessage('bot', "❌ Internet Error. Check connection.");
+            addMessage('bot', "❌ Connection Error.");
         }
     }
- // --- 4. MISSING SPEECH & VOICE FUNCTIONS (FIX) ---
 
-    // Speech Synthesis (Bolne ke liye)
+    // 🔥 NEW: SMART SPEAK FUNCTION (Hindi/Eng/Guj)
     const synth = window.speechSynthesis;
     let recognition = null;
 
     function speak(text) {
         if (!text) return;
-        // Agar pehle se bol raha hai to chup karao
-        if (synth.speaking) {
-            synth.cancel();
-        }
+        synth.cancel();
         
-        // Markdown symbols hata kar plain text banao taaki AI robotic na sound kare
-        const cleanText = text.replace(/[*#_]/g, '');
-        
+        const cleanText = text.replace(/[*#_`]/g, '');
         const utterance = new SpeechSynthesisUtterance(cleanText);
-        utterance.lang = 'en-US'; // English accent
-        utterance.rate = 1;       // Normal speed
+        
+        const isHindi = /[\u0900-\u097F]/.test(cleanText);
+        const isGujarati = /[\u0A80-\u0AFF]/.test(cleanText);
+        const voices = synth.getVoices();
+
+        if (isHindi) {
+            utterance.lang = 'hi-IN';
+            const v = voices.find(v => v.lang === 'hi-IN');
+            if(v) utterance.voice = v;
+        } else if (isGujarati) {
+            utterance.lang = 'gu-IN';
+            const v = voices.find(v => v.lang === 'gu-IN');
+            if(v) utterance.voice = v;
+        } else {
+            utterance.lang = 'en-US';
+            const v = voices.find(v => v.name.includes('Google US English') || v.name.includes('Female'));
+            if(v) utterance.voice = v;
+        }
+
+        utterance.rate = 0.9;
+        utterance.pitch = 1.1;
         synth.speak(utterance);
     }
 
-    function stopSpeaking() {
-        if (synth.speaking) {
-            synth.cancel();
-        }
-    }
+    function stopSpeaking() { synth.cancel(); }
 
-    // Speech Recognition (Mic sunne ke liye)
     function toggleVoice() {
+        if (!('webkitSpeechRecognition' in window)) return alert("Use Chrome for Voice.");
         const micBtn = document.getElementById('micBtn');
         const chatInput = document.getElementById('chatInput');
 
-        // Check agar browser support karta hai
-        if (!('webkitSpeechRecognition' in window)) {
-            alert("Your browser does not support Voice Input. Try Chrome.");
-            return;
-        }
-
         if (recognition && recognition.started) {
-            // Agar mic on hai to band karo
             recognition.stop();
             recognition = null;
-            micBtn.classList.remove('mic-active'); // Red animation hatao
+            micBtn.classList.remove('mic-active');
             return;
         }
 
         recognition = new webkitSpeechRecognition();
-        recognition.continuous = false; // Ek sentence ke baad ruk jaye
+        recognition.continuous = false;
         recognition.lang = 'en-US';
-        recognition.interimResults = false;
-
-        recognition.onstart = function() {
-            recognition.started = true;
-            micBtn.classList.add('mic-active'); // Button ko red/animate karo
-            chatInput.placeholder = "Listening...";
-        };
-
-        recognition.onend = function() {
-            recognition.started = false;
-            micBtn.classList.remove('mic-active');
-            chatInput.placeholder = "Ask a doubt...";
-        };
-
-        recognition.onresult = function(event) {
-            const transcript = event.results[0][0].transcript;
-            chatInput.value = transcript;
-            // Auto send agar tum chaho to neeche wali line uncomment kar dena
-            // sendMessage(); 
-        };
-
+        
+        recognition.onstart = () => { recognition.started = true; micBtn.classList.add('mic-active'); chatInput.placeholder = "Listening..."; };
+        recognition.onend = () => { recognition.started = false; micBtn.classList.remove('mic-active'); chatInput.placeholder = "Ask a doubt..."; };
+        recognition.onresult = (e) => { chatInput.value = e.results[0][0].transcript; };
+        
         recognition.start();
     }
+
         // --- UTILS ---
         function getIcon(name) {
             const icons = {
@@ -2495,25 +2454,11 @@ function renderPage(num) {
         }
 
         // --- START ---
-        window.addEventListener('load', async () => {
-    // 1. Loading screen dikhao user ko
-    document.getElementById('app').innerHTML = `
-        <div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column;">
-            <h2 class="text-2xl font-bold text-indigo-700">LDRP Study Desk</h2>
-            <p class="text-gray-500">Loading resources...</p>
-        </div>`;
-
-    // 2. Data fetch karo
-    await fetchAllData(); 
-
-    // 3. Debugging ke liye (Console me check karna agar ab bhi issue ho)
-    console.log("Loaded Practicals:", practicals);
-    console.log("Loaded Assignments:", assignments);
-
-    // 4. Data aane ke baad hi Home page dikhao
-    router('home');      
-});
-       
+  window.addEventListener('load', async () => {
+        document.getElementById('app').innerHTML = `<div style="display:flex; justify-content:center; align-items:center; height:100vh;"><h2 class="text-2xl font-bold text-indigo-700">Loading...</h2></div>`;
+        await fetchAllData(); 
+        router('home');      
+    });   
     </script>
 </body>
 

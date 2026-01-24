@@ -101,7 +101,9 @@ app.get('/api/proxy-pdf', async (req, res) => {
 
         // Content Type set karo
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Cache-Control', 'public, max-age=86400');
+
+// Naya (Superfast caching):
+res.setHeader('Cache-Control', 'public, max-age=31536000, immutable'); // 1 Year
         
         // Data bhejo
         response.data.pipe(res);
@@ -119,72 +121,93 @@ app.get('/api/proxy-pdf', async (req, res) => {
 
 // --- CHAT AI ---
 // --- CHAT AI (Groq Llama 3) ---
+// --- 1. CHAT AI (Updated for Images & Vision) ---
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.post("/api/chat", async (req, res) => {
     try {
-        if (!process.env.GROQ_API_KEY) return res.status(500).json({ error: "API Key Missing" });
+        const { text, image } = req.body; // Ab frontend se image bhi aayegi
 
-        const userMessage = req.body.text;
+        let userContent = [];
+        
+        // Agar text hai to add karo
+        if (text) {
+            userContent.push({ type: "text", text: text });
+        }
+
+        // Agar image hai to vision format me add karo
+        if (image) {
+            userContent.push({
+                type: "image_url",
+                image_url: {
+                    url: image, // Base64 string
+                },
+            });
+        }
+
+        // Model Switch Logic: Image hai to Vision Model, nahi to Fast Text Model
+        const modelName = image ? "llama-3.2-11b-vision-preview" : "llama-3.3-70b-versatile";
 
         const completion = await groq.chat.completions.create({
             messages: [
                 {
                     role: "system",
-                    content: "You are a helpful and intelligent study assistant for engineering students at LDRP college. Keep answers concise and helpful."
+                    content: "You are a helpful study assistant. Answer in the same language as the user (Hindi, Gujarati, or English). Keep answers clear and short."
                 },
                 {
                     role: "user",
-                    content: userMessage,
+                    content: userContent,
                 },
             ],
-           model: "llama-3.3-70b-versatile", // NEW MODEL
+            model: modelName,
+            temperature: 0.7,
+            max_tokens: 1024,
         });
 
         const botReply = completion.choices[0].message.content;
-
-        // Frontend ke liye simple format bhej rahe hain
         res.json({ reply: botReply });
 
     } catch (err) {
         console.error("AI Error:", err);
-        res.status(500).json({ error: "AI Error" });
+        res.status(500).json({ reply: "Sorry, I am facing an issue processing that." });
     }
 });
 
-// --- EMAIL ---
+// --- 2. EMAIL (Fixed Logic) ---
 app.post('/api/contact', (req, res) => {
     const { name, email, inquiryType, message } = req.body;
     
-    // Fast Response
+    // Frontend ko turant success bhejo
     res.status(200).json({ success: true, message: "Request Received!" });
 
-    // Background Email Logic
     if(process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-   const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,              // <--- Port 587 use karo
-    secure: false,          // <--- False rakho (ye STARTTLS use karega)
-    auth: { 
-        user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS 
-    }
-});
-// ...
-
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false, // TLS ke liye false hona chahiye
+            auth: { 
+                user: process.env.EMAIL_USER, 
+                pass: process.env.EMAIL_PASS 
+            }
+        });
 
         const mailOptions = {
-            from: `"LDRP Desk" <${process.env.EMAIL_USER}>`,
-            to: process.env.EMAIL_USER,
-            replyTo: email,
-            subject: `LDRP Desk Inquiry: ${inquiryType}`,
-            text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
+            from: `"Study Desk Bot" <${process.env.EMAIL_USER}>`, // IMPORTNT: From address same hona chahiye
+            to: process.env.EMAIL_USER, // Khud ko email bhejo
+            replyTo: email, // User ka email yahan aayega
+            subject: `🔔 New Inquiry: ${inquiryType}`,
+            text: `Name: ${name}\nUser Email: ${email}\n\nMessage:\n${message}`
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
-            if (error) console.log("Email Error:", error);
-            else console.log("Email Sent:", info.response);
+            if (error) {
+                console.error("❌ Email Failed:", error); // Logs me error dikhega
+            } else {
+                console.log("✅ Email Sent:", info.response);
+            }
         });
+    } else {
+        console.log("⚠️ Email Credentials Missing in Render Environment");
     }
 });
 
