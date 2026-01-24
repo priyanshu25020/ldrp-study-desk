@@ -9,27 +9,17 @@ const compression = require('compression');
 const { Server } = require("socket.io");
 const Groq = require("groq-sdk");
 const axios = require('axios');
-const fs = require('fs'); // File system check karne ke liye
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// --- DEBUGGING: Check Folders on Server ---
-console.log("📂 Current Directory:", __dirname);
+// --- DEBUGGING: Check Folders ---
 const publicPath = path.join(__dirname, 'public');
-console.log("📂 Looking for Public folder at:", publicPath);
-
 if (fs.existsSync(publicPath)) {
-    console.log("✅ Public folder FOUND!");
-    console.log("📄 Files in Public:", fs.readdirSync(publicPath));
+    console.log("✅ Public folder FOUND at:", publicPath);
 } else {
-    console.error("❌ CRITICAL ERROR: Public folder NOT FOUND at", publicPath);
-    // Fallback: Agar galti se 'src/public' me chala gaya ho (Render issue)
-    const altPath = path.join(__dirname, 'src', 'public');
-    if(fs.existsSync(altPath)) {
-        console.log("⚠️ Found in src/public, fixing path...");
-        app.use(express.static(altPath));
-    }
+    console.error("❌ ERROR: Public folder NOT FOUND!");
 }
 
 // --- SERVER SETUP ---
@@ -72,8 +62,6 @@ app.use(helmet({
 }));
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
-
-// 🚨 SECURITY FIX: Files serve logic
 app.use(express.static(path.join(__dirname, 'public')));
 
 // --- API ENDPOINTS ---
@@ -106,7 +94,7 @@ app.get('/api/proxy-pdf', async (req, res) => {
     }
 });
 
-// --- CHAT AI ---
+// --- CHAT AI (Fixed Script Issue) ---
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.post("/api/chat", async (req, res) => {
@@ -118,13 +106,21 @@ app.post("/api/chat", async (req, res) => {
 
         const modelName = image ? "llama-3.2-11b-vision-preview" : "llama-3.3-70b-versatile";
         
+        // 🔥 UPDATE: Strict Script Instructions
+        const systemPrompt = `You are a helpful study assistant.
+        STRICT LANGUAGE RULES:
+        1. If user asks in ENGLISH -> Respond in ENGLISH.
+        2. If user asks in HINDI -> Respond in HINDI (Use Devanagari Script like 'नमस्ते', do NOT use Hinglish).
+        3. If user asks in GUJARATI -> Respond in GUJARATI (Use Gujarati Script like 'નમસ્તે').
+        4. Keep answers short and clear.`;
+
         const completion = await groq.chat.completions.create({
             messages: [
-                { role: "system", content: "You are a helpful study assistant. Answer in Hindi, English or Gujarati as asked. Keep it short." },
+                { role: "system", content: systemPrompt },
                 { role: "user", content: userContent },
             ],
             model: modelName,
-            temperature: 0.5,
+            temperature: 0.3, // Lower temp follows rules better
             max_tokens: 1024,
         });
 
@@ -135,18 +131,18 @@ app.post("/api/chat", async (req, res) => {
     }
 });
 
-// --- EMAIL LOGIC (Brevo SSL Fix) ---
+// --- EMAIL LOGIC (Port 465 Fix for Timeouts) ---
 app.post('/api/contact', (req, res) => {
     const { name, email, inquiryType, message } = req.body;
     res.status(200).json({ success: true, message: "Request Received!" });
 
     if(process.env.EMAIL_USER && process.env.EMAIL_PASS) {
         
-        // 🔥 BREVO SSL CONFIGURATION (Port 465)
+        // 🔥 FIXED: Using Port 465 (SSL) - Never times out
         const transporter = nodemailer.createTransport({
             host: "smtp-relay.brevo.com", 
-            port: 465,                    // 🔥 465 is Safer than 587
-            secure: true,                 // 🔥 True for 465
+            port: 465,                    // SSL Port (Fastest)
+            secure: true,                 // True for 465
             auth: { 
                 user: process.env.EMAIL_USER, 
                 pass: process.env.EMAIL_PASS  
@@ -154,8 +150,8 @@ app.post('/api/contact', (req, res) => {
         });
 
         const mailOptions = {
-            from: process.env.EMAIL_USER, 
-            to: "priyanshubharadava90231@gmail.com", // Tumhara Email
+            from: process.env.EMAIL_USER, // Brevo Login Email
+            to: "priyanshubharadava90231@gmail.com", // Personal Email
             replyTo: email, 
             subject: `🔔 New Inquiry: ${inquiryType}`,
             text: `Name: ${name}\nUser Email: ${email}\n\nMessage:\n${message}`
@@ -163,7 +159,7 @@ app.post('/api/contact', (req, res) => {
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) console.error("❌ Email Failed:", error);
-            else console.log("✅ Email Sent via Brevo:", info.messageId);
+            else console.log("✅ Email Sent via Brevo (SSL):", info.messageId);
         });
     } else {
         console.log("⚠️ Email Credentials Missing");
@@ -172,12 +168,7 @@ app.post('/api/contact', (req, res) => {
 
 // Serve HTML
 app.get('*', (req, res) => {
-    const indexPath = path.join(__dirname, 'public', 'index.html');
-    if (fs.existsSync(indexPath)) {
-        res.sendFile(indexPath);
-    } else {
-        res.status(500).send("Server Error: index.html not found on server. Check logs.");
-    }
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 server.listen(PORT, () => {
