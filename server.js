@@ -32,7 +32,7 @@ const io = new Server(server, {
 const { subjects, textbooks, notes, pyqs, imp_topics, practicals, assignments } = require('./data');
 
 // --- STATS LOGIC ---
-let currentStats = { totalVisits: 1500, visitsToday: 120, onlineUsers: 0 };
+let currentStats = { totalVisits: 25, visitsToday: 10, onlineUsers: 0 };
 
 io.on("connection", (socket) => {
     currentStats.onlineUsers++;
