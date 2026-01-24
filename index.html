@@ -812,13 +812,10 @@ function updateStatsDOM() {
 // --- NEW: Image Compression Helper ---
 // --- 1. SUPER FAST Image Compressor ---
 // --- UPDATED SEND MESSAGE (WITH DETAILED ERROR LOGGING) ---
-// --- ULTIMATE FIXED SEND MESSAGE FUNCTION ---
-// --- ULTIMATE FIXED SEND MESSAGE FUNCTION (v1beta + 1.5 Flash) ---
- async function sendMessage() {
+async function sendMessage() {
         const input = document.getElementById('chatInput');
         const text = input.value.trim();
-        const messagesDiv = document.getElementById('chatMessages');
-
+        
         if (!text && !pendingImage) return;
 
         // User Message UI
@@ -826,7 +823,7 @@ function updateStatsDOM() {
         input.value = ''; 
         
         try { if(typeof stopSpeaking === 'function') stopSpeaking(); } catch(e) {}
-        showTyping();       
+        showTyping();        
 
         try {
             // Backend call
@@ -839,13 +836,15 @@ function updateStatsDOM() {
             const data = await response.json();
             removeTyping(); 
 
-            if (response.ok && data.candidates && data.candidates.length > 0) {
-                const reply = data.candidates[0].content.parts[0].text;
+            // --- YAHAN CHANGE HUA HAI (Groq Logic) ---
+            if (response.ok && data.reply) {
+                const reply = data.reply; // Ab direct 'reply' key use hogi
                 addMessage('bot', reply);
                 if(typeof speak === 'function') speak(reply);
             } else {
                 addMessage('bot', "❌ Error: AI is taking a nap. Try again.");
             }
+            // -----------------------------------------
 
         } catch (error) {
             removeTyping();

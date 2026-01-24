@@ -7,7 +7,7 @@ const helmet = require('helmet');
 const http = require('http');
 const compression = require('compression');
 const { Server } = require("socket.io");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const Groq = require("groq-sdk");
 const axios = require('axios');
 
 const app = express();
@@ -118,17 +118,34 @@ app.get('/api/proxy-pdf', async (req, res) => {
 });
 
 // --- CHAT AI ---
+// --- CHAT AI (Groq Llama 3) ---
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
 app.post("/api/chat", async (req, res) => {
     try {
-        if (!process.env.GEMINI_API_KEY) return res.status(500).json({ error: "API Key Missing" });
-        
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        
-        const result = await model.generateContent(req.body.text);
-        
-        // Format match for frontend
-        res.json({ candidates: [{ content: { parts: [{ text: result.response.text() }] } }] });
+        if (!process.env.GROQ_API_KEY) return res.status(500).json({ error: "API Key Missing" });
+
+        const userMessage = req.body.text;
+
+        const completion = await groq.chat.completions.create({
+            messages: [
+                {
+                    role: "system",
+                    content: "You are a helpful and intelligent study assistant for engineering students at LDRP college. Keep answers concise and helpful."
+                },
+                {
+                    role: "user",
+                    content: userMessage,
+                },
+            ],
+            model: "llama3-8b-8192", // Free and Fast model
+        });
+
+        const botReply = completion.choices[0].message.content;
+
+        // Frontend ke liye simple format bhej rahe hain
+        res.json({ reply: botReply });
+
     } catch (err) {
         console.error("AI Error:", err);
         res.status(500).json({ error: "AI Error" });
@@ -144,15 +161,17 @@ app.post('/api/contact', (req, res) => {
 
     // Background Email Logic
     if(process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-            auth: { 
-                user: process.env.EMAIL_USER, 
-                pass: process.env.EMAIL_PASS 
-            }
-        });
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: { 
+            user: process.env.EMAIL_USER, // Render se aayega
+            pass: process.env.EMAIL_PASS  // Render se aayega (App Password)
+        }
+    });
+// ...
+
 
         const mailOptions = {
             from: `"LDRP Desk" <${process.env.EMAIL_USER}>`,
