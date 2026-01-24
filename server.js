@@ -152,27 +152,30 @@ app.post("/api/chat", async (req, res) => {
 
 // --- EMAIL (Fix using Gmail Service) ---
 // --- EMAIL FIX (Use SSL & Port 465) ---
+// --- EMAIL LOGIC (Brevo/Sendinblue SMTP) ---
 app.post('/api/contact', (req, res) => {
     const { name, email, inquiryType, message } = req.body;
     
-    // Frontend को तुरंत सफलता का संदेश भेजें
+    // Frontend को तुरंत बता दो कि रिक्वेस्ट मिल गई
     res.status(200).json({ success: true, message: "Request Received!" });
 
     if(process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+        
+        // 🔥 BREVO SMTP CONFIGURATION
         const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',  // जीमेल होस्ट
-            port: 465,               // 465 SSL पोर्ट (यह ब्लॉक नहीं होता)
-            secure: true,            // SSL को True रखें
+            host: "smtp-relay.brevo.com",  // Brevo का सर्वर
+            port: 587,                     // Brevo पोर्ट 587 यूज करता है
+            secure: false,                 // 587 के लिए secure: false रखें
             auth: { 
-                user: process.env.EMAIL_USER, 
-                pass: process.env.EMAIL_PASS 
+                user: process.env.EMAIL_USER, // Render Env से Brevo Login Email
+                pass: process.env.EMAIL_PASS  // Render Env से SMTP Key
             }
         });
 
         const mailOptions = {
-            from: `"LDRP Desk Bot" <${process.env.EMAIL_USER}>`,
-            to: process.env.EMAIL_USER, // खुद को ईमेल भेजें
-            replyTo: email, // रिप्लाई यूजर को जाएगा
+            from: `"LDRP Desk Bot" <${process.env.EMAIL_USER}>`, // यह वही ईमेल होना चाहिए जो Brevo में Verified है
+            to: "priyanshubharadava27@gmail.com", // यहाँ अपना पर्सनल ईमेल लिखो जहाँ मेल चाहिए
+            replyTo: email, // यूजर का ईमेल (ताकि तुम रिप्लाई कर सको)
             subject: `🔔 New Inquiry: ${inquiryType}`,
             text: `Name: ${name}\nUser Email: ${email}\n\nMessage:\n${message}`
         };
@@ -181,19 +184,10 @@ app.post('/api/contact', (req, res) => {
             if (error) {
                 console.error("❌ Email Failed:", error);
             } else {
-                console.log("✅ Email Sent Successfully");
+                console.log("✅ Email Sent via Brevo:", info.messageId);
             }
         });
     } else {
         console.log("⚠️ Email Credentials Missing");
     }
-});
-
-// Serve HTML (Now from public folder)
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html')); 
-});
-
-server.listen(PORT, () => {
-    console.log(`⚡ Server running on port ${PORT}`);
 });
