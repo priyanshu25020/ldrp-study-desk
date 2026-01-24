@@ -1462,41 +1462,40 @@ function updateStatsDOM() {
       // --- DATA VARIABLES (Initially Empty) ---
       // --- FETCH DATA (Safe Mode) ---
     // --- FETCH DATA (Safe Mode) ---
-    async function fetchAllData() {
-        console.log("🔄 Fetching data...");
+  // --- FETCH DATA FUNCTION (Updated to fetch ALL 7 categories) ---
+async function fetchAllData() {
+    console.log("🔄 Fetching data...");
+    try {
+        // 1. Basic Data fetch karo
+        const [subRes, noteRes, txtRes, pyqRes] = await Promise.all([
+            fetch(`${API_BASE}/api/subjects`),
+            fetch(`${API_BASE}/api/notes`),
+            fetch(`${API_BASE}/api/textbooks`),
+            fetch(`${API_BASE}/api/pyqs`)
+        ]);
 
-        try {
-            // Subjects
-            try {
-                // Yahan API_BASE use hoga jo humne upar define kiya
-                const subRes = await fetch(`${API_BASE}/api/subjects`);
-                if(subRes.ok) subjects = await subRes.json();
-            } catch(e) { console.error("Subjects Error:", e); }
+        if(subRes.ok) subjects = await subRes.json();
+        if(noteRes.ok) notes = await noteRes.json();
+        if(txtRes.ok) textbooks = await txtRes.json();
+        if(pyqRes.ok) pyqs = await pyqRes.json();
 
-            // PYQs
-            try {
-                const pyqRes = await fetch(`${API_BASE}/api/pyqs`);
-                if(pyqRes.ok) pyqs = await pyqRes.json();
-            } catch(e) { console.error("PYQ Error:", e); }
+        // 2. 👇 New Data Categories fetch karo
+        const [impRes, pracRes, assiRes] = await Promise.all([
+            fetch(`${API_BASE}/api/imp_topics`),
+            fetch(`${API_BASE}/api/practicals`),
+            fetch(`${API_BASE}/api/assignments`)
+        ]);
 
-            // Notes
-            try {
-                const noteRes = await fetch(`${API_BASE}/api/notes`);
-                if(noteRes.ok) notes = await noteRes.json();
-            } catch(e) { console.error("Notes Error:", e); }
+        if(impRes.ok) imp_topics = await impRes.json();
+        if(pracRes.ok) practicals = await pracRes.json();
+        if(assiRes.ok) assignments = await assiRes.json();
 
-            // Textbooks
-            try {
-                const bookRes = await fetch(`${API_BASE}/api/textbooks`);
-                if(bookRes.ok) textbooks = await bookRes.json();
-            } catch(e) { console.error("Textbooks Error:", e); }
+        console.log("🎉 All Data Loaded Successfully!");
 
-            console.log("🎉 Data Fetching Complete!", subjects); // Check console to see if subjects loaded
-            
-        } catch (error) {
-            console.error("🔥 Critical Error:", error);
-        }
+    } catch (error) {
+        console.error("🔥 Data Load Error:", error);
     }
+}
 
         const syllabusData = {
             'MATHS': [

@@ -147,12 +147,12 @@ const notes = [
 
 // 4. IMP TOPICS (Based on Chapters)
 const imp_topics = [
-    { id: 1, subject_id: 1, title: 'MATHS IMP', description: 'Most likely questions', fileUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
-    { id: 2, subject_id: 2, title: 'FOP IMP', description: 'C Programs List', fileUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
-    { id: 3, subject_id: 3, title: 'BEEE IMP', description: 'Circuit Problems', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 4, subject_id: 4, title: 'EPHY IMP', description: 'Physics Theory', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 5, subject_id: 5, title: 'BME IMP', description: 'Diagrams & Definitions', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 6, subject_id: 6, title: 'BCPS IMP', description: 'Grammar Rules', fileUrl: 'PASTE_DRIVE_ID_HERE' }
+    { id: 1, subject_id: 1, title: 'MATHS IMP', description: 'Most likely questions', fileUrl: '1LadgSMX5heRtYrRl-2V4eBwgN8uO-662' },
+    { id: 2, subject_id: 2, title: 'FOP IMP', description: 'C Programs List', fileUrl: '1O2yRSMCT1PgaBjugElHSHzmEG52sdLyX' },
+    { id: 3, subject_id: 3, title: 'BEEE IMP', description: 'Circuit Problems', fileUrl: '15fy1EAGoPAlM87HQlZXMtd711Kg9rCRS' },
+    { id: 4, subject_id: 4, title: 'EPHY IMP', description: 'Physics Theory', fileUrl: '1Gi86eKwXLywCcdTLSEw5PYPO076nDzdD' },
+    { id: 5, subject_id: 5, title: 'BME IMP', description: 'Diagrams & Definitions', fileUrl: '1hnZItDpfFFwNHV_oIwW7Q0d6XhhfJtAf' },
+    { id: 6, subject_id: 6, title: 'BCPS IMP', description: 'Grammar Rules', fileUrl: '15Nrjz2WhRNkfEqg2c1OvKDsj7xRlsj6Z' }
 ];
 
 // 5. PRACTICALS (Restored - Full Detail)
