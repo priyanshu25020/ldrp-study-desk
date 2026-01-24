@@ -138,7 +138,7 @@ app.post("/api/chat", async (req, res) => {
                     content: userMessage,
                 },
             ],
-            model: "llama3-8b-8192", // Free and Fast model
+           model: "llama-3.3-70b-versatile", // NEW MODEL
         });
 
         const botReply = completion.choices[0].message.content;
@@ -161,15 +161,15 @@ app.post('/api/contact', (req, res) => {
 
     // Background Email Logic
     if(process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: { 
-            user: process.env.EMAIL_USER, // Render se aayega
-            pass: process.env.EMAIL_PASS  // Render se aayega (App Password)
-        }
-    });
+   const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,              // <--- Port 587 use karo
+    secure: false,          // <--- False rakho (ye STARTTLS use karega)
+    auth: { 
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS 
+    }
+});
 // ...
 
 
