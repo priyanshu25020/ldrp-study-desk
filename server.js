@@ -139,8 +139,17 @@ app.post("/api/chat", async (req, res) => {
         }
 
        // 11b band ho gaya hai, isliye 90b use karo
-const modelName = image ? "llama-3.2-90b-vision-preview" : "llama-3.3-70b-versatile";
+// 2. Model Selection (Only Text Model works now)
+const modelName = "llama-3.3-70b-versatile"; // <-- SIRF TEXT MODEL
 
+let userContent = text;
+
+// 3. SAFETY CHECK: Image aayi to AI ko mat bhejo (Kyunki model band hai)
+if (image) {
+    console.log("⚠️ Image received but Vision model is dead. Handling gracefully.");
+    // Hum AI ko jhooth bol rahe hain ki image aayi par system down hai
+    userContent = text + "\n\n[SYSTEM NOTE: The user tried to upload an image, but the Vision AI service is currently down/decommissioned...]";
+}
         const completion = await groq.chat.completions.create({
             messages: messages,
             model: modelName,
