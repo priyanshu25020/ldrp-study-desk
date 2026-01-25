@@ -17,7 +17,7 @@ const textbooks = [
     { id: 4, subject_id: 5, title: 'Chapter 1: Prime Movers', author: 'BME Dept', downloadUrl: '1MjEfbZVf9e2d0NLMFXoPUz7S5n9EMeTv' },
     { id: 5, subject_id: 5, title: 'Chapter 2: Energy', author: 'BME Dept', downloadUrl: '1nNIT87BN57hivS4yXG_xsdHu6cjFgmf2' },
     { id: 6, subject_id: 5, title: 'Chapter 3: Properties of Gases', author: 'BME Dept', downloadUrl: '112ohKHO3s3XRChuIBjDYZ2SdT4rP0MqU' },
-    { id: 7, subject_id: 5, title: 'Chapter 4: Properties of Steam', author: 'BME Dept', downloadUrl: '1uiPh2ugH6RH2UkP3h4Do9OR-tTOk14PU' },
+    { id: 7, subject_id: 5, title: 'Chapter 4: Properties of Steam', author: 'BME Dept', downloadUrl: '1uaDf4RaId82ORMdf-bslYb0cUO6SnO0S' },
     { id: 8, subject_id: 5, title: 'Chapter 5: Heat Engine', author: 'BME Dept', downloadUrl: '1cBUv8KRiNJzwGb6MAPMqla7j2lH4b0GK' },
     { id: 9, subject_id: 5, title: 'Chapter 6: Steam Boilers', author: 'BME Dept', downloadUrl: '1dS_ksDY_4wh-Mpf0dyDI-zeeAe5gf5X0' },
     { id: 10, subject_id: 5, title: 'Chapter 7: Internal Combustion Engine', author: 'BME Dept', downloadUrl: '1mvVuwijtX-1gF_OVSW0jZcqvIF5pxYoT' },
@@ -71,7 +71,7 @@ const textbooks = [
     // --- MATHS (Subject ID: 1) ---
     { id: 500, subject_id: 1, title: 'Index of the Book', author: 'Maths Dept', downloadUrl: '1lttoyzDtC8jEeZAvNNOjSXXK_bANZDhS' },
     { id: 501, subject_id: 1, title: 'Chapter 1: Sequence and Series', author: 'Maths Dept', downloadUrl: '1bvDxRINVhLbrAZJ1VbksENWlO4IsfsBn' },
-    { id: 502, subject_id: 1, title: 'Chapter 2: Taylor’s and Maclaurin’s Series', author: 'Maths Dept', downloadUrl: '1H08zxPLyP4QJNd8V463PkEiyA7nw8MwE' },
+    { id: 502, subject_id: 1, title: 'Chapter 2: Taylor’s and Maclaurin’s Series', author: 'Maths Dept', downloadUrl: '1LsUVbuQdASQL66_MB2cm4cOVfEI1ZPp-' },
     { id: 503, subject_id: 1, title: 'Chapter 3: Curve Sketching', author: 'Maths Dept', downloadUrl: '1pmY-Ge_ja72Efxj8PoEiePMcJveXzgmw' },
     { id: 504, subject_id: 1, title: 'Chapter 4: Indeterminate Forms', author: 'Maths Dept', downloadUrl: '1ds275CVqodPjH2aPj9ckSiO7t47Tf59n' },
     { id: 505, subject_id: 1, title: 'Chapter 5: Improper Integrals', author: 'Maths Dept', downloadUrl: '1HEZJE5cbsw0_XoGMXybndNxDdFoyFupb' },
