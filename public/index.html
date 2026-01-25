@@ -1867,8 +1867,8 @@
             else if (item === 'Contact') router('contact');
         }
 
-        function renderSubjects() {
-            return `
+       function renderSubjects() {
+    return `
         <div class="max-w-7xl mx-auto px-4 py-16">
             <button onclick="router('sem-select', 'subjects')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
                 <i class="fas fa-chevron-left mr-2"></i> Back to Semester Select
@@ -1877,45 +1877,58 @@
                 <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight">Academic Subjects</h2>
                 <p class="text-gray-500 italic">Semester 1</p>
             </div>
+            
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 ${subjects.map((sub, idx) => {
-                // Logic: Check agar IMP topic available hai ya nahi
-                const subImpTopics = imp_topics.filter(i => i.subject_id === sub.id);
-                const impFileId = subImpTopics.length > 0 ? subImpTopics[0].fileUrl : null;
+                    // Logic: Check IMP topic
+                    const subImpTopics = imp_topics.filter(i => i.subject_id === sub.id);
+                    const impFileId = subImpTopics.length > 0 ? subImpTopics[0].fileUrl : null;
 
-                return `
+                    return `
                     <div class="reveal-on-scroll bg-white rounded-3xl shadow-sm border border-indigo-50 overflow-hidden card-hover flex flex-col h-full group" style="transition-delay: ${idx * 0.1}s">
-                        <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-6 text-white flex justify-between items-center group-hover:from-indigo-700 group-hover:to-violet-700 transition-all duration-300">
+                        
+                        <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-5 text-white flex justify-between items-center group-hover:from-indigo-700 group-hover:to-violet-700 transition-all duration-300">
                             <div>
                                 <h3 class="font-black text-2xl tracking-tighter">${sub.code}</h3>
                                 <p class="text-xs text-indigo-100 uppercase tracking-widest mt-1 opacity-90">Core Module</p>
                             </div>
                             <i class="fas fa-book-reader text-3xl opacity-20 group-hover:scale-110 transition-transform duration-500"></i>
                         </div>
-                        <div class="p-8 flex flex-col flex-grow">
+
+                        <div class="p-6 flex flex-col flex-grow">
                             <h4 class="text-xl font-bold text-gray-800 mb-6 flex-grow leading-tight">${sub.name}</h4>
-                            <div class="space-y-3">
+                            
+                            <div class="grid grid-cols-2 gap-3 mt-auto">
+                                
                                 <button onclick="router('subject-detail', ${sub.id})" 
-                                    class="w-full bg-indigo-50 text-indigo-700 py-3 rounded-xl font-bold hover:bg-indigo-600 hover:text-white transition-all btn-click-effect flex items-center justify-center group-hover:shadow-md">
-                                    Notes <i class="fas fa-arrow-right ml-2 text-sm transform group-hover:translate-x-1 transition-transform"></i>
+                                    class="bg-indigo-50 text-indigo-700 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-indigo-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
+                                    <i class="fas fa-sticky-note text-sm"></i> Notes
                                 </button>
-                                <div class="flex gap-2">
-                                    <button onclick="openTextbooks(${sub.id})" class="flex-1 bg-gray-50 text-gray-500 text-[10px] font-bold py-2 rounded uppercase tracking-wider hover:bg-gray-100 transition-colors">Textbooks</button>
-                                    
-                                    <button onclick="${impFileId ? `openViewer('Imp Topics: ${sub.name}', 'note', '${impFileId}')` : `alert('IMP Topics coming soon for ${sub.code}')`}" 
-                                            class="flex-1 bg-gray-50 text-gray-500 text-[10px] font-bold py-2 rounded uppercase tracking-wider hover:bg-gray-100 transition-colors">
-                                        Imp Topics
-                                    </button>
-                                </div>
+
+                                <button onclick="alert('This page is work in progress. Visit after few days.')" 
+                                    class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
+                                    <i class="fas fa-chalkboard-teacher text-sm"></i> Faculty
+                                </button>
+
+                                <button onclick="openTextbooks(${sub.id})" 
+                                    class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
+                                    <i class="fas fa-book text-sm"></i> Textbooks
+                                </button>
+                                
+                                <button onclick="${impFileId ? `openViewer('Imp Topics: ${sub.name}', 'note', '${impFileId}')` : `alert('IMP Topics coming soon for ${sub.code}')`}" 
+                                        class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
+                                    <i class="fas fa-star text-sm"></i> Imp Topics
+                                </button>
+
                             </div>
                         </div>
                     </div>
                     `;
-            }).join('')}
+                }).join('')}
             </div>
         </div>
     `;
-        }
+}
         function renderPracticals() {
             return `
                 <div class="max-w-7xl mx-auto px-4 py-16">
