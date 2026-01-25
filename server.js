@@ -28,9 +28,8 @@ const io = new Server(server, {
     cors: { origin: "*", methods: ["GET", "POST"] }
 });
 
-// Import Data
-const { subjects, textbooks, notes, pyqs, imp_topics, practicals, assignments } = require('./data');
-
+// ✅ Naya Code (faculty add kiya):
+const { subjects, textbooks, notes, pyqs, imp_topics, practicals, assignments, faculty } = require('./data');
 // --- STATS LOGIC ---
 let currentStats = { totalVisits: 25, visitsToday: 10, onlineUsers: 0 };
 
@@ -77,7 +76,8 @@ app.get('/api/pyqs', (req, res) => res.json(pyqs));
 app.get('/api/imp_topics', (req, res) => res.json(imp_topics));
 app.get('/api/practicals', (req, res) => res.json(practicals));
 app.get('/api/assignments', (req, res) => res.json(assignments));
-
+// ✅ Yeh Line Add Karo:
+app.get('/api/faculty', (req, res) => res.json(faculty));
 // --- GOOGLE DRIVE PROXY ---
 app.get('/api/proxy-pdf', async (req, res) => {
     try {

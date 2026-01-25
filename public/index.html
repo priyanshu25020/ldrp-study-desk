@@ -1632,6 +1632,9 @@
                 case 'pyqs':
                     app.innerHTML = renderPYQs();
                     break;
+                case 'faculty':
+                    app.innerHTML = renderFaculty(params);
+                    break;
                 // 🔥 NEW CASE ADDED HERE
                 case 'campus-tour':
                     app.innerHTML = renderCampusTour();
@@ -1907,10 +1910,10 @@
                                     <i class="fas fa-sticky-note text-sm"></i> Notes
                                 </button>
 
-                                <button onclick="alert('This page is work in progress. Visit after few days.')" 
-                                    class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-                                    <i class="fas fa-chalkboard-teacher text-sm"></i> Faculty
-                                </button>
+                               <button onclick="router('faculty', ${sub.id})" 
+    class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
+    <i class="fas fa-chalkboard-teacher text-sm"></i> Faculty
+</button>
 
                                 <button onclick="openTextbooks(${sub.id})" 
                                     class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
