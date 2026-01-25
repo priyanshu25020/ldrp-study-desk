@@ -258,15 +258,15 @@ const pyqs = [
 // --- 8. FACULTY DATA (Scalable Structure) ---
 const faculty = [
     // --- ID 1: MATHS (9 Faculty) ---
-    { id: 101, subject_id: 1, name: "Dr. Manoj Patel", designation: "HOD / Professor", dept: "Mathematics", cabin: "D-101", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_1.jpg" },
-    { id: 102, subject_id: 1, name: "Prof. Khushal Prajapati", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-102", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_2.jpg" },
-    { id: 103, subject_id: 1, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-103", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_3.jpg" },
-    { id: 104, subject_id: 1, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-104", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_4.jpg" },
-    { id: 105, subject_id: 1, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-105", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_5.jpg" },
-    { id: 106, subject_id: 1, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-106", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_6.jpg" },
-    { id: 107, subject_id: 1, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-107", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_7.jpg" },
-    { id: 108, subject_id: 1, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-108", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_8.jpg" },
-    { id: 109, subject_id: 1, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-109", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_9.jpg" },
+    { id: 101, subject_id: 1, name: "Dr. Manoj Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First Floor,Inside Phy Lab", email: "manoj_sh@ldrp.ac.in", linkedin: "https://www.linkedin.com/in/dr-manoj-patel-73341090/", image: "images/faculty/maths_1.jpg" },
+    { id: 102, subject_id: 1, name: "Mr. Khushal Prajapati", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-102", email: "khushalnp@gmail.com", linkedin: "https://www.linkedin.com/in/khushal-prajapati/", image: "images/faculty/maths_2.jpg" },
+    { id: 103, subject_id: 1, name: "Dr. Vijay Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-103", email: "email@ldrp.ac.in", linkedin: "https://www.linkedin.com/in/dr-vijay-patel-159a1027/", image: "images/faculty/maths_3.jpg" },
+    { id: 104, subject_id: 1, name: "Mr. Divyarajsinh Gohil", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-104", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_4.jpg" },
+    { id: 105, subject_id: 1, name: "Prof. Harsh Shah", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-105", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_5.jpg" },
+    { id: 106, subject_id: 1, name: "Ms. Shruti Rathod", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-106", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_6.jpg" },
+    { id: 107, subject_id: 1, name: "Dr. Krishna Solanki", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-107", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_7.jpg" },
+    { id: 108, subject_id: 1, name: "Mr. Vipul Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-108", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_8.jpg" },
+    
 
     // --- ID 2: FOP (Computer) - Assuming 5 Faculty ---
     { id: 201, subject_id: 2, name: "Dr. Name Surname", designation: "HOD (CE)", dept: "Computer Engg", cabin: "M-201", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_1.jpg" },
