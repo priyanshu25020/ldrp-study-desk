@@ -269,7 +269,7 @@ const faculty = [
     
 
     // --- ID 2: FOP (Computer) - Assuming 5 Faculty ---
-    { id: 201, subject_id: 2, name: "Dr. Maulik A. Modi", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of EngineeringComputer Engg", cabin: "M-201", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_1.jpg" },
+    { id: 201, subject_id: 2, name: "Dr. Maulik A. Modi", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of EngineeringComputer Engg", cabin: "M-201", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_1.jpeg" },
     { id: 202, subject_id: 2, name: "Dr. Jigar Suthar", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-202", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_2.jpg" },
     { id: 203, subject_id: 2, name: "Dr. Kaushal Bhavsar", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-203", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_3.jpg" },
     { id: 204, subject_id: 2, name: "Mr. Amit Pandey", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-204", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_4.jpg" },
