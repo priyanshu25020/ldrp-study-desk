@@ -269,43 +269,45 @@ const faculty = [
     
 
     // --- ID 2: FOP (Computer) - Assuming 5 Faculty ---
-    { id: 201, subject_id: 2, name: "Dr. Name Surname", designation: "HOD (CE)", dept: "Computer Engg", cabin: "M-201", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_1.jpg" },
-    { id: 202, subject_id: 2, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-202", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_2.jpg" },
-    { id: 203, subject_id: 2, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-203", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_3.jpg" },
-    { id: 204, subject_id: 2, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-204", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_4.jpg" },
-    { id: 205, subject_id: 2, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-205", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_5.jpg" },
+    { id: 201, subject_id: 2, name: "Dr. Maulik A. Modi", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of EngineeringComputer Engg", cabin: "M-201", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_1.jpg" },
+    { id: 202, subject_id: 2, name: "Dr. Jigar Suthar", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-202", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_2.jpg" },
+    { id: 203, subject_id: 2, name: "Dr. Kaushal Bhavsar", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-203", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_3.jpg" },
+    { id: 204, subject_id: 2, name: "Mr. Amit Pandey", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-204", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_4.jpg" },
+    { id: 205, subject_id: 2, name: "Mr. Chandramauli Parmar", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-205", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_5.jpg" },
+    { id: 206, subject_id: 2, name: "Mr. Hitesh Patel", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-206", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_6.jpg" },
+    { id: 207, subject_id: 2, name: "Dr. Saumil Patel", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-207", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_7.jpg" },
+    { id: 208, subject_id: 2, name: "Dr.Kiran Patel", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-207", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_8.jpg" },
+    { id: 209, subject_id: 2, name: "Mr. Anirudhdha Kyada", designation: "Asst. Professor", dept: "Computer Engg", cabin: "M-209", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_9.jpg" },
 
     // --- ID 3: BEEE (Electrical) - 6 Faculty ---
-    { id: 301, subject_id: 3, name: "Prof. Name Surname", designation: "HOD (Electrical)", dept: "Electrical", cabin: "E-101", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_1.jpg" },
-    { id: 302, subject_id: 3, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Electrical", cabin: "E-102", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_2.jpg" },
-    { id: 303, subject_id: 3, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Electrical", cabin: "E-103", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_3.jpg" },
-    { id: 304, subject_id: 3, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Electrical", cabin: "E-104", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_4.jpg" },
-    { id: 305, subject_id: 3, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Electrical", cabin: "E-105", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_5.jpg" },
-    { id: 306, subject_id: 3, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Electrical", cabin: "E-106", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_6.jpg" },
+    { id: 301, subject_id: 3, name: "Prof. P.V Mistry ", designation: "HOD (Electrical)", dept: "Electrical", cabin: "E-101", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_1.jpg" },
+    { id: 302, subject_id: 3, name: "Prof. M.c Pandya", designation: "Asst. Professor", dept: "Electrical", cabin: "E-102", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_2.jpg" },
+    { id: 303, subject_id: 3, name: "Prof. Mihir Rathod", designation: "Asst. Professor", dept: "Electrical", cabin: "E-103", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_3.jpg" },
+    { id: 304, subject_id: 3, name: "Prof. Maulik Pandya", designation: "Asst. Professor", dept: "Electrical", cabin: "E-104", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_4.jpg" },
+    { id: 305, subject_id: 3, name: "Prof. Rakesh Sukhadiya", designation: "Asst. Professor", dept: "Electrical", cabin: "E-105", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_5.jpg" },
+    { id: 306, subject_id: 3, name: "Prof. Ashish Patel", designation: "Asst. Professor", dept: "Electrical", cabin: "E-106", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_6.jpg" },
 
     // --- ID 4: EPHY (Physics) - 3 Faculty ---
-    { id: 401, subject_id: 4, name: "Dr. Name Surname", designation: "HOD (Science)", dept: "Science & Humanities", cabin: "S-101", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_1.jpg" },
-    { id: 402, subject_id: 4, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "S-102", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_2.jpg" },
-    { id: 403, subject_id: 4, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "S-103", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_3.jpg" },
+    { id: 401, subject_id: 4, name: "Dr. Jitendra Patel", designation: "HOD (Science)", dept: "Science & Humanities", cabin: "S-101", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_1.jpg" },
+    { id: 402, subject_id: 4, name: "Prof. Tanvir Malik", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "S-102", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_2.jpg" },
+    { id: 403, subject_id: 4, name: "Prof. Manjul Kumar", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "S-103", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_3.jpg" },
 
     // --- ID 5: BME (Mechanical) - 10 Faculty ---
-    { id: 501, subject_id: 5, name: "Dr. Name Surname", designation: "HOD (Mech)", dept: "Mechanical", cabin: "Mech-1", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_1.jpg" },
-    { id: 502, subject_id: 5, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-2", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_2.jpg" },
-    { id: 503, subject_id: 5, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-3", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_3.jpg" },
-    { id: 504, subject_id: 5, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-4", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_4.jpg" },
-    { id: 505, subject_id: 5, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-5", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_5.jpg" },
-    { id: 506, subject_id: 5, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-6", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_6.jpg" },
-    { id: 507, subject_id: 5, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-7", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_7.jpg" },
-    { id: 508, subject_id: 5, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-8", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_8.jpg" },
-    { id: 509, subject_id: 5, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-9", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_9.jpg" },
-    { id: 510, subject_id: 5, name: "Prof. Name Surname", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-10", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_10.jpg" },
+    { id: 501, subject_id: 5, name: "Dr. Amit Pandey", designation: "HOD (Mech)", dept: "Mechanical", cabin: "Mech-1", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_1.jpg" },
+    { id: 502, subject_id: 5, name: "Prof. Pragna Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-2", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_2.jpg" },
+    { id: 503, subject_id: 5, name: "Prof. Alkesh Mavani", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-3", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_3.jpg" },
+    { id: 504, subject_id: 5, name: "Prof. Hemal Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-4", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_4.jpg" },
+    { id: 505, subject_id: 5, name: "Prof. Krunal Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-5", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_5.jpg" },
+    { id: 506, subject_id: 5, name: "Prof. Jaimin Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-6", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_6.jpg" },
+    { id: 507, subject_id: 5, name: "Prof. Ankit Darji", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-7", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_7.jpg" },
+    { id: 508, subject_id: 5, name: "Prof. Neel Joshi", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-8", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_8.jpg" },
 
     // --- ID 6: BCPS (Humanities) - 2 Faculty ---
-    { id: 601, subject_id: 6, name: "Dr. Name Surname", designation: "Asst. Professor", dept: "Humanities", cabin: "H-1", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bcps_1.jpg" },
-    { id: 602, subject_id: 6, name: "Prof. Name Surname", designation: "Lecturer", dept: "Humanities", cabin: "H-2", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bcps_2.jpg" },
+    { id: 601, subject_id: 6, name: "Sandhya Vyas", designation: "Asst. Professor", dept: "Humanities", cabin: "H-1", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bcps_1.jpg" },
+    { id: 602, subject_id: 6, name: "Amee Brahbhatt", designation: "Lecturer", dept: "Humanities", cabin: "H-2", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bcps_2.jpg" },
 
     // --- ID 7: SPORTS - 2 Faculty ---
-    { id: 701, subject_id: 7, name: "Mr. Name Surname", designation: "Sports Officer", dept: "Sports", cabin: "Ground Floor", email: "sports@ldrp.ac.in", linkedin: "#", image: "images/faculty/sports_1.jpg" },
+    { id: 701, subject_id: 7, name: "Lt. Bhavik Pandya", designation: "Sports Officer", dept: "Sports", cabin: "Ground Floor", email: "sports@ldrp.ac.in", linkedin: "#", image: "images/faculty/sports_1.jpg" },
     { id: 702, subject_id: 7, name: "Mrs. Name Surname", designation: "Yoga Instructor", dept: "Sports", cabin: "Activity Hall", email: "yoga@ldrp.ac.in", linkedin: "#", image: "images/faculty/sports_2.jpg" }
 ];
 
