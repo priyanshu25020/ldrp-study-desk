@@ -79,75 +79,51 @@ app.get('/api/practicals', (req, res) => res.json(practicals));
 app.get('/api/assignments', (req, res) => res.json(assignments));
 
 // --- GOOGLE DRIVE PROXY ---
+// --- UPDATED GOOGLE DRIVE PROXY (With Speed/Range Support) ---
 app.get('/api/proxy-pdf', async (req, res) => {
     try {
         const fileId = req.query.id;
         if (!fileId || fileId.includes('PASTE')) return res.status(404).send("File ID missing.");
 
         const driveUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
-        const response = await axios({
-            method: 'GET', url: driveUrl, responseType: 'stream',
-            headers: { 'User-Agent': 'Mozilla/5.0 Chrome/120.0.0.0 Safari/537.36' }
-        });
 
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-        response.data.pipe(res);
-    } catch (error) {
-        console.error("Proxy Error:", error.message);
-        res.status(500).send("Error loading PDF.");
-    }
-});
-
-// --- CHAT AI (Vision Fix + Language Script Fix) ---
-// --- CHAT AI (SAFE MODE: No Vision, Only Text) ---
-// Note: Groq ne vision models band kar diye hain, isliye hum sirf text model use kar rahe hain.
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-
-app.post("/api/chat", async (req, res) => {
-    try {
-        const { text, image } = req.body;
-        
-        // 1. AI Instructions (Script Rules)
-        const systemPrompt = `You are a helpful study assistant.
-        STRICT RULES:
-        1. If user asks in Hindi, Reply in Hindi Script (Devanagari). Example: 'नमस्ते'.
-        2. If user asks in Gujarati, Reply in Gujarati Script. Example: 'નમસ્તે'.
-        3. If user asks in English, Reply in English.
-        4. Keep answers short and clear.`;
-
-        // 2. Model Selection (Sirf ye model abhi chal raha hai)
-        const modelName = "llama-3.3-70b-versatile"; 
-        
-        // 3. User Message Preparation
-        let userContent = text;
-
-        // 4. SAFETY CHECK: Agar image aayi hai, to AI ko mat bhejo (Warna crash hoga)
-        if (image) {
-            console.log("⚠️ Image received but Vision model is dead. Handling gracefully.");
-            // AI ko bas bata do ki image aayi thi
-            userContent = text + "\n\n[SYSTEM NOTE: The user uploaded an image, but I cannot see it because the vision service is down. Please kindly tell the user to type their question instead.]";
+        // 1. Headers set karo taaki Google samjhe humein partial data chahiye
+        const headers = { 'User-Agent': 'Mozilla/5.0' };
+        if (req.headers.range) {
+            headers['Range'] = req.headers.range; // Browser ki range request forward karo
         }
 
-        const completion = await groq.chat.completions.create({
-            messages: [
-                { role: "system", content: systemPrompt },
-                { role: "user", content: userContent }, // Hum hamesha STRING bhej rahe hain (Array nahi)
-            ],
-            model: modelName,
-            temperature: 0.3,
-            max_tokens: 1024,
+        const response = await axios({
+            method: 'GET',
+            url: driveUrl,
+            responseType: 'stream',
+            headers: headers,
+            validateStatus: (status) => status >= 200 && status < 300 // 206 Partial Content allow karo
         });
 
-        res.json({ reply: completion.choices[0].message.content });
+        // 2. Google ke headers browser ko wapas bhejo (Crucial for Speed)
+        res.set('Content-Type', 'application/pdf');
+        res.set('Accept-Ranges', 'bytes'); // Browser ko batao hum tukdon me data de sakte hain
+        
+        if (response.headers['content-length']) {
+            res.set('Content-Length', response.headers['content-length']);
+        }
+        if (response.headers['content-range']) {
+            res.set('Content-Range', response.headers['content-range']);
+            res.status(206); // Status 206 = Partial Content
+        } else {
+            res.status(200);
+        }
 
-    } catch (err) {
-        console.error("AI Error:", err.message);
-        // Agar fir bhi error aaye, to frontend ko safe reply bhejo
-        res.status(500).json({ reply: "Sorry, server busy. Please try asking in text." });
+        // 3. Stream pipe karo
+        response.data.pipe(res);
+
+    } catch (error) {
+        // Agar Google range reject kare ya koi error aaye
+        console.error("Proxy Error:", error.message);
+        if (!res.headersSent) res.status(500).send("Error loading PDF.");
     }
 });
-
 // --- 🔥 FINAL EMAIL FIX (Brevo API instead of SMTP) ---
 // SMTP ports (587/465) are blocked on Render. HTTP (API) is NOT blocked.
 app.post('/api/contact', async (req, res) => {
