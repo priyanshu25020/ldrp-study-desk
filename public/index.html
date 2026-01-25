@@ -2408,29 +2408,32 @@
         // --- SECURE PDF HELPER FUNCTIONS (ENGINE) ---
 
       // --- FINAL PRO CODE: NO COMPRESSION, HIGH SPEED ---
+      // --- BALANCED VIEWER (Medium Size - 1MB) ---
         async function loadSecurePdfToCanvas(url) {
             const canvas = document.getElementById('the-canvas');
             if (!canvas) return;
 
-            // Reset UI
+            // UI Reset
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            document.getElementById('page_info').innerText = "Loading HD PDF...";
+            document.getElementById('page_info').innerText = "Loading PDF...";
 
             try {
-                // 🚀 SUPER OPTIMIZED CONFIGURATION
+                // 🚀 MEDIUM BALANCED CONFIGURATION
                 const loadingTask = pdfjsLib.getDocument({
                     url: url,
                     
-                    // 1. Background mein poori file aane do (Taaki next pages turant khulein)
+                    // 1. Background Load ON:
+                    // Pehla page khulte hi baaki file download hona shuru ho jayegi.
                     disableAutoFetch: false, 
 
-                    // 2. Range requests use karo (Server latency kam karne ke liye)
+                    // 2. Range Requests ON:
                     disableStream: true,
 
-                    // 3. Chunk size ko 2.5 MB kar do (Sabse Important!)
-                    // Bada packet = Kam requests = Fast Speed
-                    rangeChunkSize: 1024 * 1024 * 2.5 
+                    // 3. CHUNK SIZE: 1 MB (Perfect Balance)
+                    // Na bahut chota, na bahut bada. 
+                    // Network latency aur download speed dono manage ho jayenge.
+                    rangeChunkSize: 1024 * 1024 // 1 MB
                 });
 
                 pdfDoc = await loadingTask.promise;
@@ -2442,7 +2445,7 @@
                 document.getElementById('zoomWrapper').innerHTML = `
                     <div class="flex flex-col items-center justify-center h-full text-white">
                          <i class="fas fa-wifi text-4xl mb-4 text-yellow-500"></i>
-                         <p>Loading heavy file...</p>
+                         <p>Loading...</p>
                          <button onclick="loadSecurePdfToCanvas('${url}')" class="mt-4 text-indigo-400 underline">Retry</button>
                     </div>`;
             }
