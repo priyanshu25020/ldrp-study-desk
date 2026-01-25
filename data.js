@@ -27,20 +27,20 @@ const textbooks = [
     { id: 14, subject_id: 5, title: 'Chapter 11: Power Transmission', author: 'BME Dept', downloadUrl: '12Fn6GcYmIKgmKeqRIVSHGAXlEavfHgm6' },
 
     // --- FOP (Subject ID: 2) ---
-    { id: 100, subject_id: 2, title: 'Index of Book', author: 'FOP Dept', downloadUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
-    { id: 101, subject_id: 2, title: 'Chapter 1: Introduction to Computer & Programming', author: 'FOP Dept', downloadUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
-    { id: 102, subject_id: 2, title: 'Chapter 2: Flowcharts & Algorithms', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 103, subject_id: 2, title: 'Chapter 3: Introduction to C Language', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 104, subject_id: 2, title: 'Chapter 4: Operators and Expressions', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 105, subject_id: 2, title: 'Chapter 5: Input-Output', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 106, subject_id: 2, title: 'Chapter 6: Decision Making Structure', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 107, subject_id: 2, title: 'Chapter 7: Looping Control Structures', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 108, subject_id: 2, title: 'Chapter 8: Arrays and Strings', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 109, subject_id: 2, title: 'Chapter 9: Pointers', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 110, subject_id: 2, title: 'Chapter 10: Functions', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 111, subject_id: 2, title: 'Chapter 11: Structures and Unions', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 112, subject_id: 2, title: 'Chapter 12: Dynamic Memory Allocation', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 113, subject_id: 2, title: 'Chapter 13: File Management', author: 'FOP Dept', downloadUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 100, subject_id: 2, title: 'Index of Book', author: 'FOP Dept', downloadUrl: '1PAZm0iSn49RuZ6crUl4ztDHY0Dx72KsS' },
+    { id: 101, subject_id: 2, title: 'Chapter 1: Introduction to Computer & Programming', author: 'FOP Dept', downloadUrl: '1dCVSjgka8LZAF2L0zhmZAIXa3vX6VhcQ' },
+    { id: 102, subject_id: 2, title: 'Chapter 2: Flowcharts & Algorithms', author: 'FOP Dept', downloadUrl: '152jJkyCd6gaOQQ022QwBkgqrBnqAo7WV' },
+    { id: 103, subject_id: 2, title: 'Chapter 3: Introduction to C Language', author: 'FOP Dept', downloadUrl: '1ORyHsSi1iVm7ePleDOP3ySv943krI-Er' },
+    { id: 104, subject_id: 2, title: 'Chapter 4: Operators and Expressions', author: 'FOP Dept', downloadUrl: '13Dqlu7zGPgo8bUJhm0prBvEsdZH4_ynT' },
+    { id: 105, subject_id: 2, title: 'Chapter 5: Input-Output', author: 'FOP Dept', downloadUrl: '15cIM79yJpLP62CWMOX9kc5tTzA8o_2Py' },
+    { id: 106, subject_id: 2, title: 'Chapter 6: Decision Making Structure', author: 'FOP Dept', downloadUrl: '18ySnrfnzC4nxQuoaKzqrdd9Ju9JiJsmI' },
+    { id: 107, subject_id: 2, title: 'Chapter 7: Looping Control Structures', author: 'FOP Dept', downloadUrl: '1hco7MDDNe4nXZOdoSsg8JZ8vF6L44s2f' },
+    { id: 108, subject_id: 2, title: 'Chapter 8: Arrays and Strings', author: 'FOP Dept', downloadUrl: '1qphKNLjgnfy_l_K68qmdTt8neWMyjyb2' },
+    { id: 109, subject_id: 2, title: 'Chapter 9: Pointers', author: 'FOP Dept', downloadUrl: '17nntJVSFso3kIBS3-mlZe-L-ziIGrYob' },
+    { id: 110, subject_id: 2, title: 'Chapter 10: Functions', author: 'FOP Dept', downloadUrl: '1uc8eTIVv8MW0s9Sc0qcYM7OlEnVjeG7D' },
+    { id: 111, subject_id: 2, title: 'Chapter 11: Structures and Unions', author: 'FOP Dept', downloadUrl: '11Ii9Z50T9Hn0LMpKkJ5w1LfG4U5cdBaf' },
+    { id: 112, subject_id: 2, title: 'Chapter 12: Dynamic Memory Allocation', author: 'FOP Dept', downloadUrl: '11YoT4NbJm3q8G19m-aeAeCybOxDVQP2l' },
+    { id: 113, subject_id: 2, title: 'Chapter 13: File Management', author: 'FOP Dept', downloadUrl: '1j5o3TtnxzE719fSpv0XS0dhB0MCG_eoc' },
 
     // --- EPHY (Subject ID: 4) ---
     { id: 201, subject_id: 4, title: 'Chapter 1: Architectural Acoustics', author: 'Physics Dept', downloadUrl: '1sU0mISEVXZz7oBqLHHWk16BrDU5xPHrc' },
@@ -61,12 +61,13 @@ const textbooks = [
     { id: 306, subject_id: 3, title: 'Chapter 6: Basics of Electronics', author: 'Electrical Dept', downloadUrl: '1C3Owhw8QhzePawXpQVjbRsDaWCkBPr_L' },
 
     // --- BCPS (Subject ID: 6) ---
+    { id: 406, subject_id: 6, title: 'Index of the Book', author: 'Humanities Dept', downloadUrl: '17wH5c6FfRo-UKrIfh-BtBhXeN-2WZi1F' },
     { id: 401, subject_id: 6, title: 'Chapter 1: Introduction to Technical Communication', author: 'Humanities Dept', downloadUrl: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
     { id: 402, subject_id: 6, title: 'Chapter 2: Comprehension Skills', author: 'Humanities Dept', downloadUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
     { id: 403, subject_id: 6, title: 'Chapter 3: Speaking Skills', author: 'Humanities Dept', downloadUrl: '1_CFBxI-uTkVgxFK2jrHWTgiKs_uhq6Vb' },
     { id: 404, subject_id: 6, title: 'Chapter 4: Writing Skills', author: 'Humanities Dept', downloadUrl: '1Mxwa0lJ4QAEdoGCIsWwg3F4CDVUNikbF' },
     { id: 405, subject_id: 6, title: 'Chapter 5: Preparing for the Profession', author: 'Humanities Dept', downloadUrl: '1PDIazVhhJNUzHjjJfcyiAFVztbrfeCFZ' },
-    { id: 406, subject_id: 6, title: 'Index of the Book', author: 'Humanities Dept', downloadUrl: '17wH5c6FfRo-UKrIfh-BtBhXeN-2WZi1F' },
+    
     // --- MATHS (Subject ID: 1) ---
     { id: 500, subject_id: 1, title: 'Index of the Book', author: 'Maths Dept', downloadUrl: '1lttoyzDtC8jEeZAvNNOjSXXK_bANZDhS' },
     { id: 501, subject_id: 1, title: 'Chapter 1: Sequence and Series', author: 'Maths Dept', downloadUrl: '1bvDxRINVhLbrAZJ1VbksENWlO4IsfsBn' },
@@ -244,12 +245,12 @@ const assignments = [
 
 // --- 7. PYQs (FIXED: 6 Subjects, 2022-2025, ALL Exams) ---
 const pyqs = [
-    { id: 1, subject_id: 1, year: '2022-2025', exam: 'ALL', fileUrl: 'PASTE_DRIVE_ID_HERE' }, // MATHS
-    { id: 2, subject_id: 2, year: '2022-2025', exam: 'ALL', fileUrl: 'PASTE_DRIVE_ID_HERE' }, // FOP
-    { id: 3, subject_id: 3, year: '2022-2025', exam: 'ALL', fileUrl: 'PASTE_DRIVE_ID_HERE' }, // BEEE
-    { id: 4, subject_id: 4, year: '2022-2025', exam: 'ALL', fileUrl: 'PASTE_DRIVE_ID_HERE' }, // EPHY
-    { id: 5, subject_id: 5, year: '2022-2025', exam: 'ALL', fileUrl: 'PASTE_DRIVE_ID_HERE' }, // BME
-    { id: 6, subject_id: 6, year: '2022-2025', exam: 'ALL', fileUrl: 'PASTE_DRIVE_ID_HERE' }  // BCPS
+    { id: 1, subject_id: 1, year: '2022-2025', exam: 'ALL', fileUrl: '1RWpRpgAm9z896sBMsqpMG_n0n4OrUmQD' }, // MATHS
+    { id: 2, subject_id: 2, year: '2022-2025', exam: 'ALL', fileUrl: '1bmBm0PQxGBRBZGzJDvvCYsj6Ji7jYHI3' }, // FOP
+    { id: 3, subject_id: 3, year: '2022-2025', exam: 'ALL', fileUrl: '1tAtendOFd0aM2oQlW4QjI0SWJCdTXYZJ' }, // BEEE
+    { id: 4, subject_id: 4, year: '2022-2025', exam: 'ALL', fileUrl: '1-nETfbZWZdqUSgHNvwtIc2Es2wXk2-uD' }, // EPHY
+    { id: 5, subject_id: 5, year: '2022-2025', exam: 'ALL', fileUrl: '17DP3lvXxPD6Cy0Ug_-gCRBZDeeeMS_my' }, // BME
+    { id: 6, subject_id: 6, year: '2022-2025', exam: 'ALL', fileUrl: '1e7KKwqUhaCq0W0akTI992q1nGJ3Fa0Sw' }  // BCPS
 ];
 
 module.exports = { subjects, textbooks, notes, imp_topics, practicals, assignments, pyqs };
