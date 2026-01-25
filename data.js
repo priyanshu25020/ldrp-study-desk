@@ -34,10 +34,10 @@ const textbooks = [
     { id: 104, subject_id: 2, title: 'Chapter 4: Operators and Expressions', author: 'FOP Dept', downloadUrl: '11Ii9Z50T9Hn0LMpKkJ5w1LfG4U5cdBaf' },
     { id: 105, subject_id: 2, title: 'Chapter 5: Input-Output', author: 'FOP Dept', downloadUrl: '1uc8eTIVv8MW0s9Sc0qcYM7OlEnVjeG7D' },
     { id: 106, subject_id: 2, title: 'Chapter 6: Decision Making Structure', author: 'FOP Dept', downloadUrl: '17nntJVSFso3kIBS3-mlZe-L-ziIGrYob' },
-    { id: 107, subject_id: 2, title: 'Chapter 7: Looping Control Structures', author: 'FOP Dept', downloadUrl: '1hco7MDDNe4nXZOdoSsg8JZ8vF6L44s2f' },
-    { id: 108, subject_id: 2, title: 'Chapter 8: Arrays and Strings', author: 'FOP Dept', downloadUrl: '1qphKNLjgnfy_l_K68qmdTt8neWMyjyb2' },
-    { id: 109, subject_id: 2, title: 'Chapter 9: Pointers', author: 'FOP Dept', downloadUrl: '15cIM79yJpLP62CWMOX9kc5tTzA8o_2Py' },
-    { id: 110, subject_id: 2, title: 'Chapter 10: Functions', author: 'FOP Dept', downloadUrl: '1uc8eTIVv8MW0s9Sc0qcYM7OlEnVjeG7D' },
+    { id: 107, subject_id: 2, title: 'Chapter 7: Looping Control Structures', author: 'FOP Dept', downloadUrl: '1qphKNLjgnfy_l_K68qmdTt8neWMyjyb2' },
+    { id: 108, subject_id: 2, title: 'Chapter 8: Arrays and Strings', author: 'FOP Dept', downloadUrl: '1hco7MDDNe4nXZOdoSsg8JZ8vF6L44s2f' },
+    { id: 109, subject_id: 2, title: 'Chapter 9: Pointers', author: 'FOP Dept', downloadUrl: '18ySnrfnzC4nxQuoaKzqrdd9Ju9JiJsmI' },
+    { id: 110, subject_id: 2, title: 'Chapter 10: Functions', author: 'FOP Dept', downloadUrl: '15cIM79yJpLP62CWMOX9kc5tTzA8o_2Py' },
     { id: 111, subject_id: 2, title: 'Chapter 11: Structures and Unions', author: 'FOP Dept', downloadUrl: '13Dqlu7zGPgo8bUJhm0prBvEsdZH4_ynT' },
     { id: 112, subject_id: 2, title: 'Chapter 12: Dynamic Memory Allocation', author: 'FOP Dept', downloadUrl: '1ORyHsSi1iVm7ePleDOP3ySv943krI-Er' },
     { id: 113, subject_id: 2, title: 'Chapter 13: File Management', author: 'FOP Dept', downloadUrl: '152jJkyCd6gaOQQ022QwBkgqrBnqAo7WV' },
@@ -71,7 +71,7 @@ const textbooks = [
     // --- MATHS (Subject ID: 1) ---
     { id: 500, subject_id: 1, title: 'Index of the Book', author: 'Maths Dept', downloadUrl: '1lttoyzDtC8jEeZAvNNOjSXXK_bANZDhS' },
     { id: 501, subject_id: 1, title: 'Chapter 1: Sequence and Series', author: 'Maths Dept', downloadUrl: '1bvDxRINVhLbrAZJ1VbksENWlO4IsfsBn' },
-    { id: 502, subject_id: 1, title: 'Chapter 2: Taylor’s and Maclaurin’s Series', author: 'Maths Dept', downloadUrl: '1-2gh84Xk5XTugF2IyNgCiv9A6-Kqt-ew' },
+    { id: 502, subject_id: 1, title: 'Chapter 2: Taylor’s and Maclaurin’s Series', author: 'Maths Dept', downloadUrl: '1H08zxPLyP4QJNd8V463PkEiyA7nw8MwE' },
     { id: 503, subject_id: 1, title: 'Chapter 3: Curve Sketching', author: 'Maths Dept', downloadUrl: '1pmY-Ge_ja72Efxj8PoEiePMcJveXzgmw' },
     { id: 504, subject_id: 1, title: 'Chapter 4: Indeterminate Forms', author: 'Maths Dept', downloadUrl: '1ds275CVqodPjH2aPj9ckSiO7t47Tf59n' },
     { id: 505, subject_id: 1, title: 'Chapter 5: Improper Integrals', author: 'Maths Dept', downloadUrl: '1HEZJE5cbsw0_XoGMXybndNxDdFoyFupb' },
@@ -159,15 +159,16 @@ const imp_topics = [
 // 5. PRACTICALS (Restored - Full Detail)
 const practicals = [
     // FOP
-    { id: 1, subject_id: 2, title: 'Practical 1', subtitle: 'Experiment: SET 1', file: '1Jn2m1-_668H3sf3rs9p14h6ZvT-k-9yw' },
-    { id: 2, subject_id: 2, title: 'Practical 2', subtitle: 'Experiment: SET 2', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 3, subject_id: 2, title: 'Practical 3', subtitle: 'Experiment: SET 3', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 4, subject_id: 2, title: 'Practical 4', subtitle: 'Experiment: SET 4', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 5, subject_id: 2, title: 'Practical 5', subtitle: 'Experiment: SET 5', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 6, subject_id: 2, title: 'Practical 6', subtitle: 'Experiment: SET 6', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 7, subject_id: 2, title: 'Practical 7', subtitle: 'Experiment: SET 7', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 8, subject_id: 2, title: 'Practical 8', subtitle: 'Experiment: SET 8', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 9, subject_id: 2, title: 'Practical 9', subtitle: 'Experiment: SET 9', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 10, subject_id: 2, title: 'Sets of Practical', subtitle: 'Index Of all Sets', file: '1zg-HdWtkJ5yhsMyVrzZ7n-QOnvUKZ_-7' },
+    { id: 1, subject_id: 2, title: 'Practical 1', subtitle: 'Experiment: SET 1', file: '1elVnc6B8Do3k97rZs3UoqREvhLz6O45z' },
+    { id: 2, subject_id: 2, title: 'Practical 2', subtitle: 'Experiment: SET 2', file: '1OW5TY-Izn2NjMePZ0Hm3SoaCfAobqFrw' },
+    { id: 3, subject_id: 2, title: 'Practical 3', subtitle: 'Experiment: SET 3', file: '1ibydlW4MzZ5AsQ5SuE69FZWlBM8RI9F0' },
+    { id: 4, subject_id: 2, title: 'Practical 4', subtitle: 'Experiment: SET 4', file: '1iBs6xrCL6ttUMdEiWdGCOT8-P8qai5-p' },
+    { id: 5, subject_id: 2, title: 'Practical 5', subtitle: 'Experiment: SET 5', file: '1ObdMgdbWu53GdgsU60CkZhepZZ8emTmN' },
+    { id: 6, subject_id: 2, title: 'Practical 6', subtitle: 'Experiment: SET 6', file: '1qmR5XoyT0cXNjTEFd2HZqjqGoe69S4Zr' },
+    { id: 7, subject_id: 2, title: 'Practical 7', subtitle: 'Experiment: SET 7', file: '1ZNqg54SQ4rtHDRcddRaQg02lyZIRcgPC' },
+    { id: 8, subject_id: 2, title: 'Practical 8', subtitle: 'Experiment: SET 8', file: '1d_vLBbcorMotx7wkJC0CnxlyuQuTl2oN' },
+    { id: 9, subject_id: 2, title: 'Practical 9', subtitle: 'Experiment: SET 9', file: '1J7ubOeqMed5XZGyQnGUf272ijWfZOGs-' },
 
     // BEEE
     { id: 10, subject_id: 3, title: 'Practical 1', subtitle: 'Exp: Understand Electrical safety', file: '155XO9-BuCHCGjmEeQx_tIG5DgV1jlJTT' },
@@ -175,8 +176,8 @@ const practicals = [
     { id: 12, subject_id: 3, title: 'Practical 3', subtitle: 'Exp: Effect of temp on Resistance', file: '1hFPr1FlM3Xw9zpqAoFBIEACJY0tltJcQ' },
     { id: 13, subject_id: 3, title: 'Practical 4', subtitle: 'Exp: Verification of Kirchhoff\'s laws', file: '1OSsWSNR11Jr1WvFeRmvbFzZvUqLHQyFS' },
     { id: 14, subject_id: 3, title: 'Practical 5', subtitle: 'Exp: Power in single phase AC', file: '1FSG3215OfaDkqEl53v_oyPut7uTdNUPk' },
-    { id: 15, subject_id: 3, title: 'Practical 6', subtitle: 'Exp: Inductance & PF in R-L Circuit', file: '1Ur2BNX3cgZDJDmrjaRqX-Kq-GiIv_kbG' },
-    { id: 16, subject_id: 3, title: 'Practical 7', subtitle: 'Exp: Capacitance & PF in R-C Circuit', file: '1jmTjSklHeOgiEqJoyDPtKuoE8tZmAwqk' },
+    { id: 15, subject_id: 3, title: 'Practical 6', subtitle: 'Exp: Inductance & PF in R-L Circuit', file: '1jmTjSklHeOgiEqJoyDPtKuoE8tZmAwqk' },
+    { id: 16, subject_id: 3, title: 'Practical 7', subtitle: 'Exp: Capacitance & PF in R-C Circuit', file: '1Ur2BNX3cgZDJDmrjaRqX-Kq-GiIv_kbG' },
     { id: 17, subject_id: 3, title: 'Practical 8', subtitle: 'Exp: Star and Delta connections', file: '1JTcKN4BstBLd3XNPhEBClseQAlmKaoH2' },
     { id: 18, subject_id: 3, title: 'Practical 9', subtitle: 'Exp: V-I characteristics of PN Diode', file: '1eAyPx8H2vDxWuo77lprxboMvnNujZn5w' },
     { id: 19, subject_id: 3, title: 'Practical 10', subtitle: 'Exp: Zener Diode as regulator', file: '1fm2OeozkbhFA8xMYS_6uHmLHZqaWXg4j' },
@@ -196,15 +197,15 @@ const practicals = [
     { id: 31, subject_id: 4, title: 'Practical 12', subtitle: 'Exp: NANOMATERIAL SCALE', file: 'PASTE_DRIVE_ID_HERE' },
 
     // BME
-    { id: 40, subject_id: 5, title: 'Practical 1', subtitle: 'Exp: Types of boilers', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 41, subject_id: 5, title: 'Practical 2', subtitle: 'Exp: 4-stroke engines', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 42, subject_id: 5, title: 'Practical 3', subtitle: 'Exp: 2-stroke engines', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 43, subject_id: 5, title: 'Practical 4', subtitle: 'Exp: Reciprocating air compressor', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 44, subject_id: 5, title: 'Practical 5', subtitle: 'Exp: Vapor compression refrigeration', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 45, subject_id: 5, title: 'Practical 6', subtitle: 'Exp: Window AC and Split AC', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 46, subject_id: 5, title: 'Practical 7', subtitle: 'Exp: Clutches and brakes', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 47, subject_id: 5, title: 'Practical 8', subtitle: 'Exp: Power transmission drives', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 48, subject_id: 5, title: 'Practical 9', subtitle: 'Exp: Tutorials (Gases/Engines/Steam)', file: 'PASTE_DRIVE_ID_HERE' }
+    { id: 40, subject_id: 5, title: 'Practical 1', subtitle: 'Exp: Types of boilers', file: '1WHj2E01PUSip1V2BmQgrusoN72a0iknr' },
+    { id: 41, subject_id: 5, title: 'Practical 2', subtitle: 'Exp: 4-stroke engines', file: '1BhIKLg_jw-NadFn_2RHI2vdNuhMaakCe' },
+    { id: 42, subject_id: 5, title: 'Practical 3', subtitle: 'Exp: 2-stroke engines', file: '1P9ZJrhbB29EVRFNjJZLDE8vizf03dy9-' },
+    { id: 43, subject_id: 5, title: 'Practical 4', subtitle: 'Exp: Reciprocating air compressor', file: '1UR6maHuAVCmY1cFtBWat7bX27c1o8NB_' },
+    { id: 44, subject_id: 5, title: 'Practical 5', subtitle: 'Exp: Vapor compression refrigeration', file: '1RSzwr49D_2861l_iPOBGelPT_ctJA572' },
+    { id: 45, subject_id: 5, title: 'Practical 6', subtitle: 'Exp: Window AC and Split AC', file: '1D7B68eFR1CUmJpf1Pk6gUdZca-CIdfgV' },
+    { id: 46, subject_id: 5, title: 'Practical 7', subtitle: 'Exp: Clutches and brakes', file: '1K-24rshRBYB5dNcW3uTYj_w9w3uYOWKf' },
+    { id: 47, subject_id: 5, title: 'Practical 8', subtitle: 'Exp: Power transmission drives', file: '1VgkZ4FZv1VcmWdUELxw96cCh3d-RwWYE' },
+    { id: 48, subject_id: 5, title: 'Practical 9', subtitle: 'Exp: Tutorials (Gases/Engines/Steam)', file: '1gvT8aXcV95iP-hOyhPSrQk7YKF9M1jDB' }
 ];
 
 // 6. ASSIGNMENTS (Restored)
@@ -218,6 +219,7 @@ const assignments = [
     { id: 6, subject_id: 1, title: 'Assignment 6', subtitle: 'Unit 6: Vector Calculus', file: 'PASTE_DRIVE_ID_HERE' },
 
     // FOP
+    { id: 11, subject_id: 2, title: 'Questions of Assignment', subtitle: '50 Questions', file: 'PASTE_DRIVE_ID_HERE' },
     { id: 10, subject_id: 2, title: 'Assignment 1', subtitle: 'Unit 1: 50 Questions', file: 'PASTE_DRIVE_ID_HERE' },
 
     // BEEE
