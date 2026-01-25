@@ -1149,11 +1149,16 @@
         // --- MODIFIED OPEN VIEWER (SECURITY INTEGRATED) ---
         // --- MODIFIED OPEN VIEWER (For Google Drive Proxy) ---
         // --- MODIFIED OPEN VIEWER (Proxy Integration) ---
-        function openViewer(docTitle, type, fileId) {
+function openViewer(docTitle, type, fileId) {
             const modal = document.getElementById('viewerModal');
             const title = document.getElementById('viewerTitle');
             const viewerContent = document.getElementById('viewerContent');
             const wrapper = document.getElementById('zoomWrapper');
+
+            // --- 🔥 FIX 1: PAGE RESET ---
+            // Nayi file khulte hi page wapas 1 par set karo
+            pageNum = 1; 
+            // -----------------------------
 
             // Reset UI
             currentZoom = 1.0;
@@ -1168,15 +1173,11 @@
             title.innerText = `Viewing: ${docTitle}`;
             modal.classList.remove('hidden');
 
-            // 🚀 MAGIC LINE: Hum Path nahi, Proxy URL bana rahe hain ID se
-            // Ye backend ke /api/proxy-pdf route ko hit karega
             const proxyUrl = `/api/proxy-pdf?id=${fileId}`;
 
-            // CASE 1: TEXTBOOK (Download Allowed - Direct Drive Link)
+            // CASE 1: TEXTBOOK
             if (type === 'textbook') {
                 pdfDoc = null;
-
-                // Google Drive ka direct download link (user ke liye)
                 const directDriveLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
 
                 viewerContent.innerHTML = `
@@ -1193,7 +1194,7 @@
                 viewerContent.classList.remove('hidden');
                 if (wrapper) wrapper.classList.add('hidden');
             }
-            // CASE 2: SECURE NOTES (Canvas Mode - No Download)
+            // CASE 2: SECURE NOTES
             else {
                 if (wrapper) {
                     wrapper.classList.remove('hidden');
@@ -1208,8 +1209,6 @@
                     </div>
                 `;
                     setTimeout(setupZoomListeners, 100);
-
-                    // Yahan hum Proxy URL bhej rahe hain canvas loader ko
                     loadSecurePdfToCanvas(proxyUrl);
                 }
             }
@@ -2409,44 +2408,46 @@
 
       // --- FINAL PRO CODE: NO COMPRESSION, HIGH SPEED ---
       // --- BALANCED VIEWER (Medium Size - 1MB) ---
-        async function loadSecurePdfToCanvas(url) {
+       async function loadSecurePdfToCanvas(url) {
             const canvas = document.getElementById('the-canvas');
             if (!canvas) return;
 
-            // UI Reset
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            document.getElementById('page_info').innerText = "Loading PDF...";
+            document.getElementById('page_info').innerText = "Opening...";
 
             try {
-                // 🚀 MEDIUM BALANCED CONFIGURATION
+                // --- 🔥 FIX 2: BALANCED SPEED CONFIG ---
                 const loadingTask = pdfjsLib.getDocument({
                     url: url,
                     
-                    // 1. Background Load ON:
-                    // Pehla page khulte hi baaki file download hona shuru ho jayegi.
+                    // Background mein file download hone do (Smooth Scrolling ke liye)
                     disableAutoFetch: false, 
 
-                    // 2. Range Requests ON:
+                    // Range requests ON (Server load kam karne ke liye)
                     disableStream: true,
 
-                    // 3. CHUNK SIZE: 1 MB (Perfect Balance)
-                    // Na bahut chota, na bahut bada. 
-                    // Network latency aur download speed dono manage ho jayenge.
-                    rangeChunkSize: 1024 * 1024 // 1 MB
+                    // Chunk Size: 256 KB (Best Balance)
+                    // 64KB bahut chota hai, 2.5MB bahut bada hai.
+                    // 256KB itna chota hai ki turant load hoga, aur itna bada hai ki speed bani rahegi.
+                    rangeChunkSize: 256 * 1024 
                 });
 
                 pdfDoc = await loadingTask.promise;
 
+                // Page count update karo
                 document.getElementById('page_info').innerText = `Page ${pageNum} of ${pdfDoc.numPages}`;
+                
+                // Render Page 1
                 renderPage(pageNum);
+
             } catch (error) {
                 console.error("Error:", error);
                 document.getElementById('zoomWrapper').innerHTML = `
                     <div class="flex flex-col items-center justify-center h-full text-white">
-                         <i class="fas fa-wifi text-4xl mb-4 text-yellow-500"></i>
-                         <p>Loading...</p>
-                         <button onclick="loadSecurePdfToCanvas('${url}')" class="mt-4 text-indigo-400 underline">Retry</button>
+                         <i class="fas fa-sync-alt fa-spin text-4xl mb-4 text-indigo-500"></i>
+                         <p>Reconnecting...</p>
+                         <button onclick="loadSecurePdfToCanvas('${url}')" class="mt-4 bg-white text-indigo-900 px-4 py-1 rounded font-bold">Retry</button>
                     </div>`;
             }
         }
