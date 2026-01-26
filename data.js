@@ -211,38 +211,39 @@ const practicals = [
 // 6. ASSIGNMENTS (Restored)
 const assignments = [
     // MATHS
-    { id: 1, subject_id: 1, title: 'Assignment 1', subtitle: 'Unit 1: Differential Calculus', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 2, subject_id: 1, title: 'Assignment 2', subtitle: 'Unit 2: Partial Differentiation', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 1, subject_id: 1, title: 'Assignment 1', subtitle: 'Unit 1: Differential Calculus', file: '1oCBgmGIwVBqvxaMCsX42hUZ_E9il1YPS' },
+    { id: 2, subject_id: 1, title: 'Assignment 2', subtitle: 'Unit 2: Partial Differentiation', file: '149g0f6Wk2Oxc2ZYlS6pgFJKmWtWDHQEk' },
     { id: 3, subject_id: 1, title: 'Assignment 3', subtitle: 'Unit 3: Applications of Partial Diff.', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 4, subject_id: 1, title: 'Assignment 4', subtitle: 'Unit 4: Multiple Integrals', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 5, subject_id: 1, title: 'Assignment 5', subtitle: 'Unit 5: Infinite Series', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 6, subject_id: 1, title: 'Assignment 6', subtitle: 'Unit 6: Vector Calculus', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 4, subject_id: 1, title: 'Assignment 4', subtitle: 'Unit 4: Multiple Integrals', file: '1cfI7n44CHyi5vBOxXOF3lFB53hiri0No' },
+    { id: 5, subject_id: 1, title: 'Assignment 5', subtitle: 'Unit 5: Infinite Series', file: '1cTF_VXJbx_lfSNS42I0Oj2GzcJXVAWvE' },
+    { id: 6, subject_id: 1, title: 'Assignment 6', subtitle: 'Unit 6: Vector Calculus', file: '1aBX07_T7-w62rnXdu8Q8aNon2v8kU1XL' },
 
     // FOP
-    { id: 11, subject_id: 2, title: 'Questions of Assignment', subtitle: '50 Questions', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 10, subject_id: 2, title: 'Assignment 1', subtitle: 'Unit 1: 50 Questions', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 11, subject_id: 2, title: 'Questions of Assignment', subtitle: '50 Questions', file: '1wEzdgUejLvxbmp7f2OlHYLD5yfzSSMZt' },
+    { id: 10, subject_id: 2, title: 'Assignment 1', subtitle: 'Unit 1: 50 Questions', file: '1gi5CvBOvkTGAw9ReSlu2njx6-rPoyNOj' },
 
     // BEEE
-    { id: 20, subject_id: 3, title: 'Assignment 1', subtitle: 'UNIT 1: DC CIRCUIT', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 21, subject_id: 3, title: 'Assignment 2', subtitle: 'UNIT 2: AC CIRCUIT', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 22, subject_id: 3, title: 'Assignment 3', subtitle: 'UNIT 3: Basics of 3-phase', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 23, subject_id: 3, title: 'Assignment 4', subtitle: 'UNIT 4: Electrostatics', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 24, subject_id: 3, title: 'Assignment 5', subtitle: 'UNIT 5: Electromagnetics', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 25, subject_id: 3, title: 'Assignment 6', subtitle: 'UNIT 6: Electronic Systems', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 20, subject_id: 3, title: 'Assignment 1', subtitle: 'UNIT 1: DC CIRCUIT', file: '1j5KheknQYfFD5gzBmSxAT1h-5QGYSkgL' },
+    { id: 21, subject_id: 3, title: 'Assignment 2', subtitle: 'UNIT 2: AC CIRCUIT', file: '1GEd6ehuO-_fbHgDwuePVQ_F1ciHCQ9Q-' },
+    { id: 22, subject_id: 3, title: 'Assignment 3', subtitle: 'UNIT 3: Basics of 3-phase', file: '1IRoiUdeTZ64VQSYTifn2C2gPv_-vRVyH' },
+    { id: 23, subject_id: 3, title: 'Assignment 4', subtitle: 'UNIT 4: Electrostatics', file: '1A3Em6Cvu86JRhGVk0pZ_CsSIHBJzIfQw' },
+    { id: 24, subject_id: 3, title: 'Assignment 5', subtitle: 'UNIT 5: Electromagnetics', file: '19zYoPATqo3A42mw5S8aBeIctJSvBO64b' },
+    { id: 25, subject_id: 3, title: 'Assignment 6', subtitle: 'UNIT 6: Electronic Systems', file: '1ihJ8l2_VsxzwYW-JqdNvvrj8_Jc2NFes' },
 
     // EPHY
-    { id: 30, subject_id: 4, title: 'Assignment 1', subtitle: 'UNIT 1 : Ultrasonic & Architecture Acoustics', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 31, subject_id: 4, title: 'Assignment 2', subtitle: 'UNIT 2 : Laser', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 32, subject_id: 4, title: 'Assignment 3', subtitle: 'UNIT 3 : Fiber Optics', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 33, subject_id: 4, title: 'Assignment 4', subtitle: 'UNIT 4 : Crystal Structure', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 34, subject_id: 4, title: 'Assignment 5', subtitle: 'UINT 5 : Band Theory', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 35, subject_id: 4, title: 'Assignment 6', subtitle: 'UNIT 6 : Nanomaterials & NDT', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 30, subject_id: 4, title: 'Assignment 1', subtitle: 'UNIT 1 : Ultrasonic & Architecture Acoustics', file: '17EZMAwHRHKnGfV1wyuT_jfFHBacRA8lY' },
+    { id: 31, subject_id: 4, title: 'Assignment 2', subtitle: 'UNIT 2 : Elasticity', file: '17989JqlEH3WO_yPMc6CEd8uzgvjPuHBx' },
+    { id: 32, subject_id: 4, title: 'Assignment 3', subtitle: 'UNIT 3 : Laser', file: '1Ri4JXWoR7te8w2sH_dI0bAZKXS6-5-QO' },
+    { id: 33, subject_id: 4, title: 'Assignment 4', subtitle: 'UNIT 4 : Fiber Optics', file: '1qwdiBPJODRTUQgwJjnERF6_opC3KKdQz' },
+    { id: 34, subject_id: 4, title: 'Assignment 5', subtitle: 'UINT 5 : Crystal Structure', file: '1-Qhzqm6vONedY0VD8UJDqrX5X1iPZvJs' },
+    { id: 35, subject_id: 4, title: 'Assignment 6', subtitle: 'UNIT 6 : Band Theory Of Solids', file: '16USQ5V6Lddz1VnuMwBhVAdCX5L6-B3-S' },
+    { id: 36, subject_id: 4, title: 'Assignment 7', subtitle: 'UNIT 7 : Nanomaterials & NDT', file: '1jsngd3WJHbkyBgd_DpNB3LdUsOEehIaT' },
 
     // BCPS
-    { id: 40, subject_id: 6, title: 'Assignment 1', subtitle: 'UNIT 5: Resume making', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 40, subject_id: 6, title: 'Assignment 1', subtitle: 'UNIT 5: Resume making', file: '14b2YhYkS3iy9Sd91-mQfWaGBQWBcCu7f' },
 
     // SPORTS
-    { id: 50, subject_id: 7, title: 'Assignment 1', subtitle: 'UNIT: Class Notes', file: 'PASTE_DRIVE_ID_HERE' }
+    { id: 50, subject_id: 7, title: 'Assignment 1', subtitle: 'UNIT: Class Notes', file: '1IfxJB8qc31KsA4zY0CIYvme_uvRskxBo' }
 ];
 
 // --- 7. PYQs (FIXED: 6 Subjects, 2022-2025, ALL Exams) ---
