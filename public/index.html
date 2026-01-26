@@ -1,27 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <script>
-    // Disable Right Click
+    // --- LDRP ULTIMATE SECURITY SHIELD ---
+
+    // 1. Right Click Block
     document.addEventListener('contextmenu', event => event.preventDefault());
 
-    // Disable Keyboards Shortcuts (F12, Ctrl+Shift+I, Ctrl+U)
+    // 2. Keyboard Shorts Block (F12, Ctrl+U, etc.)
     document.onkeydown = function (e) {
-        if (e.keyCode == 123) { // F12
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
-            return false;
-        }
-        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U (View Source)
-            return false;
-        }
+        if (e.keyCode == 123) return false; // F12
+        if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
     }
+
+    // --- AGGRESSIVE SCREENSHOT PROTECTION ---
+
+    // फंक्शन: स्क्रीन को तुरंत काला (Blackout) करने के लिए
+    function nukeScreen() {
+        // अगर पहले से ओवरले नहीं बना है तो बनाओ
+        let overlay = document.getElementById('security-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'security-overlay';
+            overlay.innerHTML = "<div style='text-align:center;'><i class='fas fa-lock' style='font-size:50px; margin-bottom:20px;'></i><br>NO SCREENSHOTS ALLOWED<br><span style='font-size:12px; color:gray;'>LDRP Study Desk Protected</span></div>";
+            document.body.appendChild(overlay);
+        }
+
+        // स्क्रीन काली करो (Display Block)
+        overlay.style.display = 'flex';
+        document.body.style.filter = 'blur(20px)'; // पीछे का कंटेंट ब्लर भी कर दो
+
+        // 1.5 सेकंड बाद वापस नार्मल करो
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            document.body.style.filter = 'none';
+        }, 1500);
+    }
+
+    // 1. [MOBILE] 3-Finger Touch Block (सबसे तेज तरीका)
+    document.addEventListener('touchstart', function (e) {
+        if (e.touches.length > 2) { // 3 या ज्यादा उंगलियां
+            nukeScreen(); // तुरंत हमला
+        }
+    }, { passive: false });
+
+    // 2. [PC] Keyboard Screenshots (Win+Shift+S, PrtSc)
+    document.addEventListener('keydown', function (e) {
+        // PrintScreen Key
+        if (e.key === 'PrintScreen') {
+            nukeScreen();
+            navigator.clipboard.writeText(''); // क्लिपबोर्ड खाली करो
+            e.preventDefault();
+        }
+        // Windows + Shift + S (Snipping Tool)
+        if (e.metaKey && e.shiftKey && (e.key === 's' || e.key === 'S')) {
+            nukeScreen();
+            navigator.clipboard.writeText('');
+            e.preventDefault();
+        }
+    });
+
+    // 3. [MOBILE/PC] Focus Loss (Notification Panel / Alt+Tab)
+    // जब यूजर ऊपर से शटर गिराता है या ऐप बदलता है
+    window.addEventListener('blur', function () {
+        nukeScreen();
+        document.title = "⚠️ Security Alert";
+    });
+
+    window.addEventListener('focus', function () {
+        setTimeout(() => {
+            let overlay = document.getElementById('security-overlay');
+            if (overlay) overlay.style.display = 'none';
+            document.body.style.filter = 'none';
+            document.title = "LDRP Study Desk";
+        }, 300); // 300ms का डिले ताकि अगर स्क्रीनशॉट लिया हो तो काला ही आए
+    });
+
+    // 4. [MOBILE] Resize Trap (Volume Button / Keyboard Popup)
+    // कई फोन्स में स्क्रीनशॉट लेने पर या वॉल्यूम बार आने पर स्क्रीन साइज हिलता है
+    let lastWidth = window.innerWidth;
+    window.addEventListener('resize', () => {
+        let newWidth = window.innerWidth;
+        // अगर चौड़ाई में बदलाव हुआ (अक्सर स्क्रीनशॉट टूल बॉर्डर ऐड करते हैं)
+        if (newWidth !== lastWidth) {
+            nukeScreen();
+            lastWidth = newWidth;
+        }
+    });
+
+    // 5. [PC] Mouse Leave (Snipping Tool Use)
+    document.addEventListener('mouseleave', function () {
+        document.body.style.filter = 'blur(10px)';
+    });
+
+    document.addEventListener('mouseenter', function () {
+        document.body.style.filter = 'none';
+    });
+
 </script>
 
 <head>
@@ -38,6 +113,26 @@
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
     </script>
     <style>
+        /* --- SECURITY OVERLAY (Add inside <style> tag) --- */
+        #security-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            z-index: 99999999;
+            /* सबसे ऊपर */
+            display: none;
+            /* डिफ़ॉल्ट रूप से छुपा रहेगा */
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
         /* --- PREMIUM THEME VARIABLES --- */
         :root {
             --primary-bg: #f8fafc;
@@ -53,6 +148,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--primary-bg);
             color: var(--primary-text);
+            overscroll-behavior: none;
+            /* <--- YE LINE JOD DO */
         }
 
         /* Prevent Selection */
@@ -328,7 +425,7 @@
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen" oncontextmenu="return false;">
+<body class="flex flex-col min-h-screen no-select" oncontextmenu="return false;">
 
     <nav
         class="bg-indigo-900 text-white shadow-xl sticky top-0 z-50 transition-all duration-300 border-b border-indigo-800">
