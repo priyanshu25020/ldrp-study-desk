@@ -1,127 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <script>
-    // --- LDRP QUANTUM SHIELD (ULTIMATE EDITION) ---
+    // Disable Right Click
+    document.addEventListener('contextmenu', event => event.preventDefault());
 
-    // 1. DOM लोड होते ही ओवरले तैयार (Fastest Response)
-    document.addEventListener("DOMContentLoaded", () => {
-        let overlay = document.createElement('div');
-        overlay.id = 'security-overlay';
-        overlay.innerHTML = "<div style='text-align:center; color:white;'><i class='fas fa-lock' style='font-size:50px; margin-bottom:20px;'></i><br><h2 style='font-size:24px; font-weight:bold;'>RESTRICTED ACCESS</h2></div>";
-        overlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:black; z-index:2147483647; display:none; align-items:center; justify-content:center;";
-        document.body.appendChild(overlay);
-    });
-
-    // 2. RIGHT CLICK BLOCK (Context Menu) - Added ✅
-    document.addEventListener('contextmenu', event => {
-        event.preventDefault(); // मेनू खुलने ही नहीं देगा
-        return false;
-    }, true);
-
-    // --- SUPER FAST NUKE FUNCTION ---
-    function nukeScreen() {
-        const overlay = document.getElementById('security-overlay');
-        const body = document.body;
-        
-        if (overlay && overlay.style.display === 'none') {
-            overlay.style.display = 'flex';
-            body.style.filter = 'blur(20px) grayscale(100%)';
-            body.style.overflow = 'hidden';
-
-            setTimeout(() => {
-                overlay.style.display = 'none';
-                body.style.filter = 'none';
-                body.style.overflow = 'auto';
-            }, 1500);
+    // Disable Keyboards Shortcuts (F12, Ctrl+Shift+I, Ctrl+U)
+    document.onkeydown = function (e) {
+        if (e.keyCode == 123) { // F12
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
+            return false;
+        }
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U (View Source)
+            return false;
         }
     }
-
-    // --- 3. NOTIFICATION SHADE & APP SWITCH BLOCKER ---
-    window.addEventListener('blur', nukeScreen, true); 
-    window.addEventListener('focusout', nukeScreen, true);
-    window.addEventListener('pagehide', nukeScreen, true);
-    
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            nukeScreen();
-            document.title = "⚠️ Locked";
-        } else {
-            setTimeout(() => { document.title = "LDRP Study Desk"; }, 500);
-        }
-    }, true);
-
-    // --- 4. KEYBOARD SECURITY (Screenshots + F12 + DevTools) - Updated ✅ ---
-    document.addEventListener('keydown', function(e) {
-        
-        // A. F12 (Developer Tools)
-        if (e.key === 'F12' || e.keyCode === 123) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            return false;
-        }
-
-        // B. Ctrl + Shift + I / J / C (Inspect Element)
-        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            return false;
-        }
-
-        // C. Ctrl + U (View Source)
-        if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.keyCode === 85)) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            return false;
-        }
-
-        // D. Screenshots (Win + Shift + S / PrintScreen)
-        if (e.key === 'PrintScreen' || e.key === 'Meta' || e.keyCode === 91 || e.keyCode === 44) {
-            nukeScreen();
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            return false;
-        }
-
-        // E. Snipping Tool Specific (Shift + S)
-        if (e.shiftKey && (e.key === 's' || e.key === 'S')) {
-            if (e.metaKey) {
-                 nukeScreen();
-                 e.preventDefault();
-                 e.stopImmediatePropagation();
-            }
-        }
-        
-        // F. Ctrl + P (Print)
-        if (e.ctrlKey && (e.key === 'p' || e.key === 'P')) {
-            nukeScreen();
-            e.preventDefault();
-        }
-
-    }, true); // Capture Phase Active
-
-    // --- 5. KEYUP CLEAR ---
-    document.addEventListener('keyup', function(e) {
-        if (e.key === 'PrintScreen') {
-            navigator.clipboard.writeText('Screenshots are disabled!');
-        }
-    }, true);
-
-    // --- 6. MOBILE TOUCH GESTURES (3 Finger) ---
-    document.addEventListener('touchstart', function(e) {
-        if (e.touches.length > 2) { 
-            nukeScreen(); 
-            e.preventDefault();
-        }
-    }, { passive: false, capture: true });
-
-    // --- 7. MOUSE LEAVE (PC Snipping Tool) ---
-    document.documentElement.addEventListener('mouseleave', () => {
-        document.body.style.filter = 'blur(10px)';
-    });
-    document.documentElement.addEventListener('mouseenter', () => {
-        document.body.style.filter = 'none';
-    });
-
 </script>
 
 <head>
@@ -138,26 +38,6 @@
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
     </script>
     <style>
-        /* --- SECURITY OVERLAY (Add inside <style> tag) --- */
-        #security-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000000;
-            z-index: 99999999;
-            /* सबसे ऊपर */
-            display: none;
-            /* डिफ़ॉल्ट रूप से छुपा रहेगा */
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
         /* --- PREMIUM THEME VARIABLES --- */
         :root {
             --primary-bg: #f8fafc;
@@ -173,8 +53,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--primary-bg);
             color: var(--primary-text);
-            overscroll-behavior: none;
-            /* <--- YE LINE JOD DO */
         }
 
         /* Prevent Selection */
@@ -450,7 +328,7 @@
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen no-select" oncontextmenu="return false;">
+<body class="flex flex-col min-h-screen" oncontextmenu="return false;">
 
     <nav
         class="bg-indigo-900 text-white shadow-xl sticky top-0 z-50 transition-all duration-300 border-b border-indigo-800">
