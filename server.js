@@ -91,7 +91,8 @@ app.get('/api/proxy-pdf', async (req, res) => {
         if (!fileId || fileId.includes('PASTE')) return res.status(404).send("File ID missing.");
 
         const driveUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
-
+// 🔥 ADD THIS LINE FOR CACHING (Dubara khulne par instant load hoga) 🔥
+        res.setHeader('Cache-Control', 'public, max-age=3600');
         // 1. Agar Browser ne Range mangi hai (Fast Loading ke liye)
         if (range) {
             const response = await axios({

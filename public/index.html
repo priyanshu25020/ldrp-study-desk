@@ -2520,14 +2520,14 @@ async function loadSecurePdfToCanvas(url) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     document.getElementById('page_info').innerText = "Opening via Fast Stream...";
 
-    try {
+   try {
         const loadingTask = pdfjsLib.getDocument({
             url: url,
             
-            // 🔥 MAGIC SETTINGS FOR SPEED 🔥
-            disableAutoFetch: true,      // Puri file background me download MAT karo
-            disableStream: false,        // Stream ON karo (taki tukdo me aaye)
-            rangeChunkSize: 65536,       // 64KB chunks (Chota packet = Jaldi load)
+            // 🔥 SPEED BOOSTER SETTINGS 🔥
+            disableAutoFetch: true,      // Puri file background mein mat kheecho
+            disableStream: false,        // Streaming on rakho
+            rangeChunkSize: 524288,      // ⚠️ CHANGE THIS: 65536 -> 524288 (512KB)
             cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/cmaps/',
             cMapPacked: true,
         });
