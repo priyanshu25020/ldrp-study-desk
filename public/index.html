@@ -2511,39 +2511,31 @@
 
         // --- FINAL PRO CODE: NO COMPRESSION, HIGH SPEED ---
         // --- BALANCED VIEWER (Medium Size - 1MB) ---
-        async function loadSecurePdfToCanvas(url) {
-            const canvas = document.getElementById('the-canvas');
-            if (!canvas) return;
+      // --- UPDATED VIEWER CONFIGURATION ---
+async function loadSecurePdfToCanvas(url) {
+    const canvas = document.getElementById('the-canvas');
+    if (!canvas) return;
 
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            document.getElementById('page_info').innerText = "Opening...";
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    document.getElementById('page_info').innerText = "Opening via Fast Stream...";
 
-            try {
-                // --- 🔥 FIX 2: BALANCED SPEED CONFIG ---
-                const loadingTask = pdfjsLib.getDocument({
-                    url: url,
+    try {
+        const loadingTask = pdfjsLib.getDocument({
+            url: url,
+            
+            // 🔥 MAGIC SETTINGS FOR SPEED 🔥
+            disableAutoFetch: true,      // Puri file background me download MAT karo
+            disableStream: false,        // Stream ON karo (taki tukdo me aaye)
+            rangeChunkSize: 65536,       // 64KB chunks (Chota packet = Jaldi load)
+            cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/cmaps/',
+            cMapPacked: true,
+        });
 
-                    // Background mein file download hone do (Smooth Scrolling ke liye)
-                    disableAutoFetch: false,
-
-                    // Range requests ON (Server load kam karne ke liye)
-                    disableStream: true,
-
-                    // Chunk Size: 256 KB (Best Balance)
-                    // 64KB bahut chota hai, 2.5MB bahut bada hai.
-                    // 256KB itna chota hai ki turant load hoga, aur itna bada hai ki speed bani rahegi.
-                    rangeChunkSize: 256 * 1024
-                });
-
-                pdfDoc = await loadingTask.promise;
-
-                // Page count update karo
-                document.getElementById('page_info').innerText = `Page ${pageNum} of ${pdfDoc.numPages}`;
-
-                // Render Page 1
-                renderPage(pageNum);
-
+        pdfDoc = await loadingTask.promise;
+        
+        document.getElementById('page_info').innerText = `Page ${pageNum} of ${pdfDoc.numPages}`;
+        renderPage(pageNum);
             } catch (error) {
                 console.error("Error:", error);
                 document.getElementById('zoomWrapper').innerHTML = `

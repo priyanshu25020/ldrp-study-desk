@@ -82,26 +82,55 @@ app.get('/api/assignments', (req, res) => res.json(assignments));
 // ✅ Yeh Line Add Karo:
 app.get('/api/faculty', (req, res) => res.json(faculty));
 // --- GOOGLE DRIVE PROXY ---
+// --- UPDATED GOOGLE DRIVE PROXY (Supports Range Requests & Chunking) ---
 app.get('/api/proxy-pdf', async (req, res) => {
     try {
         const fileId = req.query.id;
+        const range = req.headers.range; // Browser maang raha hai "Muje bas thoda sa part do"
+
         if (!fileId || fileId.includes('PASTE')) return res.status(404).send("File ID missing.");
 
         const driveUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
-        const response = await axios({
-            method: 'GET', url: driveUrl, responseType: 'stream',
-            headers: { 'User-Agent': 'Mozilla/5.0 Chrome/120.0.0.0 Safari/537.36' }
-        });
 
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-        response.data.pipe(res);
+        // 1. Agar Browser ne Range mangi hai (Fast Loading ke liye)
+        if (range) {
+            const response = await axios({
+                method: 'GET',
+                url: driveUrl,
+                responseType: 'stream',
+                headers: { 
+                    'Range': range, // Google Drive ko bolo hume bas ye tukda chahiye
+                    'User-Agent': 'Mozilla/5.0' 
+                }
+            });
+
+            // Google Drive se headers copy karke Browser ko bhejo
+            res.status(206); // 206 means "Partial Content"
+            res.setHeader('Content-Range', response.headers['content-range']);
+            res.setHeader('Accept-Ranges', 'bytes');
+            res.setHeader('Content-Length', response.headers['content-length']);
+            res.setHeader('Content-Type', 'application/pdf');
+            
+            response.data.pipe(res);
+        } 
+        // 2. Agar Range nahi mangi (Normal Download)
+        else {
+            const response = await axios({
+                method: 'GET',
+                url: driveUrl,
+                responseType: 'stream',
+                headers: { 'User-Agent': 'Mozilla/5.0' }
+            });
+            res.setHeader('Content-Type', 'application/pdf');
+            response.data.pipe(res);
+        }
+
     } catch (error) {
         console.error("Proxy Error:", error.message);
+        // Agar range request fail ho jaye, to normal retry karega browser
         res.status(500).send("Error loading PDF.");
     }
 });
-
 // --- CHAT AI (Vision Fix + Language Script Fix) ---
 // --- CHAT AI (SAFE MODE: No Vision, Only Text) ---
 // Note: Groq ne vision models band kar diye hain, isliye hum sirf text model use kar rahe hain.
