@@ -85,12 +85,12 @@ const textbooks = [
 // 3. NOTES DATA (Restored from Reference)
 const notes = [
     // MATHS (ID 1)
-    { id: 101, subject_id: 1, chapter: 'Chapter 1', title: 'Sequence and Series', description: 'Convergence, Divergence, Tests.', fileUrl: '19vv3-nTXVNpMMmYnwGw9y_bh2F-Q76K3' },
-    { id: 102, subject_id: 1, chapter: 'Chapter 2', title: 'Series Expansion', description: 'Taylor and Maclaurin series.', fileUrl: '1UBSkj0FHfcoCXeCI_LApRCMzK2mQz8UT' },
-    { id: 103, subject_id: 1, chapter: 'Chapter 3', title: 'Curve Sketching', description: 'Tracing of curves in Cartesian/Polar.', fileUrl: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
-    { id: 104, subject_id: 1, chapter: 'Chapter 4', title: 'Indeterminate Forms', description: 'L-Hospital Rule applications.', fileUrl: '16q-X5nrwD02UFkDR5ACR695k7UAFmvan' },
-    { id: 105, subject_id: 1, chapter: 'Chapter 5', title: 'Improper Integrals', description: 'Gamma and Beta functions.', fileUrl: '1lLNJWN5PkeR68-dgXTfG6_9klb4BW8RP' },
-    { id: 106, subject_id: 1, chapter: 'Chapter 6', title: 'Applications of Integration', description: 'Area, Volume, Length of arc.', fileUrl: '1jKZ6OjMsufUq3L1_DXAmMU6QyB2oevPd' },
+    { id: 101, subject_id: 1, chapter: 'Chapter 1', title: 'Differential Calculus', description: 'Convergence, Divergence, Tests.', fileUrl: '19vv3-nTXVNpMMmYnwGw9y_bh2F-Q76K3' },
+    { id: 102, subject_id: 1, chapter: 'Chapter 2', title: 'Partial differentiation', description: 'Taylor and Maclaurin series.', fileUrl: '1UBSkj0FHfcoCXeCI_LApRCMzK2mQz8UT' },
+    { id: 103, subject_id: 1, chapter: 'Chapter 3', title: 'Applications of Partial differentiation', description: 'Tracing of curves in Cartesian/Polar.', fileUrl: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 104, subject_id: 1, chapter: 'Chapter 4', title: 'Multiple Integrals and its applications', description: 'L-Hospital Rule applications.', fileUrl: '16q-X5nrwD02UFkDR5ACR695k7UAFmvan' },
+    { id: 105, subject_id: 1, chapter: 'Chapter 5', title: 'Infinite Series', description: 'Gamma and Beta functions.', fileUrl: '1lLNJWN5PkeR68-dgXTfG6_9klb4BW8RP' },
+    { id: 106, subject_id: 1, chapter: 'Chapter 6', title: 'Vector differential Calculus', description: 'Area, Volume, Length of arc.', fileUrl: '1jKZ6OjMsufUq3L1_DXAmMU6QyB2oevPd' },
 
     // FOP (ID 2)
     { id: 201, subject_id: 2, chapter: 'Chapter 1', title: 'Intro to  Introduction to C Language and Program Structure', description: 'Basics of Computer logic.', fileUrl: '1VzLIL5AcAPfEiVxtLfdxSLjYWGcYyjlh' },
@@ -255,7 +255,7 @@ const faculty = [
     { id: 101, subject_id: 1, name: "DR. Manoj Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First Floor,CF-SR 5,", email: "manoj_sh@ldrp.ac.in", linkedin: "https://www.linkedin.com/in/dr-manoj-patel-73341090/", image: "images/faculty/maths_1.jpg" },
     { id: 102, subject_id: 1, name: "MR. Khushal Prajapati", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "khushalnp@gmail.com", linkedin: "https://www.linkedin.com/in/khushal-prajapati/", image: "images/faculty/maths_2.jpeg" },
     { id: 103, subject_id: 1, name: "DR. Vijay Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "UPDATING SOON...", email: "vijay_sh@ldrp.ac.in", linkedin: "https://www.linkedin.com/in/dr-vijay-patel-159a1027/", image: "images/faculty/maths_3.jpg" },
-    { id: 104, subject_id: 1, name: "MR. Divyarajsinh Gohil", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_4.jpg" },
+    { id: 104, subject_id: 1, name: "MR. Divyarajsinh Gohil", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "UPDATING SOON...", linkedin: "#", image: "images/faculty/maths_4.jpg" },
     { id: 105, subject_id: 1, name: "MR. Harsh Shah", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "harsh_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_5.jpg" },
     { id: 106, subject_id: 1, name: "MS. Shruti Rathod", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "shruti_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_6.jpg" },
     { id: 107, subject_id: 1, name: "DR. KRISHNA P. SOLANKI", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "krishna_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_7.jpg" },
@@ -280,9 +280,9 @@ const faculty = [
     { id: 305, subject_id: 3, name: "MR.Ashish N.Patel", designation: "Asst. Professor", dept: "Electrical", cabin: "UPDATING SOON...", email: "ashish_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_5.jpg" },
 
     // --- ID 4: EPHY (Physics) - 3 Faculty ---
-    { id: 401, subject_id: 4, name: "MR. Jitendra Patel", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "S-101", email: "jinendra_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_1.jpg" },
-    { id: 402, subject_id: 4, name: "Prof. Tanvirbanu A. Malik", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "S-102", email: "tanvirbanu_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_2.jpg" },
-    { id: 403, subject_id: 4, name: "DR. Manjul Kumar", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "S-103", email: "manjul_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_3.jpg" },
+    { id: 401, subject_id: 4, name: "MR. Jitendra Patel", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "Shift 1,First floor,CF SR 6", email: "jinendra_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_1.jpg" },
+    { id: 402, subject_id: 4, name: "Prof. Tanvirbanu A. Malik", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "tanvirbanu_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_2.jpg" },
+    { id: 403, subject_id: 4, name: "DR. Manjul Kumar", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "Shift 1,First floor,CF SR 6", email: "manjul_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_3.jpg" },
 
     // --- ID 5: BME (Mechanical) - 10 Faculty ---
     { id: 501, subject_id: 5, name: "Dr. Amit Pandey", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "amit_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_1.jpg" },
