@@ -87,26 +87,18 @@ const notes = [
     // MATHS (ID 1)
     { id: 101, subject_id: 1, chapter: 'Chapter 1', title: 'Sequence and Series', description: 'Convergence, Divergence, Tests.', fileUrl: '19vv3-nTXVNpMMmYnwGw9y_bh2F-Q76K3' },
     { id: 102, subject_id: 1, chapter: 'Chapter 2', title: 'Series Expansion', description: 'Taylor and Maclaurin series.', fileUrl: '1UBSkj0FHfcoCXeCI_LApRCMzK2mQz8UT' },
-    { id: 103, subject_id: 1, chapter: 'Chapter 3', title: 'Curve Sketching', description: 'Tracing of curves in Cartesian/Polar.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 103, subject_id: 1, chapter: 'Chapter 3', title: 'Curve Sketching', description: 'Tracing of curves in Cartesian/Polar.', fileUrl: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
     { id: 104, subject_id: 1, chapter: 'Chapter 4', title: 'Indeterminate Forms', description: 'L-Hospital Rule applications.', fileUrl: '16q-X5nrwD02UFkDR5ACR695k7UAFmvan' },
     { id: 105, subject_id: 1, chapter: 'Chapter 5', title: 'Improper Integrals', description: 'Gamma and Beta functions.', fileUrl: '1lLNJWN5PkeR68-dgXTfG6_9klb4BW8RP' },
     { id: 106, subject_id: 1, chapter: 'Chapter 6', title: 'Applications of Integration', description: 'Area, Volume, Length of arc.', fileUrl: '1jKZ6OjMsufUq3L1_DXAmMU6QyB2oevPd' },
 
     // FOP (ID 2)
-    { id: 200, subject_id: 2, chapter: 'Index', title: 'Course Index', description: 'Table of contents.', fileUrl: '1y8M_C7d9ZsMxyMx48Tex-yBSrbSvuNnT' },
-    { id: 201, subject_id: 2, chapter: 'Chapter 1', title: 'Intro to Programming', description: 'Basics of Computer logic.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 202, subject_id: 2, chapter: 'Chapter 2', title: 'Flowcharts & Algorithms', description: 'Logic building blocks.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 203, subject_id: 2, chapter: 'Chapter 3', title: 'Introduction to C', description: 'Structure of C program.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 204, subject_id: 2, chapter: 'Chapter 4', title: 'Operators', description: 'Arithmetic, logical operators.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 205, subject_id: 2, chapter: 'Chapter 5', title: 'Input Output', description: 'Printf, Scanf usages.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 206, subject_id: 2, chapter: 'Chapter 6', title: 'Decision Making', description: 'If-else statements.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 207, subject_id: 2, chapter: 'Chapter 7', title: 'Loops', description: 'For, While, Do-While loops.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 208, subject_id: 2, chapter: 'Chapter 8', title: 'Arrays', description: '1D and 2D arrays.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 209, subject_id: 2, chapter: 'Chapter 9', title: 'Pointers', description: 'Memory addressing.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 210, subject_id: 2, chapter: 'Chapter 10', title: 'Functions', description: 'Modular programming.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 211, subject_id: 2, chapter: 'Chapter 11', title: 'Structures', description: 'User defined data types.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 212, subject_id: 2, chapter: 'Chapter 12', title: 'Dynamic Memory', description: 'Malloc, Calloc.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 213, subject_id: 2, chapter: 'Chapter 13', title: 'File Management', description: 'File handling in C.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 201, subject_id: 2, chapter: 'Chapter 1', title: 'Intro to  Introduction to C Language and Program Structure', description: 'Basics of Computer logic.', fileUrl: '1VzLIL5AcAPfEiVxtLfdxSLjYWGcYyjlh' },
+    { id: 202, subject_id: 2, chapter: 'Chapter 2', title: 'Flowcharts & Algorithms', description: 'Logic building blocks.', fileUrl: '1xVh0i0qbPUzcbItXcxFj_ty0leIeT6xa' },
+    { id: 203, subject_id: 2, chapter: 'Chapter 3', title: 'Introduction to C', description: 'Structure of C program.', fileUrl: '1xVh0i0qbPUzcbItXcxFj_ty0leIeT6xa' },
+    { id: 204, subject_id: 2, chapter: 'Chapter 4', title: 'Arrays and Strings', description: 'Arithmetic, logical operators.', fileUrl: '1nz_Q44Pd07xQhr6zvILQJkBNlpEe4wtE' },
+    { id: 205, subject_id: 2, chapter: 'Chapter 5', title: 'Functions in C', description: 'Printf, Scanf usages.', fileUrl: '1ZeU8P-mbN68LneUnIVUk4fOE4es23ZGq' },
+    { id: 206, subject_id: 2, chapter: 'Chapter 6', title: 'Structures and Unions', description: 'If-else statements.', fileUrl: '1bfcdIieyh4czYqPI-w6eThpkQG8gdt-h' },
 
     // BEEE (ID 3)
     { id: 301, subject_id: 3, chapter: 'Chapter 1', title: 'DC Circuits', description: 'KCL, KVL, Network Theorems.', fileUrl: '1kPVzaeor8HS9rmCC7MIIwBLFgcAucW6_' },
@@ -114,17 +106,17 @@ const notes = [
     { id: 303, subject_id: 3, chapter: 'Chapter 3', title: 'Polyphase Circuits', description: '3-Phase Systems.', fileUrl: '1vGmBfR-IbF-cZ98dYoVG24B8nWH90Hyb' },
     { id: 304, subject_id: 3, chapter: 'Chapter 4', title: 'Electrostatics', description: 'Capacitors and Fields.', fileUrl: '144ScwGN2_Wxl0VUp5hMkzdUZd2BV6btP' },
     { id: 305, subject_id: 3, chapter: 'Chapter 5', title: 'Electromagnetics', description: 'Magnetic circuits.', fileUrl: '1TbjmVfVzSL4_ZU8eGnpbPG1wVyxOMVSr' },
-    { id: 306, subject_id: 3, chapter: 'Chapter 6', title: 'Electronics', description: 'Diodes and Rectifiers.', fileUrl: '1bCeKlUGlRnGt8af8AaQ_BXB-YJSd-u0b' },
+    { id: 306, subject_id: 3, chapter: 'Chapter 6', title: 'Electronic System', description: 'Diodes and Rectifiers.', fileUrl: '1bCeKlUGlRnGt8af8AaQ_BXB-YJSd-u0b' },
 
     // EPHY (ID 4)
     { id: 401, subject_id: 4, chapter: 'Chapter 1', title: 'Acoustics', description: 'Sound engineering.', fileUrl: '1ksoRJaqIokPdSOV62BoMNNGPb7nzZmK3' },
-    { id: 402, subject_id: 4, chapter: 'Chapter 2', title: 'Ultrasonics', description: 'Production and applications.', fileUrl: '1qsPYO1-yhJb78I5HpXswaelkhbQEt5N9' },
-    { id: 403, subject_id: 4, chapter: 'Chapter 3', title: 'Crystal Physics', description: 'Lattice structures.', fileUrl: '1Jzs3l4gqh2LIZ_c8snbr51q7BNe12Joo' },
-    { id: 404, subject_id: 4, chapter: 'Chapter 4', title: 'Band Theory', description: 'Conductivity in solids.', fileUrl: '1qbwOsKZsx3HBbRzA7eKEaTIxFp1Y0pPM' },
-    { id: 405, subject_id: 4, chapter: 'Chapter 5', title: 'Lasers', description: 'Stimulated emission.', fileUrl: '1tX5eZiS3zGxOT-lblE4vDOb3pYRV_psy' },
-    { id: 406, subject_id: 4, chapter: 'Chapter 6', title: 'Optical Fibers', description: 'Communication physics.', fileUrl: '1aAVXjKwYItMXX7RSo06ngv7Ys_z8vOwA' },
-    { id: 407, subject_id: 4, chapter: 'Chapter 7', title: 'Conducting Materials', description: 'Free electron theory.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
-    { id: 408, subject_id: 4, chapter: 'Chapter 8', title: 'Superconductors', description: 'Meissner effect.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
+    { id: 402, subject_id: 4, chapter: 'Chapter 2', title: 'Elasticity', description: 'Production and applications.', fileUrl: '1qsPYO1-yhJb78I5HpXswaelkhbQEt5N9' },
+    { id: 403, subject_id: 4, chapter: 'Chapter 3', title: 'Laser', description: 'Stimulated emission.', fileUrl: '1Jzs3l4gqh2LIZ_c8snbr51q7BNe12Joo' },
+    { id: 404, subject_id: 4, chapter: 'Chapter 4', title: 'Fiber Optics', description: 'Communication physics..', fileUrl: '1qbwOsKZsx3HBbRzA7eKEaTIxFp1Y0pPM' },
+    { id: 405, subject_id: 4, chapter: 'Chapter 5', title: 'Quantum Mechanics & Computing', description: 'Wave Equation', fileUrl: '1tX5eZiS3zGxOT-lblE4vDOb3pYRV_psy' },
+    { id: 406, subject_id: 4, chapter: 'Chapter 6', title: 'Crystal Structure', description: 'Miller Indices.', fileUrl: '1aAVXjKwYItMXX7RSo06ngv7Ys_z8vOwA' },
+    { id: 407, subject_id: 4, chapter: 'Chapter 7', title: 'Band Theory of Solids', description: 'Free electron theory.', fileUrl: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 408, subject_id: 4, chapter: 'Chapter 8', title: 'Nanomaterials & NDT', description: 'NDT tests.', fileUrl: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
 
     // BME (ID 5)
     { id: 501, subject_id: 5, chapter: 'Chapter 1', title: 'Prime Movers', description: 'Introduction to mechanical energy.', fileUrl: 'PASTE_DRIVE_ID_HERE' },
@@ -148,12 +140,13 @@ const notes = [
 
 // 4. IMP TOPICS (Based on Chapters)
 const imp_topics = [
-    { id: 1, subject_id: 1, title: 'MATHS IMP', description: 'Most likely questions', fileUrl: '1LadgSMX5heRtYrRl-2V4eBwgN8uO-662' },
-    { id: 2, subject_id: 2, title: 'FOP IMP', description: 'C Programs List', fileUrl: '1O2yRSMCT1PgaBjugElHSHzmEG52sdLyX' },
-    { id: 3, subject_id: 3, title: 'BEEE IMP', description: 'Circuit Problems', fileUrl: '15fy1EAGoPAlM87HQlZXMtd711Kg9rCRS' },
-    { id: 4, subject_id: 4, title: 'EPHY IMP', description: 'Physics Theory', fileUrl: '1Gi86eKwXLywCcdTLSEw5PYPO076nDzdD' },
-    { id: 5, subject_id: 5, title: 'BME IMP', description: 'Diagrams & Definitions', fileUrl: '1hnZItDpfFFwNHV_oIwW7Q0d6XhhfJtAf' },
-    { id: 6, subject_id: 6, title: 'BCPS IMP', description: 'Grammar Rules', fileUrl: '15Nrjz2WhRNkfEqg2c1OvKDsj7xRlsj6Z' }
+    { id: 1, subject_id: 1, title: 'MATHS IMP', description: 'Most likely questions', fileUrl: '1GOWe9QU4BriWTGQQqNnieBWxCMMTTlVx' },
+    { id: 2, subject_id: 2, title: 'FOP IMP', description: 'C Programs List', fileUrl: '1L0--eXFnKFO1PBNTgiytXtUyFXn8oqC3' },
+    { id: 3, subject_id: 3, title: 'BEEE IMP', description: 'Circuit Problems', fileUrl: '101EvJ2VYXuHHfMoJlNW4JPW-Yd797q4P' },
+    { id: 4, subject_id: 4, title: 'EPHY IMP', description: 'Physics Theory', fileUrl: '1ylIRbOzb8dsh4JVi8L8Y6_3SCY6ZqIvA' },
+    { id: 5, subject_id: 5, title: 'BME IMP', description: 'Diagrams & Definitions', fileUrl: '1L35Ry7FxwPhYZ-raKWfQ6DVK6WL54jeC' },
+    { id: 6, subject_id: 6, title: 'BCPS IMP', description: 'Grammar Rules', fileUrl: '1zyjIle93uei8eMp93eKMC3n4S7APNnH8' },
+    { id: 7, subject_id: 7, title: 'SPORTS IMP', description: 'YOGA', fileUrl: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' }
 ];
 
 // 5. PRACTICALS (Restored - Full Detail)
@@ -183,18 +176,18 @@ const practicals = [
     { id: 19, subject_id: 3, title: 'Practical 10', subtitle: 'Exp: Zener Diode as regulator', file: '1fm2OeozkbhFA8xMYS_6uHmLHZqaWXg4j' },
 
     // EPHY
-    { id: 20, subject_id: 4, title: 'Practical 1', subtitle: 'Exp: SOUND LEVEL METER', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 21, subject_id: 4, title: 'Practical 2', subtitle: 'Exp: YOUNG\'S MODULUS', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 22, subject_id: 4, title: 'Practical 3', subtitle: 'Exp: MOMENT OF INERTIA', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 23, subject_id: 4, title: 'Practical 4', subtitle: 'Exp: WAVELENGTH OF LASER', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 24, subject_id: 4, title: 'Practical 5', subtitle: 'Exp: NUMERICAL APERTURE (FO)', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 25, subject_id: 4, title: 'Practical 6', subtitle: 'Exp: RADIOACTIVE DECAY', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 26, subject_id: 4, title: 'Practical 7', subtitle: 'Exp: MILLER INDICES', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 27, subject_id: 4, title: 'Practical 8', subtitle: 'Exp: DE-BROGLIE RELATION', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 28, subject_id: 4, title: 'Practical 9', subtitle: 'Exp: USE OF MULTIMETER', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 29, subject_id: 4, title: 'Practical 10', subtitle: 'Exp: DIODE VOLTAGES', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 30, subject_id: 4, title: 'Practical 11', subtitle: 'Exp: PLANCK\'S CONSTANT', file: 'PASTE_DRIVE_ID_HERE' },
-    { id: 31, subject_id: 4, title: 'Practical 12', subtitle: 'Exp: NANOMATERIAL SCALE', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 20, subject_id: 4, title: 'Practical 1', subtitle: 'Exp: SOUND LEVEL METER', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 21, subject_id: 4, title: 'Practical 2', subtitle: 'Exp: YOUNG\'S MODULUS', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 22, subject_id: 4, title: 'Practical 3', subtitle: 'Exp: MOMENT OF INERTIA', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 23, subject_id: 4, title: 'Practical 4', subtitle: 'Exp: WAVELENGTH OF LASER', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 24, subject_id: 4, title: 'Practical 5', subtitle: 'Exp: NUMERICAL APERTURE (FO)', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 25, subject_id: 4, title: 'Practical 6', subtitle: 'Exp: RADIOACTIVE DECAY', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 26, subject_id: 4, title: 'Practical 7', subtitle: 'Exp: MILLER INDICES', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 27, subject_id: 4, title: 'Practical 8', subtitle: 'Exp: DE-BROGLIE RELATION', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 28, subject_id: 4, title: 'Practical 9', subtitle: 'Exp: USE OF MULTIMETER', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 29, subject_id: 4, title: 'Practical 10', subtitle: 'Exp: DIODE VOLTAGES', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 30, subject_id: 4, title: 'Practical 11', subtitle: 'Exp: PLANCK\'S CONSTANT', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
+    { id: 31, subject_id: 4, title: 'Practical 12', subtitle: 'Exp: NANOMATERIAL SCALE', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
 
     // BME
     { id: 40, subject_id: 5, title: 'Practical 1', subtitle: 'Exp: Types of boilers', file: '1WHj2E01PUSip1V2BmQgrusoN72a0iknr' },
@@ -213,7 +206,7 @@ const assignments = [
     // MATHS
     { id: 1, subject_id: 1, title: 'Assignment 1', subtitle: 'Unit 1: Differential Calculus', file: '1oCBgmGIwVBqvxaMCsX42hUZ_E9il1YPS' },
     { id: 2, subject_id: 1, title: 'Assignment 2', subtitle: 'Unit 2: Partial Differentiation', file: '149g0f6Wk2Oxc2ZYlS6pgFJKmWtWDHQEk' },
-    { id: 3, subject_id: 1, title: 'Assignment 3', subtitle: 'Unit 3: Applications of Partial Diff.', file: 'PASTE_DRIVE_ID_HERE' },
+    { id: 3, subject_id: 1, title: 'Assignment 3', subtitle: 'Unit 3: Applications of Partial Diff.', file: '1rT_zsPDfzlpeIbnL2r9gNUDqaGnzxvhL' },
     { id: 4, subject_id: 1, title: 'Assignment 4', subtitle: 'Unit 4: Multiple Integrals', file: '1cfI7n44CHyi5vBOxXOF3lFB53hiri0No' },
     { id: 5, subject_id: 1, title: 'Assignment 5', subtitle: 'Unit 5: Infinite Series', file: '1cTF_VXJbx_lfSNS42I0Oj2GzcJXVAWvE' },
     { id: 6, subject_id: 1, title: 'Assignment 6', subtitle: 'Unit 6: Vector Calculus', file: '1aBX07_T7-w62rnXdu8Q8aNon2v8kU1XL' },
@@ -259,32 +252,32 @@ const pyqs = [
 // --- 8. FACULTY DATA (Scalable Structure) ---
 const faculty = [
     // --- ID 1: MATHS (9 Faculty) ---
-    { id: 101, subject_id: 1, name: "DR. Manoj Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First Floor,Inside Phy Lab", email: "manoj_sh@ldrp.ac.in", linkedin: "https://www.linkedin.com/in/dr-manoj-patel-73341090/", image: "images/faculty/maths_1.jpg" },
-    { id: 102, subject_id: 1, name: "MR. Khushal Prajapati", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-102", email: "khushalnp@gmail.com", linkedin: "https://www.linkedin.com/in/khushal-prajapati/", image: "images/faculty/maths_2.jpeg" },
-    { id: 103, subject_id: 1, name: "DR. Vijay Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-103", email: "vijay_sh@ldrp.ac.in", linkedin: "https://www.linkedin.com/in/dr-vijay-patel-159a1027/", image: "images/faculty/maths_3.jpg" },
-    { id: 104, subject_id: 1, name: "MR. Divyarajsinh Gohil", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-104", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_4.jpg" },
-    { id: 105, subject_id: 1, name: "Prof. Harsh Shah", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-105", email: "harsh_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_5.jpg" },
-    { id: 106, subject_id: 1, name: "MS. Shruti Rathod", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-106", email: "shruti_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_6.jpg" },
-    { id: 107, subject_id: 1, name: "DR. KRISHNA P. SOLANKI", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-107", email: "krishna_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_7.jpg" },
-    { id: 108, subject_id: 1, name: "MR. Vipul Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "D-108", email: "vipul_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_8.jpg" },
+    { id: 101, subject_id: 1, name: "DR. Manoj Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First Floor,CF-SR 5,", email: "manoj_sh@ldrp.ac.in", linkedin: "https://www.linkedin.com/in/dr-manoj-patel-73341090/", image: "images/faculty/maths_1.jpg" },
+    { id: 102, subject_id: 1, name: "MR. Khushal Prajapati", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "khushalnp@gmail.com", linkedin: "https://www.linkedin.com/in/khushal-prajapati/", image: "images/faculty/maths_2.jpeg" },
+    { id: 103, subject_id: 1, name: "DR. Vijay Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "UPDATING SOON...", email: "vijay_sh@ldrp.ac.in", linkedin: "https://www.linkedin.com/in/dr-vijay-patel-159a1027/", image: "images/faculty/maths_3.jpg" },
+    { id: 104, subject_id: 1, name: "MR. Divyarajsinh Gohil", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_4.jpg" },
+    { id: 105, subject_id: 1, name: "MR. Harsh Shah", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "harsh_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_5.jpg" },
+    { id: 106, subject_id: 1, name: "MS. Shruti Rathod", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "shruti_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_6.jpg" },
+    { id: 107, subject_id: 1, name: "DR. KRISHNA P. SOLANKI", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "krishna_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_7.jpg" },
+    { id: 108, subject_id: 1, name: "MR. Vipul Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "UPDATING SOON...", email: "vipul_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_8.jpg" },
 
     // --- ID 2: FOP (Computer) - Assuming 5 Faculty ---
-    { id: 201, subject_id: 2, name: "DR. Maulik A. Modi", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "M-201", email: "maulik_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_1.jpeg" },
-    { id: 202, subject_id: 2, name: "DR. Jigar Suthar", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "M-202", email: "jigar_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_2.jpg" },
-    { id: 203, subject_id: 2, name: "DR. Kaushal H. Bhavsar", designation: "Associate Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "M-203", email: "kaushal_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_3.jpg" },
-    { id: 204, subject_id: 2, name: "MR. Amit Pandey", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "M-204", email: "amit_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_4.jpg" },
-    { id: 205, subject_id: 2, name: "MR. Chandramaulisinh A Parmar", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "M-205", email: "chandra_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_5.jpg" },
-    { id: 206, subject_id: 2, name: "MR. Hitesh Patel", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "M-206", email: "hitesh_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_6.jpg" },
-    { id: 207, subject_id: 2, name: "DR. Saumil C Patel", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "M-207", email: "saumil_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_7.jpg" },
-    { id: 208, subject_id: 2, name: "DR. Kiran A Patel", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "M-207", email: "kiran_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_8.jpg" },
-    { id: 209, subject_id: 2, name: "MR. Aniruddh R Kyada", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "M-209", email: "aniruddh_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_9.jpg" },
+    { id: 201, subject_id: 2, name: "DR. Maulik A. Modi", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "maulik_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_1.jpeg" },
+    { id: 202, subject_id: 2, name: "DR. Jigar Suthar", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "Mechanical Dept. ,Ground Floor,HMT LAB", email: "jigar_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_2.jpg" },
+    { id: 203, subject_id: 2, name: "DR. Kaushal H. Bhavsar", designation: "Associate Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "kaushal_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_3.jpg" },
+    { id: 204, subject_id: 2, name: "MR. Amit Pandey", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "amit_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_4.jpg" },
+    { id: 205, subject_id: 2, name: "MR. Chandramaulisinh A Parmar", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "chandra_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_5.jpg" },
+    { id: 206, subject_id: 2, name: "MR. Hitesh Patel", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "hitesh_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_6.jpg" },
+    { id: 207, subject_id: 2, name: "DR. Saumil C Patel", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "saumil_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_7.jpg" },
+    { id: 208, subject_id: 2, name: "DR. Kiran A Patel", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "kiran_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_8.jpg" },
+    { id: 209, subject_id: 2, name: "MR. Aniruddh R Kyada", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "aniruddh_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_9.jpg" },
 
     // --- ID 3: BEEE (Electrical) - 6 Faculty ---
     { id: 301, subject_id: 3, name: "MRS.Payal V.Mistry", designation: "Asst. Professor", dept: "Electrical", cabin: "E-101", email: "pvmistri_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_1.jpg" },
-    { id: 302, subject_id: 3, name: "DR. Maulik C. Pandya", designation: "Asst. Professor", dept: "Electrical", cabin: "E-102", email: "mcpandya_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_2.jpg" },
-    { id: 303, subject_id: 3, name: "DR.Mihirkumar C.Rathod", designation: "Asst. Professor", dept: "Electrical", cabin: "E-103", email: "mihirrathod_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_3.jpg" },
-    { id: 304, subject_id: 3, name: "DR.Rakesh.P.Sukhadiya", designation: "Asst. Professor", dept: "Electrical", cabin: "E-105", email: "rpsukhadia_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_4.jpg" },
-    { id: 305, subject_id: 3, name: "MR.Ashish N.Patel", designation: "Asst. Professor", dept: "Electrical", cabin: "E-106", email: "ashish_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_5.jpg" },
+    { id: 302, subject_id: 3, name: "DR. Maulik C. Pandya", designation: "Asst. Professor", dept: "Electrical", cabin: "UPDATING SOON...", email: "mcpandya_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_2.jpg" },
+    { id: 303, subject_id: 3, name: "DR.Mihirkumar C.Rathod", designation: "Asst. Professor", dept: "Electrical", cabin: "UPDATING SOON...", email: "mihirrathod_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_3.jpg" },
+    { id: 304, subject_id: 3, name: "DR.Rakesh.P.Sukhadiya", designation: "Asst. Professor", dept: "Electrical", cabin: "UPDATING SOON...", email: "rpsukhadia_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_4.jpg" },
+    { id: 305, subject_id: 3, name: "MR.Ashish N.Patel", designation: "Asst. Professor", dept: "Electrical", cabin: "UPDATING SOON...", email: "ashish_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_5.jpg" },
 
     // --- ID 4: EPHY (Physics) - 3 Faculty ---
     { id: 401, subject_id: 4, name: "MR. Jitendra Patel", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "S-101", email: "jinendra_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_1.jpg" },
@@ -292,22 +285,22 @@ const faculty = [
     { id: 403, subject_id: 4, name: "DR. Manjul Kumar", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "S-103", email: "manjul_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_3.jpg" },
 
     // --- ID 5: BME (Mechanical) - 10 Faculty ---
-    { id: 501, subject_id: 5, name: "Dr. Amit Pandey", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-1", email: "amit_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_1.jpg" },
-    { id: 502, subject_id: 5, name: "MRS. Pragna R Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-2", email: "pragna_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_2.jpg" },
-    { id: 503, subject_id: 5, name: "DR. Alkesh M. Mavani", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-3", email: "alkesh_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_3.jpg" },
-    { id: 504, subject_id: 5, name: "MR. Hemal J Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-4", email: "hemal_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_4.jpg" },
-    { id: 505, subject_id: 5, name: "DR. Krunal B Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-5", email: "krunal_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_5.jpg" },
-    { id: 506, subject_id: 5, name: "DR. Jaimin R Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-6", email: "jaimin_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_6.jpg" },
-    { id: 507, subject_id: 5, name: "DR. Ankit A Darji", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-7", email: "ankit_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_7.jpg" },
-    { id: 508, subject_id: 5, name: "MR. Neel Joshi", designation: "Asst. Professor", dept: "Mechanical", cabin: "Mech-8", email: "neel_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_8.jpg" },
+    { id: 501, subject_id: 5, name: "Dr. Amit Pandey", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "amit_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_1.jpg" },
+    { id: 502, subject_id: 5, name: "MRS. Pragna R Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "pragna_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_2.jpg" },
+    { id: 503, subject_id: 5, name: "DR. Alkesh M. Mavani", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "alkesh_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_3.jpg" },
+    { id: 504, subject_id: 5, name: "MR. Hemal J Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "hemal_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_4.jpg" },
+    { id: 505, subject_id: 5, name: "DR. Krunal B Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "krunal_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_5.jpg" },
+    { id: 506, subject_id: 5, name: "DR. Jaimin R Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "jaimin_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_6.jpg" },
+    { id: 507, subject_id: 5, name: "DR. Ankit A Darji", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "ankit_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_7.jpg" },
+    { id: 508, subject_id: 5, name: "MR. Neel Joshi", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "neel_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_8.jpg" },
 
     // --- ID 6: BCPS (Humanities) - 2 Faculty ---
-    { id: 601, subject_id: 6, name: "DR. Sandhya Vyas", designation: "Asst. Professor", dept: "Humanities", cabin: "H-1", email: "email@ldrp.ac.in", linkedin: "https://www.linkedin.com/in/dr-sandhya-vyas-a75024174/?originalSubdomain=in", image: "images/faculty/bcps_1.jpg" },
-    { id: 602, subject_id: 6, name: "DR. Amee Brahmbhatt", designation: "Asst. Professor", dept: "Humanities", cabin: "H-2", email: "email@ldrp.ac.in", linkedin: "#", image: "images/faculty/bcps_2.jpg" },
+    { id: 601, subject_id: 6, name: "DR. Sandhya Vyas", designation: "Asst. Professor", dept: "Humanities", cabin: "UPDATING SOON...", email: "UPDATING SOON...", linkedin: "https://www.linkedin.com/in/dr-sandhya-vyas-a75024174/?originalSubdomain=in", image: "images/faculty/bcps_1.jpg" },
+    { id: 602, subject_id: 6, name: "DR. Amee Brahmbhatt", designation: "Asst. Professor", dept: "Humanities", cabin: "UPDATING SOON...", email: "UPDATING SOON...", linkedin: "#", image: "images/faculty/bcps_2.jpg" },
 
     // --- ID 7: SPORTS - 2 Faculty ---
-    { id: 701, subject_id: 7, name: "Lt. Bhavik Pandya", designation: "Asso. NCC Officer", dept: "Sports", cabin: "Ground Floor", email: "sports@ldrp.ac.in", linkedin: "https://www.linkedin.com/in/bhavik-pandya-9725531b2/?originalSubdomain=in", image: "images/faculty/sports_1.jpg" },
-    { id: 702, subject_id: 7, name: "MR. Ashish", designation: "Sports Co-ordinator", dept: "Sports", cabin: "Activity Hall", email: "yoga@ldrp.ac.in", linkedin: "#", image: "images/faculty/sports_2.jpg" }
+    { id: 701, subject_id: 7, name: "Lt. Bhavik Pandya", designation: "Asso. NCC Officer", dept: "Sports", cabin: "Shift 2,Ground Floor,AG-SR 2", email: "UPDATING SOON...", linkedin: "https://www.linkedin.com/in/bhavik-pandya-9725531b2/?originalSubdomain=in", image: "images/faculty/sports_1.jpg" },
+    { id: 702, subject_id: 7, name: "MR. Ashish", designation: "Sports Co-ordinator", dept: "Sports", cabin: "Shift 2,Ground Floor,AG-SR 2", email: "UPDATING SOON...", linkedin: "#", image: "images/faculty/sports_2.jpg" }
 ];
 
 // Niche wali line ko update krke 'faculty' add kr dena
