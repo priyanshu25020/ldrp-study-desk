@@ -82,53 +82,76 @@ app.get('/api/assignments', (req, res) => res.json(assignments));
 // ✅ Yeh Line Add Karo:
 app.get('/api/faculty', (req, res) => res.json(faculty));
 // --- GOOGLE DRIVE PROXY ---
-// --- UPDATED GOOGLE DRIVE PROXY (Supports Range Requests & Chunking) ---
+// --- NEW & IMPROVED GOOGLE DRIVE PROXY (With Direct Link Caching) ---
+const urlCache = new Map(); // Link yaad rakhne ke liye temporary memory
+
+// Helper: Redirect URL dhoondne ke liye
+async function getFinalDriveUrl(fileId) {
+    // 1. Agar cache mein link hai, toh wahi se utha lo (Fastest!)
+    if (urlCache.has(fileId)) {
+        return urlCache.get(fileId);
+    }
+
+    try {
+        const initialUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+        
+        // Google ko request bhejo par redirect mat follow karo (maxRedirects: 0)
+        await axios.get(initialUrl, {
+            maxRedirects: 0,
+            validateStatus: status => status >= 200 && status < 400
+        });
+        
+        // Agar yahan pahuche, matlab koi redirect nahi mila (Rare case)
+        return initialUrl; 
+
+    } catch (error) {
+        // 302/303 Redirect pakdo - Ye hai asli Direct Link!
+        if (error.response && (error.response.status === 302 || error.response.status === 303)) {
+            const finalUrl = error.response.headers.location;
+            
+            // Cache mein save karo (1 ghante ke liye)
+            urlCache.set(fileId, finalUrl);
+            setTimeout(() => urlCache.delete(fileId), 3600 * 1000);
+            
+            console.log("🚀 Cached Direct Link for:", fileId);
+            return finalUrl;
+        }
+        throw error;
+    }
+}
+
 app.get('/api/proxy-pdf', async (req, res) => {
     try {
         const fileId = req.query.id;
-        const range = req.headers.range; // Browser maang raha hai "Muje bas thoda sa part do"
+        const range = req.headers.range;
 
-        if (!fileId || fileId.includes('PASTE')) return res.status(404).send("File ID missing.");
+        if (!fileId) return res.status(404).send("File ID missing.");
 
-        const driveUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
-// 🔥 ADD THIS LINE FOR CACHING (Dubara khulne par instant load hoga) 🔥
-        res.setHeader('Cache-Control', 'public, max-age=3600');
-        // 1. Agar Browser ne Range mangi hai (Fast Loading ke liye)
-        if (range) {
-            const response = await axios({
-                method: 'GET',
-                url: driveUrl,
-                responseType: 'stream',
-                headers: { 
-                    'Range': range, // Google Drive ko bolo hume bas ye tukda chahiye
-                    'User-Agent': 'Mozilla/5.0' 
-                }
-            });
+        // 1. Asli Direct Link nikalo (Cache se ya Google se)
+        const finalUrl = await getFinalDriveUrl(fileId);
 
-            // Google Drive se headers copy karke Browser ko bhejo
-            res.status(206); // 206 means "Partial Content"
-            res.setHeader('Content-Range', response.headers['content-range']);
-            res.setHeader('Accept-Ranges', 'bytes');
-            res.setHeader('Content-Length', response.headers['content-length']);
-            res.setHeader('Content-Type', 'application/pdf');
-            
-            response.data.pipe(res);
-        } 
-        // 2. Agar Range nahi mangi (Normal Download)
-        else {
-            const response = await axios({
-                method: 'GET',
-                url: driveUrl,
-                responseType: 'stream',
-                headers: { 'User-Agent': 'Mozilla/5.0' }
-            });
-            res.setHeader('Content-Type', 'application/pdf');
-            response.data.pipe(res);
-        }
+        // 2. Browser ko headers bhejo (Important for PDF.js)
+        const fetchHeaders = { 
+            'User-Agent': 'Mozilla/5.0',
+            ...(range && { 'Range': range }) // Agar browser ne tukda maanga hai, toh forward karo
+        };
+
+        const response = await axios({
+            method: 'GET',
+            url: finalUrl,
+            responseType: 'stream',
+            headers: fetchHeaders
+        });
+
+        // 3. Response Headers set karo
+        res.status(response.status);
+        res.set(response.headers);
+        
+        // 4. Data pipe karo (Seedha browser ke paas)
+        response.data.pipe(res);
 
     } catch (error) {
         console.error("Proxy Error:", error.message);
-        // Agar range request fail ho jaye, to normal retry karega browser
         res.status(500).send("Error loading PDF.");
     }
 });
