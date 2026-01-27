@@ -54,10 +54,13 @@ io.on("connection", (socket) => {
 });
 
 // --- MIDDLEWARES ---
-app.use(compression());
-app.use(helmet({ 
-    contentSecurityPolicy: false, 
-    crossOriginEmbedderPolicy: false 
+// --- MIDDLEWARES ---
+// 🔥 FIX: Sirf TEXT compress karo, PDF nahi (Speed badhegi)
+app.use(compression({
+    filter: (req, res) => {
+        if (req.path.includes('/api/proxy-pdf')) return false; // PDF skip karo
+        return compression.filter(req, res); // Baaki HTML/JS compress karo
+    }
 }));
 app.use(cors());
 
