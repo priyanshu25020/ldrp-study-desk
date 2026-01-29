@@ -307,11 +307,11 @@
             </div>`;
         }
 
-       function renderSubjectDetail(subjectId) {
-    // 🔥 FIX: Using == instead of === to match string/number IDs safely
+      function renderSubjectDetail(subjectId) {
+    // 🔥 FIX: Using == instead of === for safety
     const subject = subjects.find(s => s.id == subjectId);
     
-    // Safety check: Agar subject nahi mila to crash nahi hoga
+    // Safety check
     if (!subject) return `<div class='p-10 text-center text-red-500'>Error: Subject not found. ID: ${subjectId}</div>`;
 
     const subjectNotes = notes.filter(n => n.subject_id == subjectId);

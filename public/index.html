@@ -2143,13 +2143,14 @@ function renderSubjects() {
         </button>
         <div class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4 reveal-on-scroll">
             <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight">Academic Subjects</h2>
-            <p class="text-gray-500 italic">Semester 1</p>
+            <p class="text-gray-500 italic">Semester ${currentSem}</p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             ${subjects.map((sub, idx) => {
-            // Logic: Check IMP topic
-            const subImpTopics = imp_topics.filter(i => i.subject_id == sub.id); // Fixed ==
+            
+            // Logic for Imp Topics
+            const subImpTopics = imp_topics.filter(i => i.subject_id == sub.id);
             const impFileId = subImpTopics.length > 0 ? subImpTopics[0].fileUrl : null;
 
             return `
