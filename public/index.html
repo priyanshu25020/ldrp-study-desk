@@ -25,11 +25,48 @@
 </script>
 
 <head>
+    
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
     <style>
+        /* --- Donut Chart CSS (Head ke style tag me dalo) --- */
+.donut-chart {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #4f46e5 0% 65%,  /* Online Users % */
+        #10b981 65% 85%, /* Today Visits % */
+        #f59e0b 85% 100% /* Total Visits % */
+    );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.3);
+    margin: 0 auto 2rem auto;
+}
+.donut-hole {
+    width: 140px;
+    height: 140px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+.branch-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
         /* Circular Progress Bar */
         .progress-ring__circle {
             transition: stroke-dashoffset 0.35s;
@@ -1726,173 +1763,100 @@
         }
 
 
-        function renderHome() {
-            return `
-                <div class="relative text-white py-24 px-4 overflow-hidden bg-cover bg-center min-h-[85vh] flex items-center" style="background-image: url('images/image_35380a.png');">
-                    <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-[1px]"></div>
-                    <div class="relative max-w-5xl mx-auto text-center z-10">
-                        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight hero-animate hero-delay-1 drop-shadow-lg leading-tight">LDRP Study Desk</h1>
-                        <p class="text-xl md:text-3xl text-indigo-100 mb-10 font-light hero-animate hero-delay-2 drop-shadow-md">Learn Better with Clear and Organized Notes.</p>
-                        
-                        <div class="max-w-4xl mx-auto mb-12 text-indigo-50/90 leading-relaxed text-lg space-y-4 hero-animate hero-delay-3">
-                            <p>This website is created to help students access clear, simple, and exam-oriented study notes in one place.</p>
-                            <p class="hidden md:block">We are a student-driven platform dedicated to providing LDRP college study materials across all branches and semesters.</p>
-                        </div>
+      function renderHome() {
+    // Branches ka data with ICONS & COLORS (Ab yeh khaali nahi lagega)
+    const branchList = [
+        { code: 'CE', name: 'Computer Engg', icon: 'fa-laptop-code', color: 'bg-blue-50 text-blue-600 border-blue-100' },
+        { code: 'IT', name: 'Info Tech', icon: 'fa-network-wired', color: 'bg-indigo-50 text-indigo-600 border-indigo-100' },
+        { code: 'EC', name: 'Electronics', icon: 'fa-microchip', color: 'bg-purple-50 text-purple-600 border-purple-100' },
+        { code: 'EE', name: 'Electrical', icon: 'fa-bolt', color: 'bg-yellow-50 text-yellow-600 border-yellow-100' },
+        { code: 'ME', name: 'Mechanical', icon: 'fa-cogs', color: 'bg-orange-50 text-orange-600 border-orange-100' },
+        { code: 'CIVIL', name: 'Civil Engg', icon: 'fa-hard-hat', color: 'bg-teal-50 text-teal-600 border-teal-100' },
+        { code: 'AUTO', name: 'Automobile', icon: 'fa-car', color: 'bg-red-50 text-red-600 border-red-100' }
+    ];
 
-                        <div class="flex flex-wrap justify-center gap-6 hero-animate hero-delay-3">
-                            <button onclick="router('sem-select', 'subjects')" class="bg-white text-indigo-700 px-10 py-4 rounded-full font-bold shadow-2xl hover:bg-indigo-50 transition-all transform hover:scale-105 active:scale-95 btn-click-effect">
-                                Browse Subjects
-                            </button>
-                            <button onclick="router('sem-select', 'pyqs')" class="bg-white/20 border-2 border-white/50 text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-indigo-700 transition-all transform hover:scale-105 active:scale-95 backdrop-blur-md btn-click-effect">
-                                View PYQs
-                            </button>
+    return `
+    <div class="relative text-white py-20 px-4 bg-cover bg-center flex items-center justify-center" style="background-image: url('images/image_35380a.png'); min-height: 70vh;">
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-[2px]"></div>
+        <div class="relative z-10 text-center max-w-4xl">
+            <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight drop-shadow-xl hero-animate">LDRP Study Desk</h1>
+            <p class="text-xl text-indigo-100 mb-10 hero-animate" style="animation-delay:0.2s">Smart Learning Platform for Engineers.</p>
+            <div class="flex flex-wrap justify-center gap-4 hero-animate" style="animation-delay:0.4s">
+                <button onclick="router('sem-select', 'subjects')" class="bg-white text-indigo-700 px-8 py-3 rounded-full font-bold shadow-xl hover:scale-105 transition-transform">Browse Subjects</button>
+                <button onclick="router('sem-select', 'pyqs')" class="bg-white/20 border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-indigo-700 transition-all">View PYQs</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 py-16 -mt-24 relative z-20">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl border border-indigo-50 flex flex-col items-center justify-center relative overflow-hidden reveal-on-scroll text-center h-full">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+                
+                <h2 class="text-2xl font-black text-gray-800 mb-6 flex items-center gap-2">
+                    <i class="fas fa-chart-pie text-indigo-500"></i> Platform Insights
+                </h2>
+                
+                <div class="donut-chart mb-6">
+                    <div class="donut-hole">
+                        <div class="text-center">
+                            <div class="w-3 h-3 bg-green-500 rounded-full mx-auto mb-2 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.6)]"></div>
+                            <span class="text-4xl font-black text-gray-800" id="stat-online">${cachedStats.online || 0}</span>
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Users Live</p>
                         </div>
                     </div>
                 </div>
-<div class="max-w-7xl mx-auto px-4 py-24 border-b border-gray-100">
-                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 reveal-on-scroll">Quick Access</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                        ${['Subjects', 'Notes', 'Study Assistant', 'PYQs', 'Imp Topics', 'Contact'].map((item, idx) => `
-                            <div onclick="handleQuickAccessClick('${item}')" 
-                                 class="reveal-on-scroll bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all cursor-pointer text-center border-b-4 border-transparent hover:border-indigo-500 group transform hover:-translate-y-2 ring-1 ring-slate-100"
-                                 style="transition-delay: ${idx * 0.05}s">
-                                <div class="text-indigo-500 text-3xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas ${getIcon(item)}"></i>
-                                </div>
-                                <h3 class="font-bold text-gray-700 group-hover:text-indigo-600 transition-colors">${item}</h3>
-                            </div>
-                        `).join('')}
+
+                <div class="grid grid-cols-2 gap-4 w-full max-w-sm mt-auto">
+                    <div class="bg-indigo-50 p-3 rounded-2xl border border-indigo-100">
+                        <p class="text-indigo-600 font-black text-2xl" id="stat-reach">${cachedStats.totalVisits || 0}</p>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold">Total Visits</p>
+                    </div>
+                    <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-100">
+                        <p class="text-emerald-600 font-black text-2xl" id="stat-visits">${cachedStats.visitsToday || 0}</p>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold">Visits Today</p>
                     </div>
                 </div>
+            </div>
 
-             
-
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="impact-section">
-    <div class="reveal-on-scroll bg-white p-8 rounded-[2rem] shadow-lg border border-blue-50">
-        <div class="w-14 h-14 bg-blue-500 rounded-2xl flex items-center justify-center text-white text-2xl mb-6 shadow-blue-200 shadow-lg"><i class="fas fa-globe"></i></div>
-        <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Monthly Reach</p>
-        <h3 id="stat-reach" class="text-4xl font-black text-slate-800 mb-4">...</h3> <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-blue-500 w-3/4 rounded-full"></div></div>
-    </div>
-    <div class="reveal-on-scroll bg-white p-8 rounded-[2rem] shadow-lg border border-green-50" style="transition-delay: 0.1s;">
-        <div class="w-14 h-14 bg-green-500 rounded-2xl flex items-center justify-center text-white text-2xl mb-6 shadow-green-200 shadow-lg"><i class="fas fa-calendar-check"></i></div>
-        <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Visits Today</p>
-        <h3 id="stat-visits" class="text-4xl font-black text-slate-800 mb-4">...</h3> <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-green-500 w-1/4 rounded-full"></div></div>
-    </div>
-    <div class="reveal-on-scroll bg-white p-8 rounded-[2rem] shadow-lg border border-purple-50" style="transition-delay: 0.2s;">
-        <div class="w-14 h-14 bg-purple-500 rounded-2xl flex items-center justify-center text-white text-2xl mb-6 shadow-purple-200 shadow-lg"><i class="fas fa-signal"></i></div>
-        <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Online Now</p>
-        <h3 id="stat-online" class="text-4xl font-black text-slate-800 mb-4">...</h3> <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-purple-500 w-1/2 rounded-full"></div></div>
-    </div>
-    <div class="reveal-on-scroll bg-white p-8 rounded-[2rem] shadow-lg border border-orange-50" style="transition-delay: 0.3s;">
-        <div class="w-14 h-14 bg-orange-500 rounded-2xl flex items-center justify-center text-white text-2xl mb-6 shadow-orange-200 shadow-lg"><i class="fas fa-users"></i></div>
-        <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">Total Users</p>
-        <h3 id="stat-users" class="text-4xl font-black text-slate-800 mb-4">...</h3> <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-orange-500 w-full rounded-full"></div></div>
-    </div>
-</div>
-                <div class="max-w-7xl mx-auto px-4 py-24">
-                    <div class="text-center mb-16 reveal-on-scroll">
-                        <h2 class="text-4xl font-extrabold text-indigo-900 mb-4">Academic <span class="text-indigo-600">Departments</span></h2>
-                        <div class="h-1.5 w-24 bg-indigo-600 mx-auto rounded-full"></div>
-                        <p class="mt-4 text-gray-500">Explore specialized engineering branches and comprehensive courses.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div onclick="openBranchModal('CE')" class="reveal-on-scroll bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer">
-                            <div class="flex justify-between items-start mb-6">
-                                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl">
-                                    <i class="fas fa-laptop-code"></i>
-                                </div>
-                                <span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full uppercase tracking-wide group-hover:bg-blue-600 group-hover:text-white transition-colors">5 Courses</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors">Computer Engineering</h3>
-                            <div class="flex items-center text-xs font-bold text-gray-400 group-hover:text-blue-500 transition-colors mt-4">
-                                VIEW BRANCHES <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
-                            </div>
-                        </div>
-
-                        <div onclick="openBranchModal('IT')" class="reveal-on-scroll bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer" style="transition-delay: 0.1s">
-                            <div class="flex justify-between items-start mb-6">
-                                <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl">
-                                    <i class="fas fa-network-wired"></i>
-                                </div>
-                                <span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full uppercase tracking-wide group-hover:bg-indigo-600 group-hover:text-white transition-colors">3 Courses</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-indigo-700 transition-colors">Information Technology</h3>
-                            <div class="flex items-center text-xs font-bold text-gray-400 group-hover:text-indigo-500 transition-colors mt-4">
-                                VIEW BRANCHES <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
-                            </div>
-                        </div>
-
-                        <div onclick="openBranchModal('EC')" class="reveal-on-scroll bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer" style="transition-delay: 0.2s">
-                            <div class="flex justify-between items-start mb-6">
-                                <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center text-xl">
-                                    <i class="fas fa-satellite-dish"></i>
-                                </div>
-                                <span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full uppercase tracking-wide group-hover:bg-purple-600 group-hover:text-white transition-colors">2 Courses</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-purple-700 transition-colors">Electronics & Comm.</h3>
-                            <div class="flex items-center text-xs font-bold text-gray-400 group-hover:text-purple-500 transition-colors mt-4">
-                                VIEW BRANCHES <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
-                            </div>
-                        </div>
-
-                        <div onclick="openBranchModal('EE')" class="reveal-on-scroll bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer" style="transition-delay: 0.3s">
-                            <div class="flex justify-between items-start mb-6">
-                                <div class="w-12 h-12 bg-yellow-50 text-yellow-600 rounded-xl flex items-center justify-center text-xl">
-                                    <i class="fas fa-bolt"></i>
-                                </div>
-                                <span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full uppercase tracking-wide group-hover:bg-yellow-600 group-hover:text-white transition-colors">2 Courses</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-yellow-700 transition-colors">Electrical Engineering</h3>
-                            <div class="flex items-center text-xs font-bold text-gray-400 group-hover:text-yellow-500 transition-colors mt-4">
-                                VIEW BRANCHES <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
-                            </div>
-                        </div>
-
-                        <div onclick="openBranchModal('ME')" class="reveal-on-scroll bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer">
-                            <div class="flex justify-between items-start mb-6">
-                                <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center text-xl">
-                                    <i class="fas fa-cogs"></i>
-                                </div>
-                                <span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full uppercase tracking-wide group-hover:bg-orange-600 group-hover:text-white transition-colors">3 Courses</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-orange-700 transition-colors">Mechanical Engineering</h3>
-                            <div class="flex items-center text-xs font-bold text-gray-400 group-hover:text-orange-500 transition-colors mt-4">
-                                VIEW BRANCHES <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
-                            </div>
-                        </div>
-
-                        <div onclick="openBranchModal('CIVIL')" class="reveal-on-scroll bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer" style="transition-delay: 0.1s">
-                            <div class="flex justify-between items-start mb-6">
-                                <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center text-xl">
-                                    <i class="fas fa-hard-hat"></i>
-                                </div>
-                                <span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full uppercase tracking-wide group-hover:bg-teal-600 group-hover:text-white transition-colors">2 Courses</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-teal-700 transition-colors">Civil Engineering</h3>
-                            <div class="flex items-center text-xs font-bold text-gray-400 group-hover:text-teal-500 transition-colors mt-4">
-                                VIEW BRANCHES <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
-                            </div>
-                        </div>
-
-                        <div onclick="openBranchModal('AUTO')" class="reveal-on-scroll bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer" style="transition-delay: 0.2s">
-                            <div class="flex justify-between items-start mb-6">
-                                <div class="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center text-xl">
-                                    <i class="fas fa-car"></i>
-                                </div>
-                                <span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded-full uppercase tracking-wide group-hover:bg-red-600 group-hover:text-white transition-colors">2 Courses</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-red-700 transition-colors">Automobile Engineering</h3>
-                            <div class="flex items-center text-xs font-bold text-gray-400 group-hover:text-red-500 transition-colors mt-4">
-                                VIEW BRANCHES <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
-                            </div>
-                        </div>
-                    </div>
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl border border-indigo-50 reveal-on-scroll h-full flex flex-col" style="transition-delay: 0.1s">
+                <div class="flex items-center justify-between mb-6 shrink-0">
+                    <h2 class="text-2xl font-black text-gray-800"><i class="fas fa-university text-indigo-500 mr-2"></i> Departments</h2>
+                    <span class="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full text-xs font-bold border border-indigo-100">7 Branches</span>
                 </div>
-            `;
-        }
+                
+                <div class="grid grid-cols-2 gap-4 overflow-y-auto custom-scrollbar pr-1 flex-grow max-h-[400px]">
+                    ${branchList.map(b => `
+                        <div onclick="openBranchModal('${b.code}')" class="${b.color} border p-4 rounded-2xl cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all flex flex-col justify-center items-start h-24 relative overflow-hidden group">
+                            <i class="fas ${b.icon} absolute -right-2 -bottom-2 text-6xl opacity-10 group-hover:scale-125 transition-transform"></i>
+                            <div class="font-black text-2xl mb-1">${b.code}</div>
+                            <div class="text-[10px] font-bold opacity-80 uppercase tracking-wide">${b.name}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
 
+        </div>
+    </div>
+
+    <div class="bg-slate-50 py-16 border-t border-gray-200 mt-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <h3 class="text-center text-gray-400 text-sm font-bold uppercase tracking-widest mb-10">Quick Navigation</h3>
+            <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
+                ${['Subjects','Notes','Study Assistant','PYQs','Imp Topics','Contact'].map(item => `
+                    <button onclick="handleQuickAccessClick('${item}')" class="bg-white p-4 rounded-2xl shadow-sm hover:shadow-lg transition-all text-gray-600 hover:text-indigo-600 font-bold text-sm border border-gray-100 group flex flex-col items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center text-lg group-hover:scale-110 transition-transform">
+                            <i class="fas ${getIcon(item)}"></i>
+                        </div>
+                        ${item}
+                    </button>
+                `).join('')}
+            </div>
+        </div>
+    </div>
+    `;
+}
         function renderSemesterSelect(targetSection) {
             // FIX: Default to 'subjects' if targetSection is missing
             if (!targetSection || targetSection === 'undefined') {
@@ -1926,13 +1890,17 @@
     `;
         }
 
-        function handleSemesterClick(sem, targetSection) {
-            if (sem === 1) {
-                router(targetSection);
-            } else {
-                alert("The documents are provided as soon as possible. Sorry.");
-            }
-        }
+       function handleSemesterClick(sem, targetSection) {
+    // 🔥 Logic: Sem 1 hamesha open rahega. 
+    // Sem 2 tabhi open hoga jab user 'Syllabus' par click karke aaya ho.
+    const isUnlocked = (sem === 1) || (sem === 2 && targetSection === 'syllabus');
+
+    if (isUnlocked) {
+        router(targetSection);
+    } else {
+        alert(`Semester ${sem} content for ${targetSection} is currently locked or under development.`);
+    }
+}
 
       function handleQuickAccessClick(item) {
             if (item === 'Subjects' || item === 'Notes') router('sem-select', 'subjects');
