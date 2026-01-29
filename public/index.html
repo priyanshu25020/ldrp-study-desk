@@ -364,9 +364,7 @@
                             & Assignment</a>
                         <a onclick="router('sem-select', 'pyqs')"
                             class="hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-200">PYQs</a>
-                        <a onclick="router('campus-tour')"
-                            class="hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-200">Virtual
-                            Tour</a>
+                     <a onclick="router('study-assistant')" class="hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-200">Study Assistant</a>
                         <a onclick="router('about')"
                             class="hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-200">About</a>
                         <a onclick="router('contact')"
@@ -396,9 +394,7 @@
                     & Assignment</a>
                 <a onclick="router('sem-select', 'pyqs')"
                     class="hover:bg-indigo-800 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">PYQs</a>
-                <a onclick="router('campus-tour')"
-                    class="hover:bg-indigo-800 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">Virtual
-                    Tour</a>
+               <a onclick="router('study-assistant')" class="hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-200">Study Assistant</a>
                 <a onclick="router('about')"
                     class="hover:bg-indigo-800 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">About</a>
                 <a onclick="router('contact')"
@@ -942,16 +938,16 @@
 
         // --- UTILS ---
         function getIcon(name) {
-            const icons = {
-                'Subjects': 'fa-layer-group',
-                'Notes': 'fa-file-signature',
-                'Textbooks': 'fa-book-atlas',
-                'PYQs': 'fa-history',
-                'Imp Topics': 'fa-star',
-                'Contact': 'fa-id-card'
-            };
-            return icons[name] || 'fa-circle';
-        }
+    const icons = {
+        'Subjects': 'fa-layer-group',
+        'Notes': 'fa-file-signature',
+        'Study Assistant': 'fa-robot', // Naya Icon
+        'PYQs': 'fa-history',
+        'Imp Topics': 'fa-star',
+        'Contact': 'fa-id-card'
+    };
+    return icons[name] || 'fa-circle';
+}
 
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
@@ -1635,10 +1631,11 @@
                 case 'faculty':
                     app.innerHTML = renderFaculty(params);
                     break;
-                // 🔥 NEW CASE ADDED HERE
-                case 'campus-tour':
-                    app.innerHTML = renderCampusTour();
-                    break;
+                
+              // Isse replace karein:
+case 'study-assistant':
+    app.innerHTML = renderStudyAssistant();
+    break;
                 case 'about':
                     app.innerHTML = renderAbout();
                     break;
@@ -1683,7 +1680,7 @@
                 <div class="max-w-7xl mx-auto px-4 py-24 border-b border-gray-100">
                     <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 reveal-on-scroll">Quick Access</h2>
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                        ${['Subjects', 'Notes', 'Textbooks', 'PYQs', 'Imp Topics', 'Contact'].map((item, idx) => `
+                       ${['Subjects', 'Notes', 'Study Assistant', 'PYQs', 'Imp Topics', 'Contact'].map((item, idx) => `
                             <div onclick="handleQuickAccessClick('${item}')" 
                                  class="reveal-on-scroll bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all cursor-pointer text-center border-b-4 border-transparent hover:border-indigo-500 group transform hover:-translate-y-2 ring-1 ring-slate-100"
                                  style="transition-delay: ${idx * 0.05}s">
@@ -1865,13 +1862,13 @@
             }
         }
 
-        function handleQuickAccessClick(item) {
-            if (item === 'Subjects' || item === 'Notes' || item === 'Textbooks') router('sem-select', 'subjects');
-            else if (item === 'PYQs') router('sem-select', 'pyqs');
-            else if (item === 'Imp Topics') router('sem-select', 'subjects');
-            else if (item === 'Contact') router('contact');
-        }
-
+       function handleQuickAccessClick(item) {
+    if (item === 'Subjects' || item === 'Notes') router('sem-select', 'subjects');
+    else if (item === 'Study Assistant') router('study-assistant'); // New Logic
+    else if (item === 'PYQs') router('sem-select', 'pyqs');
+    else if (item === 'Imp Topics') router('sem-select', 'subjects');
+    else if (item === 'Contact') router('contact');
+}
         function renderSubjects() {
             return `
         <div class="max-w-7xl mx-auto px-4 py-16">
@@ -1890,6 +1887,7 @@
                 const impFileId = subImpTopics.length > 0 ? subImpTopics[0].fileUrl : null;
 
                 return `
+                
                     <div class="reveal-on-scroll bg-white rounded-3xl shadow-sm border border-indigo-50 overflow-hidden card-hover flex flex-col h-full group" style="transition-delay: ${idx * 0.1}s">
                         
                         <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-5 text-white flex justify-between items-center group-hover:from-indigo-700 group-hover:to-violet-700 transition-all duration-300">
@@ -1902,28 +1900,25 @@
 
                         <div class="p-6 flex flex-col flex-grow">
                             <h4 class="text-xl font-bold text-gray-800 mb-6 flex-grow leading-tight">${sub.name}</h4>
-                            
-                            <div class="grid grid-cols-2 gap-3 mt-auto">
-                                
-                                <button onclick="router('subject-detail', ${sub.id})" 
-                                    class="bg-indigo-50 text-indigo-700 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-indigo-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-                                    <i class="fas fa-sticky-note text-sm"></i> Notes
-                                </button>
+                           
+<div class="grid grid-cols-2 gap-3 mt-auto">
+    
+    <button onclick="router('subject-detail', ${sub.id})" 
+        class="col-span-2 bg-indigo-50 text-indigo-700 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-indigo-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
+        <i class="fas fa-sticky-note text-sm"></i> Notes
+    </button>
 
-                               <button onclick="router('faculty', ${sub.id})" 
-    class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-    <i class="fas fa-chalkboard-teacher text-sm"></i> Faculty
-</button>
+    <button onclick="router('faculty', ${sub.id})" 
+        class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
+        <i class="fas fa-chalkboard-teacher text-sm"></i> Faculty
+    </button>
 
-                                <button onclick="openTextbooks(${sub.id})" 
-                                    class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-                                    <i class="fas fa-book text-sm"></i> Textbooks
-                                </button>
-                                
-                                <button onclick="${impFileId ? `openViewer('Imp Topics: ${sub.name}', 'note', '${impFileId}')` : `alert('IMP Topics coming soon for ${sub.code}')`}" 
-                                        class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-                                    <i class="fas fa-star text-sm"></i> Imp Topics
-                                </button>
+    <button onclick="${impFileId ? `openViewer('Imp Topics: ${sub.name}', 'note', '${impFileId}')` : `alert('IMP Topics coming soon for ${sub.code}')`}" 
+        class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
+        <i class="fas fa-star text-sm"></i> Imp Topics
+    </button>
+
+</div>
 
                             </div>
                         </div>
@@ -2321,53 +2316,24 @@
                 </div>
             `;
         }
-        function renderCampusTour() {
-            return `
+      function renderStudyAssistant() {
+    return `
         <div class="max-w-4xl mx-auto px-4 py-20 text-center reveal-on-scroll">
-            
-            <div class="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 border border-indigo-50 relative overflow-hidden group">
-                
-                <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600"></div>
-                <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-indigo-50 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
-
-                <div class="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner group-hover:scale-110 transition-transform duration-500">
-                    <i class="fas fa-street-view text-5xl text-indigo-600 animate-pulse"></i>
+            <div class="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 border border-indigo-50 relative overflow-hidden">
+                <div class="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+                    <i class="fas fa-robot text-5xl text-indigo-600 animate-pulse"></i>
                 </div>
-
-                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">
-                    LDRP 360° <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Virtual Tour</span>
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+                    Study <span class="text-indigo-600">Assistant</span>
                 </h2>
-                
-                <span class="inline-block bg-yellow-100 text-yellow-800 text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest mb-8 border border-yellow-200">
-                    <i class="fas fa-hard-hat mr-2"></i> Under Development
-                </span>
-
-                <div class="bg-slate-50 border-l-4 border-indigo-500 text-left p-6 md:p-8 rounded-r-2xl shadow-sm max-w-2xl mx-auto transform transition-all hover:shadow-md">
-                    <div class="flex items-start">
-                        <i class="fas fa-info-circle text-indigo-500 text-2xl mr-4 mt-1"></i>
-                        <div>
-                            <h4 class="font-bold text-gray-800 text-lg mb-2">Important Note</h4>
-                            <p class="text-gray-600 leading-relaxed text-sm md:text-base">
-                                This section is currently pending as we are building an immersive <strong>360-degree digital experience</strong> of the LDRP-ITR Gandhinagar campus.
-                                <br><br>
-                                Please visit again in a few days to use this feature. We are working hard to update it soon! Until then, please enjoy the study materials and other features of the desk.
-                                <br><br>
-                                <span class="text-indigo-600 font-medium italic">Sorry for the inconvenience.</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-10">
-                    <button onclick="router('home')" class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full font-bold shadow-lg hover:shadow-indigo-200 hover:-translate-y-1 transition-all active:scale-95">
-                        Back to Home
-                    </button>
-                </div>
-
+                <p class="text-gray-500 mb-8">AI Powered Helper (Design Pending...)</p>
+                <button onclick="router('home')" class="px-8 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">
+                    Back to Home
+                </button>
             </div>
         </div>
     `;
-        }
+}
         function renderAbout() {
             return `
                 <div class="max-w-5xl mx-auto px-4 py-16">
