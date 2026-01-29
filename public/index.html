@@ -1869,7 +1869,7 @@
             else if (item === 'Imp Topics') router('sem-select', 'subjects');
             else if (item === 'Contact') router('contact');
         }
-        function renderSubjects() {
+     function renderSubjects() {
             return `
         <div class="max-w-7xl mx-auto px-4 py-16">
             <button onclick="router('sem-select', 'subjects')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
@@ -1908,15 +1908,10 @@
                                 </button>
 
                                <button onclick="router('faculty', ${sub.id})" 
-    class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-    <i class="fas fa-chalkboard-teacher text-sm"></i> Faculty
-</button>
-
-                                <button onclick="openTextbooks(${sub.id})" 
                                     class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-                                    <i class="fas fa-book text-sm"></i> Textbooks
+                                    <i class="fas fa-chalkboard-teacher text-sm"></i> Faculty
                                 </button>
-                                
+
                                 <button onclick="${impFileId ? `openViewer('Imp Topics: ${sub.name}', 'note', '${impFileId}')` : `alert('IMP Topics coming soon for ${sub.code}')`}" 
                                         class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
                                     <i class="fas fa-star text-sm"></i> Imp Topics
@@ -1930,7 +1925,8 @@
             </div>
         </div>
     `;
-        } function renderFaculty(subjectId) {
+        }
+         function renderFaculty(subjectId) {
             const subject = subjects.find(s => s.id === subjectId);
 
             // Filter faculty for this subject
