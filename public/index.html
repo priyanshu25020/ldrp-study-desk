@@ -1929,20 +1929,32 @@ case 'study-assistant':
         </div>
     `;
     // --- MISSING FUNCTION: Subject Detail (Notes & Textbooks) ---
+// --- FIXED FUNCTION: Subject Detail (Notes & Textbooks) ---
 function renderSubjectDetail(subjectId) {
-    const subject = subjects.find(s => s.id === subjectId);
-    
-    // Filter data based on subject ID
-    const subjectNotes = notes.filter(n => n.subject_id === subjectId);
-    const subjectTextbooks = textbooks.filter(t => t.subject_id === subjectId);
+    // 1. Convert ID to Number (Safety Fix)
+    const id = Number(subjectId);
+    const subject = subjects.find(s => s.id === id);
+
+    // Error Check: Agar subject nahi mila to crash nahi hoga
+    if (!subject) {
+        console.error("Subject not found for ID:", id);
+        return `<div class="text-center p-10 text-red-500 font-bold">Error: Subject Not Found. Try refreshing.</div>`;
+    }
+
+    // Filter data safely
+    const subjectNotes = (typeof notes !== 'undefined' ? notes : []).filter(n => n.subject_id === id);
+    const subjectTextbooks = (typeof textbooks !== 'undefined' ? textbooks : []).filter(t => t.subject_id === id);
+
+    // Helper to escape quotes in titles (Taaki 'onclick' break na ho)
+    const safeTitle = (str) => str.replace(/'/g, "\\'");
 
     return `
-    <div class="max-w-7xl mx-auto px-4 py-16 animate-stagger">
-        <button onclick="router('subjects')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
+    <div class="max-w-7xl mx-auto px-4 py-16 animate-grid-item">
+        <button onclick="router('sem-select', 'subjects')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
             <i class="fas fa-chevron-left mr-2"></i> Back to Subjects
         </button>
 
-        <div class="reveal-on-scroll bg-white p-10 rounded-3xl shadow-sm border border-indigo-100 mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="reveal-on-scroll bg-white p-8 rounded-3xl shadow-sm border border-indigo-100 mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="text-center md:text-left">
                 <h1 class="text-3xl md:text-4xl font-black text-gray-900">${subject.name}</h1>
                 <p class="text-indigo-600 font-bold uppercase tracking-widest text-sm mt-2">${subject.code} • Learning Material</p>
@@ -1964,13 +1976,14 @@ function renderSubjectDetail(subjectId) {
                                 <h4 class="font-bold text-gray-800">${item.title}</h4>
                                 <p class="text-xs text-gray-500">${item.chapter || 'Unit Note'}</p>
                             </div>
-                            <button onclick="openViewer('${subject.code} - ${item.title}', 'note', '${item.fileUrl}')" class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-600 hover:text-white transition-all btn-click-effect">
+                            <button onclick="openViewer('${safeTitle(subject.code)} - ${safeTitle(item.title)}', 'note', '${item.fileUrl}')" 
+                                class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-600 hover:text-white transition-all btn-click-effect">
                                 View
                             </button>
                         </div>
                     `).join('') : `
                         <div class="text-gray-400 italic bg-gray-50 p-4 rounded-xl text-center border border-dashed border-gray-200">
-                            No Notes Available
+                            No Notes Available Yet
                         </div>
                     `}
                 </div>
@@ -1987,7 +2000,8 @@ function renderSubjectDetail(subjectId) {
                                 <h4 class="font-bold text-gray-800">${item.title}</h4>
                                 <p class="text-xs text-gray-500">${item.author || 'Author'}</p>
                             </div>
-                            <button onclick="openViewer('${item.title}', 'textbook', '${item.downloadUrl}')" class="bg-purple-50 text-purple-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-purple-600 hover:text-white transition-all btn-click-effect">
+                            <button onclick="openViewer('${safeTitle(item.title)}', 'textbook', '${item.downloadUrl}')" 
+                                class="bg-purple-50 text-purple-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-purple-600 hover:text-white transition-all btn-click-effect">
                                 Open
                             </button>
                         </div>
@@ -2209,63 +2223,7 @@ function renderSubjectDetail(subjectId) {
             </div>
         `;
         }
-function renderSubjects() {
-    return `
-    <div class="max-w-7xl mx-auto px-4 py-16">
-        <button onclick="router('sem-select', 'subjects')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
-            <i class="fas fa-chevron-left mr-2"></i> Back to Semester Select
-        </button>
-        <div class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4 reveal-on-scroll">
-            <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight">Academic Subjects</h2>
-            <p class="text-gray-500 italic">Semester 1</p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            ${subjects.map((sub, idx) => {
-            // Logic: Check IMP topic
-            const subImpTopics = imp_topics.filter(i => i.subject_id == sub.id); // Fixed ==
-            const impFileId = subImpTopics.length > 0 ? subImpTopics[0].fileUrl : null;
 
-            return `
-                <div class="reveal-on-scroll bg-white rounded-3xl shadow-sm border border-indigo-50 overflow-hidden card-hover flex flex-col h-full group" style="transition-delay: ${idx * 0.1}s">
-                    
-                    <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-4 text-white flex justify-between items-center group-hover:from-indigo-700 group-hover:to-violet-700 transition-all duration-300">
-                        <div>
-                            <h3 class="font-black text-xl tracking-tighter">${sub.code}</h3>
-                            <p class="text-[10px] text-indigo-100 uppercase tracking-widest mt-1 opacity-90">Core Module</p>
-                        </div>
-                        <i class="fas fa-book-reader text-2xl opacity-20 group-hover:scale-110 transition-transform duration-500"></i>
-                    </div>
-
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h4 class="text-lg font-bold text-gray-800 mb-4 flex-grow leading-tight">${sub.name}</h4>
-                        
-                        <div class="grid grid-cols-2 gap-2 mt-auto">
-                            
-                            <button onclick="router('subject-detail', ${sub.id})" 
-                                class="col-span-2 bg-indigo-50 text-indigo-700 text-[10px] font-bold py-2 rounded-lg uppercase tracking-wider hover:bg-indigo-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-                                <i class="fas fa-sticky-note text-sm"></i> Notes
-                            </button>
-
-                            <button onclick="router('faculty', ${sub.id})" 
-                                class="bg-gray-50 text-gray-600 text-[10px] font-bold py-2 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-                                <i class="fas fa-chalkboard-teacher text-sm"></i> Faculty
-                            </button>
-
-                            <button onclick="${impFileId ? `openViewer('Imp Topics: ${sub.code}', 'note', '${impFileId}')` : `alert('IMP Topics coming soon for ${sub.code}')`}" 
-                                class="bg-gray-50 text-gray-600 text-[10px] font-bold py-2 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-                                <i class="fas fa-star text-sm"></i> Imp Topics
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
-                `;
-        }).join('')}
-        </div>
-    </div>
-    `;
-}
         function renderPYQs() {
             return `
             <div class="max-w-7xl mx-auto px-4 py-16">
