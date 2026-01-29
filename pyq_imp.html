@@ -307,86 +307,37 @@
             </div>`;
         }
 
-      function renderSubjectDetail(subjectId) {
-    // 🔥 FIX: Using == instead of === for safety
-    const subject = subjects.find(s => s.id == subjectId);
-    
-    // Safety check
-    if (!subject) return `<div class='p-10 text-center text-red-500'>Error: Subject not found. ID: ${subjectId}</div>`;
-
-    const subjectNotes = notes.filter(n => n.subject_id == subjectId);
-    const subImpTopics = imp_topics.filter(i => i.subject_id == subject.id);
-    const impFileId = subImpTopics.length > 0 ? subImpTopics[0].fileUrl : null;
-
-    return `
-    <div class="max-w-7xl mx-auto px-4 py-12">
-        <button onclick="router('subjects')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
-            <i class="fas fa-chevron-left mr-2"></i> Back to Subjects
-        </button>
-        
-        <div class="reveal-on-scroll bg-white p-10 rounded-3xl shadow-sm border border-indigo-100 mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-center md:text-left">
-                <h1 class="text-4xl font-black text-gray-900">${subject.name}</h1>
-                <p class="text-indigo-600 font-bold uppercase tracking-widest text-sm mt-2">${subject.code} • Engineering First Year</p>
-            </div>
-            <div class="flex gap-3">
-                <span class="bg-green-100 text-green-700 px-4 py-1 rounded-full text-xs font-bold shadow-sm">LDRP Curriculum</span>
-                <span class="bg-indigo-100 text-indigo-700 px-4 py-1 rounded-full text-xs font-bold shadow-sm">GTU Compatible</span>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            <div class="lg:col-span-2 space-y-8">
-                <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-indigo-500 inline-block pb-1 reveal-on-scroll">Chapter Wise Notes</h2>
-                
-                ${subjectNotes.length > 0 ? subjectNotes.map((note, idx) => `
-                    <div class="reveal-on-scroll bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-hover flex flex-col sm:flex-row justify-between items-start sm:items-center group" style="transition-delay: ${idx * 0.1}s">
-                        <div class="mb-6 sm:mb-0">
-                            <div class="text-[10px] font-black text-indigo-500 uppercase tracking-[0.2em] mb-1">${note.chapter}</div>
-                            <h3 class="text-2xl font-bold text-gray-800 group-hover:text-indigo-700 transition-colors">${note.title}</h3>
-                            <p class="text-gray-500 mt-2 max-w-md text-sm">${note.description}</p>
-                        </div>
-                        <button onclick="openViewer('${note.title}', 'note', '${note.fileUrl}')" 
-                                class="bg-indigo-600 text-white px-8 py-3 rounded-full font-bold hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-200 btn-click-effect transform group-hover:scale-105">
-                                Read Online
-                        </button>
-                    </div>
-                `).join('') : `
-                    <div class="reveal-on-scroll bg-white p-12 rounded-3xl border-2 border-dashed border-gray-200 text-center opacity-70">
-                        <i class="fas fa-folder-open text-gray-300 text-5xl mb-4"></i>
-                        <p class="text-gray-400 font-medium">We are currently uploading notes for this subject. Check back soon!</p>
-                    </div>
-                `}
-            </div>
+        function renderSubjectDetail(id) {
+            const sub = subjects.find(s => s.id === id);
+            const subNotes = notes.filter(n => n.subject_id === id);
             
-            <div class="space-y-8">
-                <div class="reveal-on-scroll reveal-right bg-slate-900 text-white p-8 rounded-3xl shadow-2xl">
-                    <h3 class="font-bold text-xl mb-6 flex items-center">
-                        <i class="fas fa-bolt text-yellow-400 mr-2 animate-pulse"></i> Quick Tools
-                    </h3>
-                    <div class="space-y-4">
-                        <button onclick="router('sem-select', 'pyqs')" class="w-full flex items-center justify-between p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group backdrop-blur-sm btn-click-effect">
-                            <span class="flex items-center"><i class="fas fa-history text-indigo-400 mr-3"></i> Past Papers</span>
-                            <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
-                        </button>
-                        
-                        <button onclick="router('study-assistant')" class="w-full flex items-center justify-between p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group backdrop-blur-sm btn-click-effect">
-                            <span class="flex items-center"><i class="fas fa-robot text-purple-400 mr-3"></i> Study Assistant</span>
-                            <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
-                        </button>
-                        
-                        <button onclick="${impFileId ? `openViewer('IMP Topics - ${subject.name}', 'note', '${impFileId}')` : `alert('Coming Soon')`}" 
-                                class="w-full flex items-center justify-between p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group backdrop-blur-sm btn-click-effect">
-                            <span class="flex items-center"><i class="fas fa-star text-orange-400 mr-3"></i> Important Questions</span>
-                            <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
-                        </button>
-                    </div>
+            return `
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <button onclick="router('subjects')" class="mb-6 text-indigo-600 font-bold"><i class="fas fa-arrow-left"></i> Back</button>
+                <h1 class="text-3xl font-bold mb-2">${sub.name}</h1>
+                <p class="text-gray-500 mb-8">Notes & Important Topics</p>
+
+                <div class="grid grid-cols-1 gap-4">
+                    ${subNotes.map((note, idx) => `
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center reveal-on-scroll" style="transition-delay: ${idx * 0.05}s">
+                            <div class="mb-3 sm:mb-0 text-center sm:text-left">
+                                <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">${note.chapter}</span>
+                                <h3 class="font-bold text-gray-800 text-lg">Class Notes</h3>
+                            </div>
+                            <div class="flex gap-3">
+                                <button onclick="openViewer('${note.title}', 'note', '${note.fileUrl}')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 transition-colors">
+                                    <i class="fas fa-book-reader mr-2"></i> Notes
+                                </button>
+                                <button onclick="openViewer('IMP - ${note.chapter}', 'note', '${note.impUrl}')" class="bg-orange-100 text-orange-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-orange-200 transition-colors">
+                                    <i class="fas fa-star mr-2"></i> Imp Topic
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
                 </div>
-            </div>
-        </div>
-    </div>
-    `;
-}
+            </div>`;
+        }
+
         function renderPracticals() {
             return `
             <div class="max-w-7xl mx-auto px-4 py-12">
