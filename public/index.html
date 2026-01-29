@@ -31,26 +31,31 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
     <style>
-        /* --- Donut Chart CSS (Head ke style tag me dalo) --- */
+/* --- Updated Modern Donut Chart --- */
 .donut-chart {
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
+    /* New Colors: Violet, Cyan, Rose */
     background: conic-gradient(
-        #4f46e5 0% 65%,  /* Online Users % */
-        #10b981 65% 85%, /* Today Visits % */
-        #f59e0b 85% 100% /* Total Visits % */
+        #8b5cf6 0% 65%,  /* Online (Violet) */
+        #06b6d4 65% 85%, /* Today (Cyan) */
+        #f43f5e 85% 100% /* Total (Rose) */
     );
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.3);
-    margin: 0 auto 2rem auto;
+    box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.4); /* Glow Effect */
+    margin: 0 auto 1.5rem auto;
+    transition: transform 0.3s ease;
+}
+.donut-chart:hover {
+    transform: scale(1.05); /* Chart hover animation */
 }
 .donut-hole {
-    width: 140px;
-    height: 140px;
+    width: 160px;
+    height: 160px;
     background: white;
     border-radius: 50%;
     display: flex;
@@ -58,14 +63,7 @@
     justify-content: center;
     align-items: center;
     z-index: 2;
-}
-.branch-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    max-height: 320px;
-    overflow-y: auto;
-    padding-right: 5px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
 }
         /* Circular Progress Bar */
         .progress-ring__circle {
@@ -1764,95 +1762,116 @@
 
 
       function renderHome() {
-    // Branches ka data with ICONS & COLORS (Ab yeh khaali nahi lagega)
+    // 🔥 NEW COLORS (No Basic Red/Blue/Green)
+    // Using: Violet, Fuchsia, Cyan, Rose, Amber, Emerald, Slate
     const branchList = [
-        { code: 'CE', name: 'Computer Engg', icon: 'fa-laptop-code', color: 'bg-blue-50 text-blue-600 border-blue-100' },
-        { code: 'IT', name: 'Info Tech', icon: 'fa-network-wired', color: 'bg-indigo-50 text-indigo-600 border-indigo-100' },
-        { code: 'EC', name: 'Electronics', icon: 'fa-microchip', color: 'bg-purple-50 text-purple-600 border-purple-100' },
-        { code: 'EE', name: 'Electrical', icon: 'fa-bolt', color: 'bg-yellow-50 text-yellow-600 border-yellow-100' },
-        { code: 'ME', name: 'Mechanical', icon: 'fa-cogs', color: 'bg-orange-50 text-orange-600 border-orange-100' },
-        { code: 'CIVIL', name: 'Civil Engg', icon: 'fa-hard-hat', color: 'bg-teal-50 text-teal-600 border-teal-100' },
-        { code: 'AUTO', name: 'Automobile', icon: 'fa-car', color: 'bg-red-50 text-red-600 border-red-100' }
+        { code: 'CE', name: 'Computer Engg', icon: 'fa-laptop-code', style: 'bg-violet-50 text-violet-600 border-violet-100 hover:shadow-violet-200' },
+        { code: 'IT', name: 'Info Tech', icon: 'fa-network-wired', style: 'bg-cyan-50 text-cyan-600 border-cyan-100 hover:shadow-cyan-200' },
+        { code: 'EC', name: 'Electronics', icon: 'fa-microchip', style: 'bg-fuchsia-50 text-fuchsia-600 border-fuchsia-100 hover:shadow-fuchsia-200' },
+        { code: 'EE', name: 'Electrical', icon: 'fa-bolt', style: 'bg-amber-50 text-amber-600 border-amber-100 hover:shadow-amber-200' },
+        { code: 'ME', name: 'Mechanical', icon: 'fa-cogs', style: 'bg-rose-50 text-rose-600 border-rose-100 hover:shadow-rose-200' },
+        { code: 'CIVIL', name: 'Civil Engg', icon: 'fa-hard-hat', style: 'bg-emerald-50 text-emerald-600 border-emerald-100 hover:shadow-emerald-200' },
+        { code: 'AUTO', name: 'Automobile', icon: 'fa-car', style: 'bg-slate-100 text-slate-600 border-slate-200 hover:shadow-slate-200' }
     ];
 
+    // Fake Monthly Calculation (Just for display logic)
+    const monthlyVisits = Math.floor(cachedStats.totalVisits / 12) + cachedStats.visitsToday;
+
     return `
-    <div class="relative text-white py-20 px-4 bg-cover bg-center flex items-center justify-center" style="background-image: url('images/image_35380a.png'); min-height: 70vh;">
-        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-[2px]"></div>
+    <div class="relative text-white py-20 px-4 bg-cover bg-center flex items-center justify-center" style="background-image: url('images/image_35380a.png'); min-height: 65vh;">
+        <div class="absolute inset-0 bg-slate-900/85 backdrop-blur-[2px]"></div>
         <div class="relative z-10 text-center max-w-4xl">
-            <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight drop-shadow-xl hero-animate">LDRP Study Desk</h1>
-            <p class="text-xl text-indigo-100 mb-10 hero-animate" style="animation-delay:0.2s">Smart Learning Platform for Engineers.</p>
-            <div class="flex flex-wrap justify-center gap-4 hero-animate" style="animation-delay:0.4s">
-                <button onclick="router('sem-select', 'subjects')" class="bg-white text-indigo-700 px-8 py-3 rounded-full font-bold shadow-xl hover:scale-105 transition-transform">Browse Subjects</button>
-                <button onclick="router('sem-select', 'pyqs')" class="bg-white/20 border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-indigo-700 transition-all">View PYQs</button>
+            <span class="inline-block py-1 px-3 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs font-bold mb-4 hero-animate">🚀 Welcome to the Future of Learning</span>
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight drop-shadow-2xl hero-animate">LDRP Study Desk</h1>
+            <p class="text-lg md:text-xl text-indigo-100 mb-10 hero-animate opacity-90" style="animation-delay:0.2s">Access organized notes, AI assistance, and exam resources in one click.</p>
+        </div>
+    </div>
+
+    <div class="relative z-30 -mt-16 max-w-7xl mx-auto px-4 mb-16">
+        <div class="bg-white/80 backdrop-blur-xl border border-white/50 p-6 rounded-[2rem] shadow-2xl reveal-on-scroll">
+            <h3 class="text-center text-gray-400 text-xs font-bold uppercase tracking-[0.2em] mb-6">Quick Navigation</h3>
+            <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
+                ${['Subjects','Notes','Study Assistant','PYQs','Imp Topics','Contact'].map((item, i) => `
+                    <button onclick="handleQuickAccessClick('${item}')" 
+                        class="group flex flex-col items-center justify-center p-4 rounded-2xl transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-2 border border-transparent hover:border-indigo-50">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center text-xl text-indigo-500 mb-3 shadow-inner group-hover:scale-110 group-hover:from-indigo-500 group-hover:to-purple-600 group-hover:text-white transition-all duration-300">
+                            <i class="fas ${getIcon(item)}"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-600 group-hover:text-indigo-600 transition-colors">${item}</span>
+                    </button>
+                `).join('')}
             </div>
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 py-16 -mt-24 relative z-20">
+    <div class="max-w-7xl mx-auto px-4 pb-24">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl border border-indigo-50 flex flex-col items-center justify-center relative overflow-hidden reveal-on-scroll text-center h-full">
-                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col items-center justify-between relative overflow-hidden reveal-on-scroll group hover:shadow-2xl transition-all duration-500">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-violet-500 via-cyan-500 to-rose-500"></div>
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-violet-50 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
                 
-                <h2 class="text-2xl font-black text-gray-800 mb-6 flex items-center gap-2">
-                    <i class="fas fa-chart-pie text-indigo-500"></i> Platform Insights
+                <h2 class="text-2xl font-black text-gray-800 mb-2 w-full flex justify-between items-center relative z-10">
+                    <span>Insights</span>
+                    <span class="text-xs font-bold bg-slate-100 px-3 py-1 rounded-full text-slate-500"><i class="fas fa-circle text-green-500 text-[8px] mr-1 animate-pulse"></i> Live</span>
                 </h2>
-                
-                <div class="donut-chart mb-6">
+
+                <div class="donut-chart my-6">
                     <div class="donut-hole">
                         <div class="text-center">
-                            <div class="w-3 h-3 bg-green-500 rounded-full mx-auto mb-2 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.6)]"></div>
-                            <span class="text-4xl font-black text-gray-800" id="stat-online">${cachedStats.online || 0}</span>
-                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Users Live</p>
+                            <span class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-violet-600 to-indigo-600 block">${cachedStats.online || 0}</span>
+                            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Users Online</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 w-full max-w-sm mt-auto">
-                    <div class="bg-indigo-50 p-3 rounded-2xl border border-indigo-100">
-                        <p class="text-indigo-600 font-black text-2xl" id="stat-reach">${cachedStats.totalVisits || 0}</p>
-                        <p class="text-[10px] text-gray-500 uppercase font-bold">Total Visits</p>
+                <div class="w-full space-y-4">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center transform transition-transform hover:scale-[1.02]">
+                        <p class="text-violet-600 font-black text-3xl">${monthlyVisits}</p>
+                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Monthly Visits</p>
                     </div>
-                    <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-100">
-                        <p class="text-emerald-600 font-black text-2xl" id="stat-visits">${cachedStats.visitsToday || 0}</p>
-                        <p class="text-[10px] text-gray-500 uppercase font-bold">Visits Today</p>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-rose-50 p-4 rounded-2xl border border-rose-100 text-center transform transition-transform hover:scale-[1.02]">
+                            <p class="text-rose-600 font-black text-2xl">${cachedStats.totalVisits || 0}</p>
+                            <p class="text-[10px] text-rose-400 font-bold uppercase tracking-widest">Total</p>
+                        </div>
+                        <div class="bg-cyan-50 p-4 rounded-2xl border border-cyan-100 text-center transform transition-transform hover:scale-[1.02]">
+                            <p class="text-cyan-600 font-black text-2xl">${cachedStats.visitsToday || 0}</p>
+                            <p class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">Today</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl border border-indigo-50 reveal-on-scroll h-full flex flex-col" style="transition-delay: 0.1s">
-                <div class="flex items-center justify-between mb-6 shrink-0">
-                    <h2 class="text-2xl font-black text-gray-800"><i class="fas fa-university text-indigo-500 mr-2"></i> Departments</h2>
-                    <span class="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full text-xs font-bold border border-indigo-100">7 Branches</span>
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-100 reveal-on-scroll h-full flex flex-col group hover:shadow-2xl transition-all duration-500" style="transition-delay: 0.1s">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-2xl font-black text-gray-800">Departments</h2>
+                    <button class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center hover:bg-slate-100 transition-colors">
+                        <i class="fas fa-ellipsis-h text-slate-400"></i>
+                    </button>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-4 overflow-y-auto custom-scrollbar pr-1 flex-grow max-h-[400px]">
+                <div class="grid grid-cols-2 gap-4 overflow-y-auto custom-scrollbar pr-2 flex-grow max-h-[450px]">
                     ${branchList.map(b => `
-                        <div onclick="openBranchModal('${b.code}')" class="${b.color} border p-4 rounded-2xl cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all flex flex-col justify-center items-start h-24 relative overflow-hidden group">
-                            <i class="fas ${b.icon} absolute -right-2 -bottom-2 text-6xl opacity-10 group-hover:scale-125 transition-transform"></i>
-                            <div class="font-black text-2xl mb-1">${b.code}</div>
-                            <div class="text-[10px] font-bold opacity-80 uppercase tracking-wide">${b.name}</div>
+                        <div onclick="openBranchModal('${b.code}')" 
+                             class="${b.style} border p-5 rounded-3xl cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between h-28 relative overflow-hidden group/card">
+                            
+                            <i class="fas ${b.icon} absolute -right-3 -bottom-3 text-7xl opacity-10 group-hover/card:scale-110 group-hover/card:rotate-12 transition-transform duration-500"></i>
+                            
+                            <div class="w-10 h-10 rounded-full bg-white/60 backdrop-blur-sm flex items-center justify-center shadow-sm">
+                                <i class="fas ${b.icon} text-lg"></i>
+                            </div>
+
+                            <div>
+                                <div class="font-black text-2xl tracking-tight">${b.code}</div>
+                                <div class="text-[10px] font-bold opacity-70 uppercase tracking-wide leading-tight">${b.name}</div>
+                            </div>
                         </div>
                     `).join('')}
                 </div>
             </div>
 
-        </div>
-    </div>
-
-    <div class="bg-slate-50 py-16 border-t border-gray-200 mt-8">
-        <div class="max-w-7xl mx-auto px-4">
-            <h3 class="text-center text-gray-400 text-sm font-bold uppercase tracking-widest mb-10">Quick Navigation</h3>
-            <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
-                ${['Subjects','Notes','Study Assistant','PYQs','Imp Topics','Contact'].map(item => `
-                    <button onclick="handleQuickAccessClick('${item}')" class="bg-white p-4 rounded-2xl shadow-sm hover:shadow-lg transition-all text-gray-600 hover:text-indigo-600 font-bold text-sm border border-gray-100 group flex flex-col items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center text-lg group-hover:scale-110 transition-transform">
-                            <i class="fas ${getIcon(item)}"></i>
-                        </div>
-                        ${item}
-                    </button>
-                `).join('')}
-            </div>
         </div>
     </div>
     `;
