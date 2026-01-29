@@ -364,9 +364,8 @@
                             & Assignment</a>
                         <a onclick="router('sem-select', 'pyqs')"
                             class="hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-200">PYQs</a>
-                        <a onclick="router('campus-tour')"
-                            class="hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-200">Virtual
-                            Tour</a>
+                       <a onclick="router('study-assistant')"
+   class="hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-200">Study Assistant</a>
                         <a onclick="router('about')"
                             class="hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition-colors duration-200">About</a>
                         <a onclick="router('contact')"
@@ -396,9 +395,8 @@
                     & Assignment</a>
                 <a onclick="router('sem-select', 'pyqs')"
                     class="hover:bg-indigo-800 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">PYQs</a>
-                <a onclick="router('campus-tour')"
-                    class="hover:bg-indigo-800 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">Virtual
-                    Tour</a>
+             <a onclick="router('study-assistant')"
+   class="hover:bg-indigo-800 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">Study Assistant</a>
                 <a onclick="router('about')"
                     class="hover:bg-indigo-800 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">About</a>
                 <a onclick="router('contact')"
@@ -945,7 +943,7 @@
             const icons = {
                 'Subjects': 'fa-layer-group',
                 'Notes': 'fa-file-signature',
-                'Textbooks': 'fa-book-atlas',
+                'Study Assistant': 'fa-robot',  // <-- Ye line change ki hai (Textbooks ki jagah)
                 'PYQs': 'fa-history',
                 'Imp Topics': 'fa-star',
                 'Contact': 'fa-id-card'
@@ -1635,9 +1633,9 @@
                 case 'faculty':
                     app.innerHTML = renderFaculty(params);
                     break;
-                // 🔥 NEW CASE ADDED HERE
-                case 'campus-tour':
-                    app.innerHTML = renderCampusTour();
+               // 🔥 Change Here: campus-tour hataya, study-assistant lagaya
+                case 'study-assistant':
+                    app.innerHTML = renderStudyAssistant();
                     break;
                 case 'about':
                     app.innerHTML = renderAbout();
@@ -1679,11 +1677,10 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="max-w-7xl mx-auto px-4 py-24 border-b border-gray-100">
+<div class="max-w-7xl mx-auto px-4 py-24 border-b border-gray-100">
                     <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 reveal-on-scroll">Quick Access</h2>
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                        ${['Subjects', 'Notes', 'Textbooks', 'PYQs', 'Imp Topics', 'Contact'].map((item, idx) => `
+                        ${['Subjects', 'Notes', 'Study Assistant', 'PYQs', 'Imp Topics', 'Contact'].map((item, idx) => `
                             <div onclick="handleQuickAccessClick('${item}')" 
                                  class="reveal-on-scroll bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all cursor-pointer text-center border-b-4 border-transparent hover:border-indigo-500 group transform hover:-translate-y-2 ring-1 ring-slate-100"
                                  style="transition-delay: ${idx * 0.05}s">
@@ -1865,13 +1862,13 @@
             }
         }
 
-        function handleQuickAccessClick(item) {
-            if (item === 'Subjects' || item === 'Notes' || item === 'Textbooks') router('sem-select', 'subjects');
+      function handleQuickAccessClick(item) {
+            if (item === 'Subjects' || item === 'Notes') router('sem-select', 'subjects');
+            else if (item === 'Study Assistant') router('study-assistant'); // 🔥 Update: Ab ye naya page kholega, chatbox nahi
             else if (item === 'PYQs') router('sem-select', 'pyqs');
             else if (item === 'Imp Topics') router('sem-select', 'subjects');
             else if (item === 'Contact') router('contact');
         }
-
         function renderSubjects() {
             return `
         <div class="max-w-7xl mx-auto px-4 py-16">
@@ -2321,44 +2318,23 @@
                 </div>
             `;
         }
-        function renderCampusTour() {
+       function renderStudyAssistant() {
             return `
         <div class="max-w-4xl mx-auto px-4 py-20 text-center reveal-on-scroll">
             
-            <div class="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 border border-indigo-50 relative overflow-hidden group">
+            <div class="bg-white rounded-[2.5rem] shadow-2xl p-12 md:p-16 border border-indigo-50 relative overflow-hidden group">
                 
-                <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600"></div>
-                <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-indigo-50 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
-
-                <div class="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner group-hover:scale-110 transition-transform duration-500">
-                    <i class="fas fa-street-view text-5xl text-indigo-600 animate-pulse"></i>
+                <div class="w-28 h-28 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner group-hover:scale-110 transition-transform duration-500">
+                    <i class="fas fa-robot text-6xl text-indigo-600"></i>
                 </div>
 
                 <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">
-                    LDRP 360° <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Virtual Tour</span>
+                    Study <span class="text-indigo-600">Assistant</span>
                 </h2>
                 
-                <span class="inline-block bg-yellow-100 text-yellow-800 text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest mb-8 border border-yellow-200">
-                    <i class="fas fa-hard-hat mr-2"></i> Under Development
-                </span>
+                <p class="text-gray-500 text-lg mb-10">AI Powered Helper (Design Pending...)</p>
 
-                <div class="bg-slate-50 border-l-4 border-indigo-500 text-left p-6 md:p-8 rounded-r-2xl shadow-sm max-w-2xl mx-auto transform transition-all hover:shadow-md">
-                    <div class="flex items-start">
-                        <i class="fas fa-info-circle text-indigo-500 text-2xl mr-4 mt-1"></i>
-                        <div>
-                            <h4 class="font-bold text-gray-800 text-lg mb-2">Important Note</h4>
-                            <p class="text-gray-600 leading-relaxed text-sm md:text-base">
-                                This section is currently pending as we are building an immersive <strong>360-degree digital experience</strong> of the LDRP-ITR Gandhinagar campus.
-                                <br><br>
-                                Please visit again in a few days to use this feature. We are working hard to update it soon! Until then, please enjoy the study materials and other features of the desk.
-                                <br><br>
-                                <span class="text-indigo-600 font-medium italic">Sorry for the inconvenience.</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-10">
+                <div>
                     <button onclick="router('home')" class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full font-bold shadow-lg hover:shadow-indigo-200 hover:-translate-y-1 transition-all active:scale-95">
                         Back to Home
                     </button>
@@ -2368,6 +2344,7 @@
         </div>
     `;
         }
+        
         function renderAbout() {
             return `
                 <div class="max-w-5xl mx-auto px-4 py-16">
@@ -2511,31 +2488,31 @@
 
         // --- FINAL PRO CODE: NO COMPRESSION, HIGH SPEED ---
         // --- BALANCED VIEWER (Medium Size - 1MB) ---
-      // --- UPDATED VIEWER CONFIGURATION ---
-async function loadSecurePdfToCanvas(url) {
-    const canvas = document.getElementById('the-canvas');
-    if (!canvas) return;
+        // --- UPDATED VIEWER CONFIGURATION ---
+        async function loadSecurePdfToCanvas(url) {
+            const canvas = document.getElementById('the-canvas');
+            if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    document.getElementById('page_info').innerText = "Opening via Fast Stream...";
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            document.getElementById('page_info').innerText = "Opening via Fast Stream...";
 
-try {
-        const loadingTask = pdfjsLib.getDocument({
-            url: url,
-            
-            // 🔥 ULTIMATE SPEED SETTINGS 🔥
-            disableAutoFetch: false,     // Isse FALSE kar do (Browser ko khud decide karne do)
-            disableStream: false,        // Stream ON
-            rangeChunkSize: 1048576,     // 1MB Chunks (Bada Packet = Kam Requests)
-            cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/cmaps/',
-            cMapPacked: true,
-        });
+            try {
+                const loadingTask = pdfjsLib.getDocument({
+                    url: url,
 
-        pdfDoc = await loadingTask.promise;
-        
-        document.getElementById('page_info').innerText = `Page ${pageNum} of ${pdfDoc.numPages}`;
-        renderPage(pageNum);
+                    // 🔥 ULTIMATE SPEED SETTINGS 🔥
+                    disableAutoFetch: false,     // Isse FALSE kar do (Browser ko khud decide karne do)
+                    disableStream: false,        // Stream ON
+                    rangeChunkSize: 1048576,     // 1MB Chunks (Bada Packet = Kam Requests)
+                    cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/cmaps/',
+                    cMapPacked: true,
+                });
+
+                pdfDoc = await loadingTask.promise;
+
+                document.getElementById('page_info').innerText = `Page ${pageNum} of ${pdfDoc.numPages}`;
+                renderPage(pageNum);
             } catch (error) {
                 console.error("Error:", error);
                 document.getElementById('zoomWrapper').innerHTML = `
