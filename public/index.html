@@ -1928,6 +1928,80 @@ case 'study-assistant':
             </div>
         </div>
     `;
+    // --- MISSING FUNCTION: Subject Detail (Notes & Textbooks) ---
+function renderSubjectDetail(subjectId) {
+    const subject = subjects.find(s => s.id === subjectId);
+    
+    // Filter data based on subject ID
+    const subjectNotes = notes.filter(n => n.subject_id === subjectId);
+    const subjectTextbooks = textbooks.filter(t => t.subject_id === subjectId);
+
+    return `
+    <div class="max-w-7xl mx-auto px-4 py-16 animate-stagger">
+        <button onclick="router('subjects')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
+            <i class="fas fa-chevron-left mr-2"></i> Back to Subjects
+        </button>
+
+        <div class="reveal-on-scroll bg-white p-10 rounded-3xl shadow-sm border border-indigo-100 mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <h1 class="text-3xl md:text-4xl font-black text-gray-900">${subject.name}</h1>
+                <p class="text-indigo-600 font-bold uppercase tracking-widest text-sm mt-2">${subject.code} • Learning Material</p>
+            </div>
+             <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl shadow-inner">
+                <i class="fas fa-book-open"></i>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="reveal-on-scroll reveal-left">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-b-2 border-indigo-500 pb-2">
+                    <i class="fas fa-sticky-note text-indigo-500 mr-3"></i> Class Notes
+                </h2>
+                <div class="space-y-4">
+                    ${subjectNotes.length > 0 ? subjectNotes.map(item => `
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex justify-between items-center group">
+                            <div>
+                                <h4 class="font-bold text-gray-800">${item.title}</h4>
+                                <p class="text-xs text-gray-500">${item.chapter || 'Unit Note'}</p>
+                            </div>
+                            <button onclick="openViewer('${subject.code} - ${item.title}', 'note', '${item.fileUrl}')" class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-600 hover:text-white transition-all btn-click-effect">
+                                View
+                            </button>
+                        </div>
+                    `).join('') : `
+                        <div class="text-gray-400 italic bg-gray-50 p-4 rounded-xl text-center border border-dashed border-gray-200">
+                            No Notes Available
+                        </div>
+                    `}
+                </div>
+            </div>
+
+            <div class="reveal-on-scroll reveal-right">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-b-2 border-purple-500 pb-2">
+                     <i class="fas fa-book text-purple-500 mr-3"></i> Textbooks
+                </h2>
+                <div class="space-y-4">
+                     ${subjectTextbooks.length > 0 ? subjectTextbooks.map(item => `
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex justify-between items-center group">
+                            <div>
+                                <h4 class="font-bold text-gray-800">${item.title}</h4>
+                                <p class="text-xs text-gray-500">${item.author || 'Author'}</p>
+                            </div>
+                            <button onclick="openViewer('${item.title}', 'textbook', '${item.downloadUrl}')" class="bg-purple-50 text-purple-600 px-4 py-2 rounded-lg text-sm font-bold hover:bg-purple-600 hover:text-white transition-all btn-click-effect">
+                                Open
+                            </button>
+                        </div>
+                    `).join('') : `
+                        <div class="text-gray-400 italic bg-gray-50 p-4 rounded-xl text-center border border-dashed border-gray-200">
+                            No Textbooks Available
+                        </div>
+                    `}
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+}
         } function renderFaculty(subjectId) {
             const subject = subjects.find(s => s.id === subjectId);
 
