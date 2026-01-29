@@ -1941,63 +1941,58 @@
             else if (item === 'Imp Topics') router('sem-select', 'subjects');
             else if (item === 'Contact') router('contact');
         }
-   function renderSubjects() {
-            return `
-        <div class="max-w-7xl mx-auto px-4 py-16">
-            <button onclick="router('sem-select', 'subjects')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
-                <i class="fas fa-chevron-left mr-2"></i> Back to Semester Select
-            </button>
-            <div class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4 reveal-on-scroll">
-                <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight">Academic Subjects</h2>
-                <p class="text-gray-500 italic">Semester 1</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                ${subjects.map((sub, idx) => {
-                // Logic: Check IMP topic
+  function renderSubjects() {
+    return `
+    <div class="max-w-7xl mx-auto px-4 py-16">
+        <button onclick="router('sem-select', 'subjects')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
+            <i class="fas fa-chevron-left mr-2"></i> Back to Semester Select
+        </button>
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4 reveal-on-scroll">
+            <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight">Academic Subjects</h2>
+            <p class="text-gray-500 italic">Semester 1</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            ${subjects.map((sub, idx) => {
                 const subImpTopics = imp_topics.filter(i => i.subject_id === sub.id);
                 const impFileId = subImpTopics.length > 0 ? subImpTopics[0].fileUrl : null;
 
                 return `
-                    <div class="reveal-on-scroll bg-white rounded-3xl shadow-sm border border-indigo-50 overflow-hidden card-hover flex flex-col h-full group" style="transition-delay: ${idx * 0.1}s">
-                        
-                        <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-5 text-white flex justify-between items-center group-hover:from-indigo-700 group-hover:to-violet-700 transition-all duration-300">
-                            <div>
-                                <h3 class="font-black text-2xl tracking-tighter">${sub.code}</h3>
-                                <p class="text-xs text-indigo-100 uppercase tracking-widest mt-1 opacity-90">Core Module</p>
-                            </div>
-                            <i class="fas fa-book-reader text-3xl opacity-20 group-hover:scale-110 transition-transform duration-500"></i>
+                <div class="reveal-on-scroll bg-white rounded-3xl shadow-sm border border-indigo-50 overflow-hidden card-hover flex flex-col h-full group" style="transition-delay: ${idx * 0.1}s">
+                    <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-5 text-white flex justify-between items-center group-hover:from-indigo-700 group-hover:to-violet-700 transition-all duration-300">
+                        <div>
+                            <h3 class="font-black text-2xl tracking-tighter">${sub.code}</h3>
+                            <p class="text-xs text-indigo-100 uppercase tracking-widest mt-1 opacity-90">Core Module</p>
                         </div>
+                        <i class="fas fa-book-reader text-3xl opacity-20 group-hover:scale-110 transition-transform duration-500"></i>
+                    </div>
 
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h4 class="text-xl font-bold text-gray-800 mb-6 flex-grow leading-tight">${sub.name}</h4>
-                            
-                            <div class="grid grid-cols-2 gap-3 mt-auto">
-                                
-                                <button onclick="router('subject-detail', ${sub.id})" 
-                                    class="col-span-2 bg-indigo-50 text-indigo-700 text-[10px] font-bold py-4 rounded-lg uppercase tracking-wider hover:bg-indigo-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-                                    <i class="fas fa-sticky-note text-sm"></i> Notes
-                                </button>
-
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h4 class="text-xl font-bold text-gray-800 mb-6 flex-grow leading-tight">${sub.name}</h4>
+                        <div class="mt-auto space-y-3">
+                            <button onclick="router('subject-detail', ${sub.id})" 
+                                class="w-full bg-indigo-600 text-white text-sm font-bold py-3 rounded-xl uppercase tracking-wider hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-200 flex items-center justify-center gap-2 btn-click-effect">
+                                <i class="fas fa-sticky-note"></i> View Notes
+                            </button>
+                            <div class="grid grid-cols-2 gap-3">
                                 <button onclick="router('faculty', ${sub.id})" 
-                                    class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-                                    <i class="fas fa-chalkboard-teacher text-sm"></i> Faculty
+                                    class="bg-indigo-50 text-indigo-700 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-indigo-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm border border-indigo-100">
+                                    <i class="fas fa-chalkboard-teacher text-lg mb-1"></i> Faculty
                                 </button>
-                                
                                 <button onclick="${impFileId ? `openViewer('Imp Topics: ${sub.name}', 'note', '${impFileId}')` : `alert('IMP Topics coming soon for ${sub.code}')`}" 
-                                        class="bg-gray-50 text-gray-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-gray-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm">
-                                    <i class="fas fa-star text-sm"></i> Imp Topics
+                                        class="bg-orange-50 text-orange-600 text-[10px] font-bold py-3 rounded-lg uppercase tracking-wider hover:bg-orange-100 transition-colors flex flex-col items-center justify-center gap-1 shadow-sm border border-orange-100">
+                                    <i class="fas fa-star text-lg mb-1"></i> Imp Topics
                                 </button>
-
                             </div>
                         </div>
                     </div>
-                    `;
+                </div>
+                `;
             }).join('')}
-            </div>
         </div>
+    </div>
     `;
-        }
+}
          function renderFaculty(subjectId) {
             const subject = subjects.find(s => s.id === subjectId);
 
@@ -2265,10 +2260,10 @@
                                     <span class="flex items-center"><i class="fas fa-history text-indigo-400 mr-3"></i> Past Papers</span>
                                     <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
                                 </button>
-                                <button onclick="openTextbooks(${subject.id})" class="w-full flex items-center justify-between p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group backdrop-blur-sm btn-click-effect">
-                                    <span class="flex items-center"><i class="fas fa-book-open text-emerald-400 mr-3"></i> Textbooks</span>
-                                    <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
-                                </button>
+                                <button onclick="router('study-assistant')" class="w-full flex items-center justify-between p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group backdrop-blur-sm btn-click-effect">
+    <span class="flex items-center"><i class="fas fa-robot text-yellow-400 mr-3"></i> AI Study Assistant</span>
+    <i class="fas fa-chevron-right text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
+</button>
                                 
                                 <button onclick="${impFileId ? `openViewer('IMP Topics - ${subject.name}', 'note', '${impFileId}')` : `alert('Coming Soon')`}" 
                                         class="w-full flex items-center justify-between p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group backdrop-blur-sm btn-click-effect">
@@ -2390,81 +2385,103 @@
         let currentTab = 'syllabus'; // 'syllabus' or 'planner'
         let isExamMode = false;
 
-        function renderStudyAssistant() {
-            // 1. Agar User Login nahi hai to Login Screen dikhao
-            if (!currentUser) {
-                return `
-                <div class="max-w-md mx-auto px-4 py-24 text-center reveal-on-scroll">
-                    <div class="bg-white p-10 rounded-3xl shadow-xl border border-indigo-50">
-                        <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <i class="fas fa-user-lock text-3xl text-indigo-600"></i>
-                        </div>
-                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Student Login</h2>
-                        <p class="text-gray-500 mb-8">Please login to track your syllabus progress and create AI schedules.</p>
-                        <button onclick="loginWithGoogle()" class="w-full bg-white border border-gray-300 text-gray-700 font-bold py-3 px-4 rounded-xl shadow-sm hover:bg-gray-50 hover:shadow-md transition-all flex items-center justify-center gap-3">
-                            <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-6 h-6">
-                            Continue with Google
-                        </button>
-                    </div>
-                </div>`;
-            }
+       // --- NEW LOGOUT FUNCTION ---
+function handleLogout() {
+    const confirmLogout = confirm("Are you sure you want to logout?");
+    if (confirmLogout) {
+        auth.signOut().then(() => {
+            currentUser = null;
+            userProgressData = {};
+            router('study-assistant'); // Reload to show login screen
+        }).catch((error) => {
+            console.error("Logout Error:", error);
+            alert("Error logging out!");
+        });
+    }
+}
 
-            // 2. Main Dashboard UI
-            // Calculate Overall Progress
-            let totalTopics = 0;
-            let completedTopics = 0;
-            if (userProgressData.syllabus) {
-                // Calculation logic inside render to keep it fresh
-                Object.values(syllabusData).forEach(units => {
-                    units.forEach(unit => {
-                        // Topics count extraction logic (simplified for demo)
-                         // Unit topics HTML string se count nikalna complex hai, 
-                         // isliye hum maan lete hai har unit me avg 5 topics hai demo ke liye
-                         // Real implementation me tumhe topics ko array banana padega data.js me
-                         // Abhi ke liye hum bas checked boxes count karenge
-                    });
-                });
-                // Note: Real progress calculation niche helper function me hai
-            }
-
-            return `
-            <div class="max-w-7xl mx-auto px-4 py-12 ${isExamMode ? 'exam-mode-active' : ''} transition-colors duration-500">
+// --- UPDATED RENDER FUNCTION ---
+function renderStudyAssistant() {
+    // 1. Agar User Login nahi hai to Login Screen dikhao
+    if (!auth.currentUser) {
+        return `
+        <div class="min-h-screen flex items-center justify-center px-4 bg-gray-50">
+            <div class="max-w-md w-full bg-white rounded-3xl shadow-xl overflow-hidden p-8 text-center reveal-on-scroll">
+                <div class="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2 class="text-3xl font-black text-gray-900 mb-2">Student Login</h2>
+                <p class="text-gray-500 mb-8">Access your Personal AI Tracker & Scheduler</p>
                 
-                <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 reveal-on-scroll">
-                    <div>
-                        <h1 class="text-4xl font-black text-gray-900">Welcome, ${currentUser.displayName.split(' ')[0]}! 👋</h1>
-                        <p class="text-gray-500 mt-2 font-medium">
-                            ${isExamMode ? '🔥 EXAM MODE ACTIVATED: Focus on High Weightage!' : 'Track your progress and plan your day.'}
-                        </p>
-                    </div>
-                    
-                    <div class="flex items-center gap-4 bg-white p-2 rounded-full shadow-sm border border-gray-200">
-                        <span class="pl-4 text-xs font-bold uppercase tracking-wider ${isExamMode ? 'text-red-500' : 'text-gray-400'}">Exam Mode</span>
-                        <button onclick="toggleExamMode()" 
-                            class="relative inline-flex h-8 w-14 items-center rounded-full transition-colors duration-300 focus:outline-none ${isExamMode ? 'bg-red-500' : 'bg-gray-200'}">
-                            <span class="${isExamMode ? 'translate-x-7' : 'translate-x-1'} inline-block h-6 w-6 transform rounded-full bg-white transition-transform duration-300 shadow-md"></span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex justify-center mb-8 reveal-on-scroll">
-                    <div class="bg-white p-1 rounded-xl shadow-sm border border-gray-100 inline-flex">
-                        <button onclick="switchTab('syllabus')" class="px-6 py-2 rounded-lg text-sm font-bold transition-all ${currentTab === 'syllabus' ? 'bg-indigo-600 text-white shadow-md' : 'text-gray-500 hover:text-indigo-600'}">
-                            <i class="fas fa-chart-pie mr-2"></i> Syllabus Tracker
-                        </button>
-                        <button onclick="switchTab('planner')" class="px-6 py-2 rounded-lg text-sm font-bold transition-all ${currentTab === 'planner' ? 'bg-indigo-600 text-white shadow-md' : 'text-gray-500 hover:text-indigo-600'}">
-                            <i class="fas fa-calendar-alt mr-2"></i> AI Planner
-                        </button>
-                    </div>
-                </div>
-
-                <div id="dashboard-content" class="reveal-on-scroll">
-                    ${currentTab === 'syllabus' ? renderSyllabusTracker() : renderRoutinePlanner()}
-                </div>
-
+                <button onclick="handleGoogleLogin()" class="w-full bg-white border border-gray-300 text-gray-700 font-bold py-3 px-4 rounded-xl flex items-center justify-center hover:bg-gray-50 transition-all shadow-sm">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-6 h-6 mr-3">
+                    Continue with Google
+                </button>
+                <p class="text-xs text-gray-400 mt-6">Only for LDRP Students</p>
             </div>
-            `;
-        }
+        </div>
+        `;
+    }
+
+    // 2. Main Dashboard UI
+    // Calculate Overall Progress
+    const savedData = userProgressData.syllabus || {};
+    // Note: Since data is currently only for Sem 1, we assume total items based on Sem 1 subjects
+    const totalItems = Object.keys(syllabusData).length * 6; 
+    const completedItems = Object.values(savedData).filter(v => v.status === true).length;
+    const percentage = Math.round((completedItems / totalItems) * 100) || 0;
+
+    return `
+    <div class="max-w-7xl mx-auto px-4 py-12 ${isExamMode ? 'exam-mode-active' : ''} transition-colors duration-500">
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6 reveal-on-scroll">
+            
+            <div>
+                <div class="flex items-center gap-3 mb-1">
+                    <h1 class="text-3xl md:text-4xl font-black text-gray-900">Welcome, ${auth.currentUser.displayName.split(' ')[0]}! 👋</h1>
+                    <span class="bg-indigo-100 text-indigo-700 text-[10px] font-bold px-2 py-1 rounded-full border border-indigo-200 uppercase tracking-wide">
+                        Sem 1
+                    </span>
+                </div>
+                <p class="text-gray-500 font-medium text-sm md:text-base">
+                    ${isExamMode ? '🔥 EXAM MODE ACTIVATED: Focus on High Weightage!' : 'Track your progress and plan your day.'}
+                </p>
+            </div>
+            
+            <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                
+                <div class="flex items-center gap-3 bg-white p-2 pl-4 rounded-full shadow-sm border border-gray-200 flex-grow md:flex-grow-0 justify-between md:justify-start">
+                    <span class="text-xs font-bold uppercase tracking-wider ${isExamMode ? 'text-red-500' : 'text-gray-400'}">Exam Mode</span>
+                    <button onclick="toggleExamMode()" 
+                        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 focus:outline-none ${isExamMode ? 'bg-red-500' : 'bg-gray-200'}">
+                        <span class="${isExamMode ? 'translate-x-6' : 'translate-x-1'} inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 shadow-md"></span>
+                    </button>
+                </div>
+
+                <button onclick="handleLogout()" class="bg-white text-red-500 hover:bg-red-50 hover:text-red-600 border border-gray-200 p-3 rounded-full shadow-sm transition-all" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex justify-center mb-8 reveal-on-scroll">
+            <div class="bg-white p-1 rounded-xl shadow-sm border border-gray-100 inline-flex">
+                <button onclick="switchTab('syllabus')" class="px-6 py-2 rounded-lg text-sm font-bold transition-all ${currentTab === 'syllabus' ? 'bg-indigo-600 text-white shadow-md' : 'text-gray-500 hover:text-indigo-600'}">
+                    <i class="fas fa-chart-pie mr-2"></i> Syllabus Tracker
+                </button>
+                <button onclick="switchTab('planner')" class="px-6 py-2 rounded-lg text-sm font-bold transition-all ${currentTab === 'planner' ? 'bg-indigo-600 text-white shadow-md' : 'text-gray-500 hover:text-indigo-600'}">
+                    <i class="fas fa-calendar-alt mr-2"></i> AI Planner
+                </button>
+            </div>
+        </div>
+
+        <div id="dashboard-content" class="reveal-on-scroll">
+            ${currentTab === 'syllabus' ? renderSyllabusTracker() : renderRoutinePlanner()}
+        </div>
+
+    </div>
+    `;
+}
         function renderAbout() {
             return `
                 <div class="max-w-5xl mx-auto px-4 py-16">
