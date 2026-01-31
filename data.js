@@ -8,7 +8,16 @@ const subjects = [
     { id: 4, code: 'EPHY', name: 'Engineering Physics' },
     { id: 5, code: 'BME', name: 'Basic Mechanical Engineering' },
     { id: 6, code: 'BCPS', name: 'Business Comm. & Prof. Skills' },
-    { id: 7, code: 'SPORTS', name: 'Sports & Yoga' }
+    { id: 7, code: 'SPORTS', name: 'Sports & Yoga' },
+
+    //SEM 2 Syllabus 
+    // Purane subjects (ID 1 se 7) waise hi rehne dena, unke niche yeh add karo:
+    { id: 8, code: 'OOPC', name: 'Object Oriented Programming with C++' },
+    { id: 9, code: 'ENV', name: 'Environmental Awareness' },
+    { id: 10, code: 'BCE', name: 'Basics of Civil Engineering' },
+    { id: 11, code: 'PEHV', name: 'Professional Ethics and Human Values' },
+    { id: 12, code: 'EG', name: 'Engineering Graphics' },
+    { id: 13, code: 'MATHS2', name: 'Mathematics-II' }
 ];
 
 // 2. TEXTBOOKS (Restored from Reference)
