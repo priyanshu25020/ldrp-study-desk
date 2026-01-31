@@ -2001,8 +2001,9 @@
     // Sem 2 tabhi open hoga jab user 'Syllabus' par click karke aaya ho.
     const isUnlocked = (sem === 1) || (sem === 2 && targetSection === 'syllabus');
 
-    if (isUnlocked) {
-        router(targetSection);
+   if (isUnlocked) {
+    router(targetSection, sem); // <-- Humne yahan 'sem' pass kiya
+
     } else {
         alert(`Semester ${sem} content for ${targetSection} is currently locked or under development.`);
     }
