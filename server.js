@@ -259,7 +259,7 @@ app.post('/api/contact', async (req, res) => {
         const response = await axios.post(
             'https://api.brevo.com/v3/smtp/email',
             {
-                sender: { name: "LDRP Desk Bot", email: process.env.EMAIL_USER }, // Login Email (Brevo verified)
+                sender: { name: "CE-IT Hub Bot", email: process.env.EMAIL_USER }, // Login Email (Brevo verified)
                 to: [{ email: "priyanshubharadava90231@gmail.com", name: "Priyanshu" }], // Personal Email jahan mail aayega
                 replyTo: { email: email, name: name },
                 subject: `🔔 New Inquiry: ${inquiryType}`,

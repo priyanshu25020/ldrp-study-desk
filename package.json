@@ -1,7 +1,7 @@
 {
-  "name": "ldrp-study-desk",
+  "name": "CE-IT Hub",
   "version": "1.0.0",
-  "description": "LDRP Study Desk Backend",
+  "description": "CE-IT Hub Backend",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
