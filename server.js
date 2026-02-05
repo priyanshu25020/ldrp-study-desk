@@ -30,25 +30,63 @@ const io = new Server(server, {
 
 // ✅ Naya Code (faculty add kiya):
 const { subjects, textbooks, notes, pyqs, imp_topics, practicals, assignments, faculty } = require('./data');
-// --- STATS LOGIC ---
-let currentStats = { totalVisits: 25, visitsToday: 10, onlineUsers: 0 };
+// --- STATS LOGIC (AUTOMATED RESET) ---
+// Hum current date aur month store karenge taaki track kar sakein
+let lastDate = new Date().getDate();   // Aaj ki taarikh (e.g., 5)
+let lastMonth = new Date().getMonth(); // Aaj ka mahina (e.g., 1 for Feb)
+
+let currentStats = { 
+    totalVisits: 150,    // Life time visits
+    visitsToday: 0,      // Aaj ke visits
+    monthlyVisits: 0,    // Iss mahine ke visits
+    onlineUsers: 0 
+};
 
 io.on("connection", (socket) => {
+    // 1. Time Check Logic
+    const now = new Date();
+    const todayDate = now.getDate();
+    const thisMonth = now.getMonth();
+
+    // A. DAILY RESET (Raat ke 12 baje logic)
+    // Agar server ki saved date aur aaj ki date alag hai, iska matlab naya din shuru ho gaya
+    if (todayDate !== lastDate) {
+        currentStats.visitsToday = 0; // Aaj ka counter 0 karo
+        lastDate = todayDate;         // Nayi date save karlo
+        console.log("🌙 Midnight Hit! Daily Stats Reset to 0.");
+    }
+
+    // B. MONTHLY RESET (Naye mahine par)
+    // Agar server ka saved mahina aur aaj ka mahina alag hai
+    if (thisMonth !== lastMonth) {
+        currentStats.monthlyVisits = 0; // Mahine ka counter 0 karo
+        lastMonth = thisMonth;          // Naya mahina save karlo
+        console.log("📅 New Month! Monthly Stats Reset to 0.");
+    }
+
+    // 2. Increment Counters
     currentStats.onlineUsers++;
     currentStats.totalVisits++;
     currentStats.visitsToday++;
+    currentStats.monthlyVisits++; // Monthly bhi badhao
+
+    // 3. Frontend ko data bhejo (Ab monthly bhi bhej rahe hain)
     io.emit("updateStats", { 
         online: currentStats.onlineUsers, 
         visitsToday: currentStats.visitsToday, 
-        totalVisits: currentStats.totalVisits 
+        totalVisits: currentStats.totalVisits,
+        monthlyVisits: currentStats.monthlyVisits // Yeh naya data hai
     });
+
     socket.on("disconnect", () => {
         currentStats.onlineUsers--;
         if (currentStats.onlineUsers < 0) currentStats.onlineUsers = 0;
+        
         io.emit("updateStats", { 
             online: currentStats.onlineUsers, 
             visitsToday: currentStats.visitsToday, 
-            totalVisits: currentStats.totalVisits 
+            totalVisits: currentStats.totalVisits,
+            monthlyVisits: currentStats.monthlyVisits
         });
     });
 });

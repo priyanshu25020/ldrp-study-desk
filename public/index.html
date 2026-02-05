@@ -797,11 +797,17 @@
         let imp_topics = [], practicals = [], assignments = [];
         let cachedStats = { totalVisits: '...', visitsToday: '...', online: '...' };
 
-        // --- SOCKET LISTENER ---
-        socket.on("updateStats", (data) => {
-            cachedStats = data;
-            updateStatsDOM();
-        });
+       
+     // --- SOCKET LISTENER ---
+socket.on("updateStats", (data) => {
+    cachedStats = data; // Pura naya data (jisme monthlyVisits bhi hai) cache me aa jayega
+    updateStatsDOM();
+    
+    // Agar user Home page par hai, to turant number update karo
+    if(document.getElementById('stat-monthly')) {
+         document.getElementById('stat-monthly').innerText = data.monthlyVisits;
+    }
+});
 
         function updateStatsDOM() {
             const ids = ['stat-reach', 'stat-visits', 'stat-online', 'stat-users'];
@@ -1859,8 +1865,9 @@
         { code: 'AUTO', name: 'Automobile', icon: 'fa-car', style: 'bg-slate-100 text-slate-600 border-slate-200 hover:shadow-slate-200' }
     ];
 
-    // Fake Monthly Calculation (Just for display logic)
-    const monthlyVisits = Math.floor(cachedStats.totalVisits / 12) + cachedStats.visitsToday;
+    
+   // Server se aaya hua Monthly Data use karenge (Agar nahi aaya to 0)
+const monthlyVisits = cachedStats.monthlyVisits || 0;
 
     return `
     <div class="relative text-white py-20 px-4 bg-cover bg-center flex items-center justify-center" style="background-image: url('images/backgroundimage.1.jpeg'); min-height: 65vh;">
@@ -1913,6 +1920,7 @@
                 <div class="w-full space-y-4">
                     <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center transform transition-transform hover:scale-[1.02]">
                         <p class="text-violet-600 font-black text-3xl">${monthlyVisits}</p>
+                        <p id="stat-monthly" class="text-violet-600 font-black text-3xl">${monthlyVisits}</p>
                         <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Monthly Visits</p>
                     </div>
 
