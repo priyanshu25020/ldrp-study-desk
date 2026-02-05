@@ -2569,8 +2569,54 @@
         `;
             }
 
-            // 2. Agar Login hai lekin Semester Select nahi kiya (To Selection Screen dikhao)
-            if (studySem === null) {
+           // 2. Agar Login hai lekin Semester Select nahi kiya (To Selection Screen dikhao)
+    if (studySem === null) {
+        const semesters = [1, 2, 3, 4, 5, 6, 7, 8]; // Total 8 Semesters
+
+        return `
+        <div class="min-h-screen flex flex-col items-center justify-center px-4 bg-gray-50">
+            <div class="text-center mb-10 reveal-on-scroll">
+                <h2 class="text-3xl font-black text-gray-900 mb-2">Select Your Semester</h2>
+                <p class="text-gray-500">Choose a semester to load your syllabus tracker.</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl w-full">
+                ${semesters.map((sem, idx) => {
+                    // Logic: Sirf Sem 1 aur 2 Unlocked hain
+                    const isUnlocked = sem === 1 || sem === 2;
+                    
+                    // Specific subject hints for Sem 1 & 2
+                    let subHint = "Coming Soon...";
+                    if (sem === 1) subHint = "Maths-1, FOP, BEEE...";
+                    if (sem === 2) subHint = "OOPC, Maths-2, EG...";
+
+                    return `
+                    <button onclick="${isUnlocked ? `selectStudySem(${sem})` : `alert('Semester ${sem} content is locked or coming soon!')`}" 
+                        class="bg-white p-6 rounded-3xl shadow-lg border ${isUnlocked ? 'border-indigo-50 hover:border-indigo-500 hover:shadow-xl cursor-pointer' : 'border-gray-100 opacity-75 cursor-not-allowed'} transition-all group text-center reveal-on-scroll relative overflow-hidden" 
+                        style="transition-delay: ${idx * 0.05}s">
+                        
+                        ${!isUnlocked ? '<div class="absolute top-3 right-3 text-gray-300"><i class="fas fa-lock"></i></div>' : ''}
+                        
+                        <div class="w-14 h-14 ${isUnlocked ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-400'} rounded-full flex items-center justify-center mx-auto mb-3 text-xl font-bold group-hover:scale-110 transition-transform">
+                            ${sem}
+                        </div>
+                        
+                        <h3 class="text-lg font-bold ${isUnlocked ? 'text-gray-800 group-hover:text-indigo-600' : 'text-gray-500'}">Semester ${sem}</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 truncate">${subHint}</p>
+
+                        ${isUnlocked ? 
+                            `<span class="inline-block mt-3 text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full border border-green-100">Available</span>` : 
+                            `<span class="inline-block mt-3 text-[10px] font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded-full border border-gray-200">Locked</span>`
+                        }
+                    </button>
+                    `;
+                }).join('')}
+            </div>
+            
+            <button onclick="handleLogout()" class="mt-12 text-red-400 text-sm font-bold hover:text-red-600 underline">Logout</button>
+        </div>
+        `;
+    
                 return `
         <div class="min-h-screen flex flex-col items-center justify-center px-4 bg-gray-50">
             <div class="text-center mb-10 reveal-on-scroll">
