@@ -36,7 +36,7 @@ let lastDate = new Date().getDate();   // Aaj ki taarikh (e.g., 5)
 let lastMonth = new Date().getMonth(); // Aaj ka mahina (e.g., 1 for Feb)
 
 let currentStats = { 
-    totalVisits: 150,    // Life time visits
+    totalVisits: 20,    // Life time visits
     visitsToday: 0,      // Aaj ke visits
     monthlyVisits: 0,    // Iss mahine ke visits
     onlineUsers: 0 
