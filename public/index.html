@@ -1810,17 +1810,19 @@ socket.on("updateStats", (data) => {
                 case 'sem-select':
                     app.innerHTML = renderSemesterSelect(params);
                     break;
-                case 'subjects':
-                    app.innerHTML = renderSubjects();
+              case 'subjects':
+                    // Agar params null hai to by default 1 (Sem 1) maano
+                    app.innerHTML = renderSubjects(params || 1);
                     break;
                 case 'subject-detail':
                     app.innerHTML = renderSubjectDetail(params);
                     break;
-              case 'syllabus':
-    app.innerHTML = renderSyllabus(params); // <-- 'params' mein semester number hoga
-    break;
+                case 'syllabus':
+                    app.innerHTML = renderSyllabus(params || 1);
+                    break;
                 case 'practicals':
-                    app.innerHTML = renderPracticals();
+                    // Yahan bhi params pass kiya
+                    app.innerHTML = renderPracticals(params || 1);
                     break;
                 case 'practical-detail':
                     app.innerHTML = renderPracticalDetail(params);
@@ -1875,7 +1877,7 @@ const monthlyVisits = cachedStats.monthlyVisits || 0;
         <div class="relative z-10 text-center max-w-4xl">
             <span class="inline-block py-1 px-3 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs font-bold mb-4 hero-animate">🚀 Welcome to the Future of Learning</span>
             <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight drop-shadow-2xl hero-animate">CE-IT Hub</h1>
-            <p class="text-lg md:text-xl text-indigo-100 mb-10 hero-animate opacity-90" style="animation-delay:0.2s">Access organized notes, AI assistance, and exam resources in one click.</p>
+            <p class="text-lg md:text-xl text-indigo-100 mb-10 hero-animate opacity-90" style="animation-delay:0.2s">Access verified notes, personal AI assistance,Practical & Assignments with viva guidance and exam resources in one click.</p>
         </div>
     </div>
 
@@ -2023,7 +2025,16 @@ const monthlyVisits = cachedStats.monthlyVisits || 0;
             else if (item === 'Imp Topics') router('sem-select', 'subjects');
             else if (item === 'Contact') router('contact');
         }
-  function renderSubjects() {
+function renderSubjects(semester) {
+    // 🔥 FILTER LOGIC ADDED:
+    // Agar Sem 1 hai to ID <= 7 (Sports tak)
+    // Agar Sem 2 hai to ID > 7 (Baaki sab)
+    const filteredSubjects = subjects.filter(sub => {
+        if (semester === 1) return sub.id <= 7;
+        if (semester === 2) return sub.id > 7;
+        return true;
+    });
+
     return `
     <div class="max-w-7xl mx-auto px-4 py-16">
         <button onclick="router('sem-select', 'subjects')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
@@ -2031,11 +2042,11 @@ const monthlyVisits = cachedStats.monthlyVisits || 0;
         </button>
         <div class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4 reveal-on-scroll">
             <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight">Academic Subjects</h2>
-            <p class="text-gray-500 italic">Semester 1</p>
+            <p class="text-gray-500 italic">Semester ${semester}</p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            ${subjects.map((sub, idx) => {
+            ${filteredSubjects.map((sub, idx) => {
                 const subImpTopics = imp_topics.filter(i => i.subject_id === sub.id);
                 const impFileId = subImpTopics.length > 0 ? subImpTopics[0].fileUrl : null;
 
@@ -2173,42 +2184,48 @@ const monthlyVisits = cachedStats.monthlyVisits || 0;
     </div>
     `;
         }
-        function renderPracticals() {
-            return `
-                <div class="max-w-7xl mx-auto px-4 py-16">
-                    <button onclick="router('sem-select', 'practicals')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
-                        <i class="fas fa-chevron-left mr-2"></i> Back to Semester Select
-                    </button>
-                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4 reveal-on-scroll">
-                        <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight">Practical & Assignment</h2>
-                        <p class="text-gray-500 italic">Select a subject to view details</p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        ${subjects.map((sub, idx) => `
-                            <div onclick="router('practical-detail', ${sub.id})" 
-                                 class="reveal-on-scroll bg-white rounded-3xl shadow-sm border border-indigo-50 overflow-hidden card-hover flex flex-col h-full group cursor-pointer" 
-                                 style="transition-delay: ${idx * 0.1}s">
-                                <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-6 text-white flex justify-between items-center group-hover:from-purple-700 group-hover:to-pink-700 transition-all duration-300">
-                                    <div>
-                                        <h3 class="font-black text-2xl tracking-tighter">${sub.code}</h3>
-                                        <p class="text-xs text-purple-100 uppercase tracking-widest mt-1 opacity-90">Lab & Work</p>
-                                    </div>
-                                    <i class="fas fa-flask text-3xl opacity-20 group-hover:scale-110 transition-transform duration-500"></i>
-                                </div>
-                                <div class="p-8 flex flex-col flex-grow">
-                                    <h4 class="text-xl font-bold text-gray-800 mb-2 flex-grow leading-tight">${sub.name}</h4>
-                                    <p class="text-gray-500 text-sm mb-4">Click to view Practicals and Assignments for this subject.</p>
-                                    <div class="mt-auto flex items-center text-purple-600 font-bold text-sm group-hover:translate-x-2 transition-transform">
-                                        View Details <i class="fas fa-arrow-right ml-2"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
+    function renderPracticals(semester) {
+    // 🔥 FILTER LOGIC ADDED HERE TOO:
+    const filteredSubjects = subjects.filter(sub => {
+        if (semester === 1) return sub.id <= 7;
+        if (semester === 2) return sub.id > 7;
+        return true;
+    });
 
+    return `
+        <div class="max-w-7xl mx-auto px-4 py-16">
+            <button onclick="router('sem-select', 'practicals')" class="mb-8 text-indigo-600 hover:text-indigo-800 font-bold flex items-center transition-colors btn-click-effect reveal-on-scroll">
+                <i class="fas fa-chevron-left mr-2"></i> Back to Semester Select
+            </button>
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-4 reveal-on-scroll">
+                <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight">Practical & Assignment</h2>
+                <p class="text-gray-500 italic">Semester ${semester}</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                ${filteredSubjects.map((sub, idx) => `
+                    <div onclick="router('practical-detail', ${sub.id})" 
+                            class="reveal-on-scroll bg-white rounded-3xl shadow-sm border border-indigo-50 overflow-hidden card-hover flex flex-col h-full group cursor-pointer" 
+                            style="transition-delay: ${idx * 0.1}s">
+                        <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-6 text-white flex justify-between items-center group-hover:from-purple-700 group-hover:to-pink-700 transition-all duration-300">
+                            <div>
+                                <h3 class="font-black text-2xl tracking-tighter">${sub.code}</h3>
+                                <p class="text-xs text-purple-100 uppercase tracking-widest mt-1 opacity-90">Lab & Work</p>
+                            </div>
+                            <i class="fas fa-flask text-3xl opacity-20 group-hover:scale-110 transition-transform duration-500"></i>
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h4 class="text-xl font-bold text-gray-800 mb-2 flex-grow leading-tight">${sub.name}</h4>
+                            <p class="text-gray-500 text-sm mb-4">Click to view Practicals and Assignments for this subject.</p>
+                            <div class="mt-auto flex items-center text-purple-600 font-bold text-sm group-hover:translate-x-2 transition-transform">
+                                View Details <i class="fas fa-arrow-right ml-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
         function renderPracticalDetail(subjectId) {
             const subject = subjects.find(s => s.id === subjectId);
 
