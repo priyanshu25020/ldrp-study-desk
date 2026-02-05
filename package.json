@@ -1,5 +1,5 @@
 {
-  "name": "CE-IT Hub",
+ "name": "ce-it-hub",
   "version": "1.0.0",
   "description": "CE-IT Hub Backend",
   "main": "server.js",
