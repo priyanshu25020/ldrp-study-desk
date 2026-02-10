@@ -13,11 +13,14 @@ const subjects = [
     //SEM 2 Syllabus 
     // Purane subjects (ID 1 se 7) waise hi rehne dena, unke niche yeh add karo:
     { id: 8, code: 'OOPC', name: 'Object Oriented Programming with C++' },
-    { id: 9, code: 'ENV', name: 'Environmental Awareness' },
-    { id: 10, code: 'BCE', name: 'Basics of Civil Engineering' },
-    { id: 11, code: 'PEHV', name: 'Professional Ethics and Human Values' },
-    { id: 12, code: 'EG', name: 'Engineering Graphics' },
-    { id: 13, code: 'MATHS2', name: 'Mathematics-II' }
+    { id: 9, code: 'MATHS2', name: 'Mathematics-II' },
+    { id: 10, code: 'EG', name: 'Engineering Graphics' },
+    { id: 11, code: 'BCE', name: 'Basics of Civil Engineering' },
+    { id: 12, code: 'PEHV', name: 'Professional Ethics and Human Values' },
+    { id: 13, code: 'ENV', name: 'Environmental Awareness' }
+    
+    
+   
 ];
 
 // 2. TEXTBOOKS (Restored from Reference)
