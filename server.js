@@ -108,6 +108,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Serve Static Files
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/papers', express.static(path.join(__dirname, 'papers')));
 
 // --- API ENDPOINTS ---
 app.get('/api/subjects', (req, res) => res.json(subjects));
