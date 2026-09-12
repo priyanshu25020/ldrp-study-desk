@@ -28,7 +28,8 @@ const io = new Server(server, {
     cors: { origin: "*", methods: ["GET", "POST"] }
 });
 
-const { subjects, textbooks, notes, pyqs, imp_topics, assignments, syllabus } = require('./data');
+// ✅ Naya Code (faculty add kiya):
+const { subjects, textbooks, notes, pyqs, imp_topics, practicals, assignments, faculty } = require('./data');
 // --- STATS LOGIC (AUTOMATED RESET) ---
 // Hum current date aur month store karenge taaki track kar sakein
 let lastDate = new Date().getDate();   // Aaj ki taarikh (e.g., 5)
@@ -113,15 +114,12 @@ app.use('/papers', express.static(path.join(__dirname, 'papers')));
 app.get('/api/subjects', (req, res) => res.json(subjects));
 app.get('/api/notes', (req, res) => res.json(notes));
 app.get('/api/textbooks', (req, res) => res.json(textbooks));
-app.get('/api/imp_topics', (req, res) => res.json(imp_topics));
 app.get('/api/pyqs', (req, res) => res.json(pyqs));
+app.get('/api/imp_topics', (req, res) => res.json(imp_topics));
+app.get('/api/practicals', (req, res) => res.json(practicals));
 app.get('/api/assignments', (req, res) => res.json(assignments));
-app.get('/api/syllabus', (req, res) => res.json(syllabus));
-app.get('/api/stats', (req, res) => {
-    currentStats.totalVisits++;
-    currentStats.visitsToday++;
-    res.json(currentStats);
-});
+// ✅ Yeh Line Add Karo:
+app.get('/api/faculty', (req, res) => res.json(faculty));
 // --- GOOGLE DRIVE PROXY ---
 // --- NEW & IMPROVED GOOGLE DRIVE PROXY (With Direct Link Caching) ---
 const urlCache = new Map(); // Link yaad rakhne ke liye temporary memory
