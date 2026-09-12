@@ -148,6 +148,11 @@ async function getFinalDriveUrl(fileId) {
         if (error.response && (error.response.status === 302 || error.response.status === 303)) {
             const finalUrl = error.response.headers.location;
             
+            // Check if Google is redirecting to login page (file is restricted / private)
+            if (finalUrl && (finalUrl.includes('accounts.google.com') || finalUrl.includes('/signin/'))) {
+                throw new Error("GOOGLE_DRIVE_RESTRICTED");
+            }
+
             // Cache mein save karo (1 ghante ke liye)
             urlCache.set(fileId, finalUrl);
             setTimeout(() => urlCache.delete(fileId), 3600 * 1000);
@@ -171,8 +176,8 @@ app.get('/api/proxy-pdf', async (req, res) => {
 
         // 2. Browser ko headers bhejo (Important for PDF.js)
         const fetchHeaders = { 
-            'User-Agent': 'Mozilla/5.0',
-            ...(range && { 'Range': range }) // Agar browser ne tukda maanga hai, toh forward karo
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            ...(range && { 'Range': range })
         };
 
         const response = await axios({
@@ -182,16 +187,26 @@ app.get('/api/proxy-pdf', async (req, res) => {
             headers: fetchHeaders
         });
 
-        // 3. Response Headers set karo
+        // 3. Check content type: if Google returned HTML instead of PDF
+        const contentType = response.headers['content-type'] || '';
+        if (contentType.includes('text/html')) {
+            return res.status(403).send("Google Drive file is restricted or requires authentication. Please set file sharing to 'Anyone with the link can view'.");
+        }
+
+        // 4. Response Headers set karo
         res.status(response.status);
         res.set(response.headers);
         
-        // 4. Data pipe karo (Seedha browser ke paas)
+        // 5. Data pipe karo (Seedha browser ke paas)
         response.data.pipe(res);
 
     } catch (error) {
+        if (error.message === "GOOGLE_DRIVE_RESTRICTED") {
+            console.error("❌ Google Drive file is private/restricted for ID:", req.query.id);
+            return res.status(403).send("Google Drive file is restricted. Please change Google Drive file sharing to 'Anyone with the link can view'.");
+        }
         console.error("Proxy Error:", error.message);
-        res.status(500).send("Error loading PDF.");
+        res.status(500).send("Error loading PDF: " + error.message);
     }
 });
 // Safe Groq Client Initialization (Prevents crash if GROQ_API_KEY is missing on Render)

@@ -105,7 +105,6 @@
             box-shadow: 0 0 0 2px white, 0 0 0 4px currentColor;
         }
     </style>
-    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>CE-IT Hub | Learn Better</title>
@@ -2867,12 +2866,22 @@
                 document.getElementById('page_info').innerText = `Page ${pageNum} of ${pdfDoc.numPages}`;
                 renderPage(pageNum);
             } catch (error) {
-                console.error("Error:", error);
+                console.error("PDF Load Error:", error);
+                const isRestricted = error.name === 'InvalidPDFException' || (error.message && error.message.includes('PDF'));
                 document.getElementById('zoomWrapper').innerHTML = `
-                    <div class="flex flex-col items-center justify-center h-full text-white">
-                         <i class="fas fa-sync-alt fa-spin text-4xl mb-4 text-indigo-500"></i>
-                         <p>Reconnecting...</p>
-                         <button onclick="loadSecurePdfToCanvas('${url}')" class="mt-4 bg-white text-indigo-900 px-4 py-1 rounded font-bold">Retry</button>
+                    <div class="flex flex-col items-center justify-center h-full text-white px-6 text-center">
+                         <div class="w-16 h-16 bg-red-500/20 text-red-400 rounded-full flex items-center justify-center mb-4 text-2xl border border-red-500/30">
+                             <i class="fas fa-lock"></i>
+                         </div>
+                         <h3 class="text-lg font-bold text-red-400 mb-2">PDF Access Restricted</h3>
+                         <p class="text-sm text-gray-300 max-w-md mb-4">
+                            ${isRestricted 
+                                ? "Google Drive has restricted this file or requires college login. To fix this, change the file's sharing permission on Google Drive to: <strong>'Anyone with the link can view'</strong>." 
+                                : (error.message || "Failed to load document.")}
+                         </p>
+                         <button onclick="loadSecurePdfToCanvas('${url}')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl font-bold transition-all shadow-md">
+                             <i class="fas fa-redo mr-2"></i> Retry
+                         </button>
                     </div>`;
             }
         }
