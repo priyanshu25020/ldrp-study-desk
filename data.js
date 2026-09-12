@@ -2,25 +2,21 @@
 
 // 1. SUBJECTS MASTER LIST
 const subjects = [
-    { id: 1, code: 'MATHS', name: 'Mathematics-I' },
-    { id: 2, code: 'FOP', name: 'Fundamentals of Programming' },
-    { id: 3, code: 'BEEE', name: 'Basic Electrical & Electronics' },
-    { id: 4, code: 'EPHY', name: 'Engineering Physics' },
-    { id: 5, code: 'BME', name: 'Basic Mechanical Engineering' },
-    { id: 6, code: 'BCPS', name: 'Business Comm. & Prof. Skills' },
-    { id: 7, code: 'SPORTS', name: 'Sports & Yoga' },
+    { id: 1, code: 'MATHS', name: 'Mathematics-I', semester: 1 },
+    { id: 2, code: 'FOP', name: 'Fundamentals of Programming', semester: 1 },
+    { id: 3, code: 'BEEE', name: 'Basic Electrical & Electronics', semester: 1 },
+    { id: 4, code: 'EPHY', name: 'Engineering Physics', semester: 1 },
+    { id: 5, code: 'BME', name: 'Basic Mechanical Engineering', semester: 1 },
+    { id: 6, code: 'BCPS', name: 'Business Comm. & Prof. Skills', semester: 1 },
+    { id: 7, code: 'SPORTS', name: 'Sports & Yoga', semester: 1 },
 
-    //SEM 2 Syllabus 
-    // Purane subjects (ID 1 se 7) waise hi rehne dena, unke niche yeh add karo:
-    { id: 8, code: 'OOPC', name: 'Object Oriented Programming with C++' },
-    { id: 9, code: 'MATHS2', name: 'Mathematics-II' },
-    { id: 10, code: 'EG', name: 'Engineering Graphics' },
-    { id: 11, code: 'BCE', name: 'Basics of Civil Engineering' },
-    { id: 12, code: 'PEHV', name: 'Professional Ethics and Human Values' },
-    { id: 13, code: 'ENV', name: 'Environmental Awareness' }
-    
-    
-   
+    // SEM 2 Syllabus
+    { id: 8, code: 'OOPC', name: 'Object Oriented Programming with C++', semester: 2 },
+    { id: 9, code: 'MATHS2', name: 'Mathematics-II', semester: 2 },
+    { id: 10, code: 'EG', name: 'Engineering Graphics', semester: 2 },
+    { id: 11, code: 'BCE', name: 'Basics of Civil Engineering', semester: 2 },
+    { id: 12, code: 'PEHV', name: 'Professional Ethics and Human Values', semester: 2 },
+    { id: 13, code: 'ENV', name: 'Environmental Awareness', semester: 2 }
 ];
 
 // 2. TEXTBOOKS (Restored from Reference)
@@ -261,61 +257,103 @@ const pyqs = [
     { id: 6, subject_id: 6, year: '2022-2025', exam: 'ALL', fileUrl: '1e7KKwqUhaCq0W0akTI992q1nGJ3Fa0Sw' }  // BCPS
 ];
 
-// --- 8. FACULTY DATA (Scalable Structure) ---
-const faculty = [
-    // --- ID 1: MATHS (9 Faculty) ---
-    { id: 101, subject_id: 1, name: "DR. Manoj Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First Floor,CF-SR 5,", email: "manoj_sh@ldrp.ac.in", linkedin: "https://www.linkedin.com/in/dr-manoj-patel-73341090/", image: "images/faculty/maths_1.jpg" },
-    { id: 102, subject_id: 1, name: "MR. Khushal Prajapati", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "khushalnp@gmail.com", linkedin: "https://www.linkedin.com/in/khushal-prajapati/", image: "images/faculty/maths_2.jpeg" },
-    { id: 103, subject_id: 1, name: "DR. Vijay Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "UPDATING SOON...", email: "vijay_sh@ldrp.ac.in", linkedin: "https://www.linkedin.com/in/dr-vijay-patel-159a1027/", image: "images/faculty/maths_3.jpg" },
-    { id: 104, subject_id: 1, name: "MR. Divyarajsinh Gohil", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "UPDATING SOON...", linkedin: "#", image: "images/faculty/maths_4.jpg" },
-    { id: 105, subject_id: 1, name: "MR. Harsh Shah", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "harsh_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_5.jpg" },
-    { id: 106, subject_id: 1, name: "MS. Shruti Rathod", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "shruti_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_6.jpg" },
-    { id: 107, subject_id: 1, name: "DR. KRISHNA P. SOLANKI", designation: "Asst. Professor", dept: "Mathematics", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "krishna_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_7.jpg" },
-    { id: 108, subject_id: 1, name: "MR. Vipul Patel", designation: "Asst. Professor", dept: "Mathematics", cabin: "UPDATING SOON...", email: "vipul_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/maths_8.jpg" },
+// 7. SYLLABUS DATA (Topic & Weightage Breakdown)
+const syllabus = {
+    'MATHS': [
+        { title: "UNIT 1: Differential Calculus", topics: ["Review of limit", "Indeterminate forms", "Taylor’s & Maclaurin’s expansions"], weightage: "10% & 6 Marks" },
+        { title: "UNIT 2: Partial differentiation", topics: ["Limit and Continuity for several variables", "Definition of partial derivatives", "Homogeneous function, Euler’s theorem", "Chain rule, Partial and Total Differential Coefficient", "Partial differentiation of composite and implicit function"], weightage: "12% & 7 Marks" },
+        { title: "UNIT 3: Applications of Partial differentiation", topics: ["Tangent plane and Normal line", "Jacobians", "Maxima and Minima of functions of two variables", "Lagrange’s method of undetermined multipliers"], weightage: "13% & 7-8 Marks" },
+        { title: "UNIT 4: Multiple Integrals and applications", topics: ["Double integral in Cartesian and polar form", "Change of Order integration in double integral", "Triple Integral", "Applications: Area, Volume"], weightage: "25% & 15 Marks" },
+        { title: "UNIT 5: Infinite Series", topics: ["Limit of Sequence, Definition of Infinite Series", "Convergence and divergence", "Comparison test, Cauchy’s integral, Ratio, Root tests", "Leibnitz rule, Power series, Radius of convergence"], weightage: "20% & 12 Marks" },
+        { title: "UNIT 6: Vector differential Calculus", topics: ["Vector differentiation", "Tangent and Normal vectors", "Gradient, Directional derivatives", "Curl, Divergence, Solenoidal and Irrotational vectors"], weightage: "20% & 12 Marks" }
+    ],
+    'FOP': [
+        { title: "UNIT 1: Intro to Computers & Programming", topics: ["Block diagram of computer components", "Hardware vs Software", "Compiler vs Interpreter", "Flowcharts and Algorithms"], weightage: "12% & 8 Marks" },
+        { title: "UNIT 2: C Language & Program Structure", topics: ["Features of C, Structure of C program", "Data types, Constants and Variables", "Operators and Expressions, Precedence rules"], weightage: "17% & 10 Marks" },
+        { title: "UNIT 3: Control Structures in C", topics: ["Decision making (if, if-else, nested if, switch)", "Looping (for, while, do-while)", "break, continue, goto"], weightage: "20% & 12 Marks" },
+        { title: "UNIT 4: Arrays and Strings", topics: ["1D and 2D arrays", "Declaration and Initialization", "String storage and manipulation", "Built-in string functions"], weightage: "17% & 10 Marks" },
+        { title: "UNIT 5: Functions in C", topics: ["Function declaration and definition", "Parameter passing (call by value)", "Recursion", "Preprocessors and Macros"], weightage: "17% & 10 Marks" },
+        { title: "UNIT 6: Structures and Unions", topics: ["Definition and declaration of structures", "Nested structures, Array of structures", "Unions and difference from structures"], weightage: "17% & 10 Marks" }
+    ],
+    'BEEE': [
+        { title: "UNIT 1: DC Circuits", topics: ["Modern electron theory, Ohm's law", "Computation of resistance with temperature", "KVL & KCL for Resistive circuits", "Star-Delta combination"], weightage: "16% & 9 Marks" },
+        { title: "UNIT 2: AC Circuit", topics: ["Single Phase AC Circuits, Sinusoidal voltage", "Average value, RMS value, Form factor", "R-L, R-C, R-L-C series circuit analysis", "Real, Reactive, Apparent power, Power factor"], weightage: "16% & 9-10 Marks" },
+        { title: "UNIT 3: 3-Phase Circuits", topics: ["Necessity & Advantages of 3-phase systems", "Line and phase values in balanced circuits"], weightage: "10% & 6 Marks" },
+        { title: "UNIT 4: Electrostatics", topics: ["Coulomb’s law, Electric field intensity", "Capacitor & Capacitance, Dielectric medium", "Capacitors in series and parallel, Energy stored"], weightage: "18% & 10-11 Marks" },
+        { title: "UNIT 5: Electromagnetics", topics: ["Magnetic circuits vs Electric circuits", "Faraday’s law, Lenz’s law", "Self and Mutual Inductance", "Single-phase transformer working principle"], weightage: "22% & 13 Marks" },
+        { title: "UNIT 6: Electronic Systems", topics: ["PN junction diode forward/reverse bias", "Zener diode as voltage regulator", "Half wave & Full wave rectifiers", "Bipolar junction transistor (BJT) basics"], weightage: "18% & 10-11 Marks" }
+    ],
+    'EPHY': [
+        { title: "UNIT 1: Acoustic & Elasticity", topics: ["Simple Damped Harmonic Motion, Sabine's formula", "Ultrasonics generation & applications", "Stress, Strain, Hooke's law, Elastic moduli"], weightage: "26% & 15 Marks" },
+        { title: "UNIT 2: Optics (Laser & Fiber Optics)", topics: ["Laser characteristics, Nd-YAG & CO2 lasers", "Fiber optics criteria, Acceptance angle & Numerical Aperture", "Optical communication applications"], weightage: "24% & 14 Marks" },
+        { title: "UNIT 3: Modern Physics & Crystals", topics: ["Planck's law, de Broglie matter waves", "Heisenberg Uncertainty Principle", "Crystal lattices, Unit cell, Miller indices, SC/BCC/FCC"], weightage: "27% & 16 Marks" },
+        { title: "UNIT 4: Material Science & NDT", topics: ["Band theory of solids, Hall effect", "Superconductivity (Type-I & Type-II)", "Nanomaterials synthesis, Non-Destructive Testing (NDT)"], weightage: "23% & 13-14 Marks" }
+    ],
+    'BME': [
+        { title: "UNIT 1: Thermodynamics & Energy", topics: ["Basic terminology: Force, Pressure, Heat, Enthalpy", "Zeroth & First Law of Thermodynamics", "Fossil, Nuclear, Solar, Wind energy sources"], weightage: "15% & 9 Marks" },
+        { title: "UNIT 2: Behavior of Gases & Processes", topics: ["Gas laws: Boyle, Charles, Ideal gas equation", "Constant volume, Constant pressure, Isothermal, Adiabatic"], weightage: "17% & 10 Marks" },
+        { title: "UNIT 3: Steam & Boilers", topics: ["Steam properties & steam tables", "Cochran, Lancashire, Babcock & Wilcox boilers", "Boiler mountings & accessories"], weightage: "15% & 9 Marks" },
+        { title: "UNIT 4: Heat Engines & IC Engines", topics: ["Carnot, Otto, Diesel cycles", "4-stroke and 2-stroke Petrol/Diesel engines", "Brake power, Thermal efficiency"], weightage: "18% & 10-11 Marks" },
+        { title: "UNIT 5: Refrigeration, AC & Pumps", topics: ["Vapor compression refrigeration", "Window & split air conditioners", "Reciprocating & Centrifugal pumps and compressors"], weightage: "20% & 12 Marks" },
+        { title: "UNIT 6: Power Transmission", topics: ["Shafts and Axles", "Belt, Chain, Gear drives", "Clutches and Brakes"], weightage: "15% & 9 Marks" }
+    ],
+    'BCPS': [
+        { title: "UNIT 1: Technical Communication", topics: ["Communication types: verbal, nonverbal, oral, written", "Barriers to communication, 7 C's"], weightage: "14% & 8 Marks" },
+        { title: "UNIT 2: Comprehension Skills", topics: ["Active listening techniques", "Skimming and Scanning, SQ3R technique", "Reading comprehension practice"], weightage: "20% & 12 Marks" },
+        { title: "UNIT 3: Speaking Skills", topics: ["Presentation skills & body language", "Audio-visual aids preparation", "Dialogue practice, Tone and Pronunciation"], weightage: "23% & 13-14 Marks" },
+        { title: "UNIT 4: Writing Skills", topics: ["Professional email etiquette", "Formal leave and permission applications", "Report writing, Article reviews"], weightage: "23% & 13-14 Marks" },
+        { title: "UNIT 5: Preparing for Profession", topics: ["Resume crafting & formatting", "Group discussions & interview skills", "Teamwork & change management"], weightage: "20% & 12 Marks" }
+    ],
+    'SPORTS': [
+        { title: "UNIT 1: Yoga Practice", topics: ["Standing, Sitting, Supine Asanas", "Surya Namaskar rounds", "Relaxation & Savasana"], weightage: "12% & 6 Marks" },
+        { title: "UNIT 2: Pranayama & Meditation", topics: ["Anulom Vilom, Kapalbhati, Bhramari", "Mindfulness & breath control"], weightage: "20% & 10 Marks" },
+        { title: "UNIT 3: Fitness & Aerobics", topics: ["Bodyweight exercises, Circuit training", "Cardiovascular health, Cooper test"], weightage: "14% & 7 Marks" },
+        { title: "UNIT 4: Indoor & Outdoor Sports", topics: ["Chess, Table Tennis, Carrom", "Volleyball, Football, Athletics"], weightage: "34% & 17 Marks" }
+    ],
+    'OOPC': [
+        { title: "UNIT 1: OOP Concepts & C++ Basics", topics: ["Procedural vs OOP principles", "Namespaces, Operators, Control structures", "Inline functions, Friend functions, Virtual functions"], weightage: "25% & 15 Marks" },
+        { title: "UNIT 2: Classes, Objects & Operator Overloading", topics: ["Classes, Objects, Constructors & Destructors", "Operator overloading with member and friend functions", "Type conversions"], weightage: "25% & 15 Marks" },
+        { title: "UNIT 3: Inheritance & Polymorphism", topics: ["Inheritance types, Method overriding", "Virtual base class, Pure virtual functions, Late binding"], weightage: "25% & 15 Marks" },
+        { title: "UNIT 4: Files, Templates & Exceptions", topics: ["C++ File streams & file modes", "Function & Class templates", "Exception handling: try-catch-throw"], weightage: "25% & 15 Marks" }
+    ],
+    'MATHS2': [
+        { title: "UNIT 1: Matrix Theory & Applications", topics: ["Rank, Inverse, Row Echelon Form", "Homogeneous & Non-homogeneous systems", "Solutions of linear equations"], weightage: "22% & 13 Marks" },
+        { title: "UNIT 2: Eigenvalues & Eigenvectors", topics: ["Properties, Cayley-Hamilton theorem", "Diagonalization, Quadratic forms"], weightage: "13% & 8 Marks" },
+        { title: "UNIT 3: Complex Numbers & Functions", topics: ["Complex elementary functions", "De Moivre’s Theorem"], weightage: "13% & 8 Marks" },
+        { title: "UNIT 4: Vector Integral Calculus", topics: ["Line, Surface, Volume integrals", "Green’s, Stoke’s, and Gauss Divergence theorems"], weightage: "20% & 12 Marks" },
+        { title: "UNIT 5: First Order ODEs", topics: ["Variable separable, Homogeneous, Exact equations", "Linear differential equations, Bernoulli equations"], weightage: "22% & 13 Marks" },
+        { title: "UNIT 6: Numerical Solutions of ODEs", topics: ["Euler's Method, Modified Euler", "Runge-Kutta 4th Order Method"], weightage: "10% & 6 Marks" }
+    ],
+    'EG': [
+        { title: "UNIT 1: Engineering Scales & Lines", topics: ["BIS SP:46 Code, Lettering, Dimensioning", "Plain & Diagonal Scales, Representative Fraction"], weightage: "13% & 8 Marks" },
+        { title: "UNIT 2: Engineering Curves", topics: ["Ellipse, Parabola, Hyperbola, Cycloid, Involutes", "Loci of points for mechanisms"], weightage: "13% & 8 Marks" },
+        { title: "UNIT 3: Projections of Points, Lines & Planes", topics: ["Point projections in all quadrants", "Inclined lines, True lengths, Inclined planes"], weightage: "20% & 12 Marks" },
+        { title: "UNIT 4: Projections & Sections of Solids", topics: ["Prism, Pyramid, Cylinder, Cone", "Frustum, Section planes, Development of surfaces"], weightage: "20% & 12 Marks" },
+        { title: "UNIT 5: Orthographic Projections", topics: ["1st & 3rd angle projections, Multiview drawings, Sectional views"], weightage: "17% & 10 Marks" },
+        { title: "UNIT 6: Isometric Views", topics: ["Isometric scale, Orthographic to Isometric conversions"], weightage: "17% & 10 Marks" }
+    ],
+    'BCE': [
+        { title: "UNIT 1: Introduction to Civil Engineering", topics: ["Branches, Scope, Role in infrastructure and economy"], weightage: "8% & 5 Marks" },
+        { title: "UNIT 2: Building Planning & Construction", topics: ["Planning principles, Building bylaws, Site selection", "Building services: Plumbing, Drainage, HVAC"], weightage: "22% & 13 Marks" },
+        { title: "UNIT 3: Building Materials", topics: ["Stones, Bricks, Cement, Concrete", "Timber, Steel, Aggregates"], weightage: "20% & 12 Marks" },
+        { title: "UNIT 4: Water Resources", topics: ["Conservation, Storage structures, Gravity dams"], weightage: "18% & 11 Marks" },
+        { title: "UNIT 5: Transportation", topics: ["Highways, Railways, Airways, Traffic engineering"], weightage: "18% & 11 Marks" },
+        { title: "UNIT 6: Advances in Civil", topics: ["Smart cities, Green buildings, GPS, GIS & Remote Sensing"], weightage: "14% & 8 Marks" }
+    ],
+    'PEHV': [
+        { title: "UNIT 1: Human Values & Aspirations", topics: ["Value education, Continuous happiness & prosperity"], weightage: "23% & 14 Marks" },
+        { title: "UNIT 2: Harmony with Self", topics: ["Self and Body co-existence, Sanyam and Swasthya"], weightage: "20% & 12 Marks" },
+        { title: "UNIT 3: Harmony in Family & Society", topics: ["Trust (Vishwas) & Respect (Samman), Undivided Society"], weightage: "20% & 12 Marks" },
+        { title: "UNIT 4: Harmony in Nature", topics: ["Interconnectedness of 4 orders of nature, Universal Order"], weightage: "14% & 8 Marks" },
+        { title: "UNIT 5: Professional Ethics", topics: ["Competence in professional ethics, Case studies"], weightage: "23% & 14 Marks" }
+    ],
+    'ENV': [
+        { title: "UNIT 1: Environment & Sustainability", topics: ["Components of environment, Sustainable development goals"], weightage: "20%" },
+        { title: "UNIT 2: Pollution & Management", topics: ["Air, Water, Soil, Noise pollution causes and control"], weightage: "25%" },
+        { title: "UNIT 3: Solid Waste Management", topics: ["Municipal, Biomedical, E-Waste segregation & recycling"], weightage: "20%" },
+        { title: "UNIT 4: 4Rs & Environmental Policies", topics: ["Reduce, Reuse, Recycle, Recover principles"], weightage: "15%" },
+        { title: "UNIT 5: Global Environmental Treaties", topics: ["Climate change, Kyoto Protocol, Paris Agreement"], weightage: "20%" }
+    ]
+};
 
-    // --- ID 2: FOP (Computer) - Assuming 5 Faculty ---
-    { id: 201, subject_id: 2, name: "DR. Maulik A. Modi", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "maulik_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_1.jpeg" },
-    { id: 202, subject_id: 2, name: "DR. Jigar Suthar", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "Mechanical Dept. ,Ground Floor,HMT LAB", email: "jigar_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_2.jpg" },
-    { id: 203, subject_id: 2, name: "DR. Kaushal H. Bhavsar", designation: "Associate Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "kaushal_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_3.jpg" },
-    { id: 204, subject_id: 2, name: "MR. Amit Pandey", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "amit_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_4.jpg" },
-    { id: 205, subject_id: 2, name: "MR. Chandramaulisinh A Parmar", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "chandra_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_5.jpg" },
-    { id: 206, subject_id: 2, name: "MR. Hitesh Patel", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "hitesh_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_6.jpg" },
-    { id: 207, subject_id: 2, name: "DR. Saumil C Patel", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "saumil_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_7.jpg" },
-    { id: 208, subject_id: 2, name: "DR. Kiran A Patel", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "kiran_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_8.jpg" },
-    { id: 209, subject_id: 2, name: "MR. Aniruddh R Kyada", designation: "Asst. Professor", dept: "Mechanical Engineering Department Faculty of Engineering", cabin: "UPDATING SOON...", email: "aniruddh_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/fop_9.jpg" },
-
-    // --- ID 3: BEEE (Electrical) - 6 Faculty ---
-    { id: 301, subject_id: 3, name: "MRS.Payal V.Mistry", designation: "Asst. Professor", dept: "Electrical", cabin: "E-101", email: "pvmistri_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_1.jpg" },
-    { id: 302, subject_id: 3, name: "DR. Maulik C. Pandya", designation: "Asst. Professor", dept: "Electrical", cabin: "UPDATING SOON...", email: "mcpandya_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_2.jpg" },
-    { id: 303, subject_id: 3, name: "DR.Mihirkumar C.Rathod", designation: "Asst. Professor", dept: "Electrical", cabin: "UPDATING SOON...", email: "mihirrathod_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_3.jpg" },
-    { id: 304, subject_id: 3, name: "DR.Rakesh.P.Sukhadiya", designation: "Asst. Professor", dept: "Electrical", cabin: "UPDATING SOON...", email: "rpsukhadia_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_4.jpg" },
-    { id: 305, subject_id: 3, name: "MR.Ashish N.Patel", designation: "Asst. Professor", dept: "Electrical", cabin: "UPDATING SOON...", email: "ashish_ee@ldrp.ac.in", linkedin: "#", image: "images/faculty/beee_5.jpg" },
-
-    // --- ID 4: EPHY (Physics) - 3 Faculty ---
-    { id: 401, subject_id: 4, name: "MR. Jitendra Patel", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "Shift 1,First floor,CF SR 6", email: "jinendra_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_1.jpg" },
-    { id: 402, subject_id: 4, name: "Prof. Tanvirbanu A. Malik", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "Shift 1,First floor,Opp. of CF-SR 4", email: "tanvirbanu_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_2.jpg" },
-    { id: 403, subject_id: 4, name: "DR. Manjul Kumar", designation: "Asst. Professor", dept: "Science & Humanities", cabin: "Shift 1,First floor,CF SR 6", email: "manjul_sh@ldrp.ac.in", linkedin: "#", image: "images/faculty/ephy_3.jpg" },
-
-    // --- ID 5: BME (Mechanical) - 10 Faculty ---
-    { id: 501, subject_id: 5, name: "Dr. Amit Pandey", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "amit_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_1.jpg" },
-    { id: 502, subject_id: 5, name: "MRS. Pragna R Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "pragna_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_2.jpg" },
-    { id: 503, subject_id: 5, name: "DR. Alkesh M. Mavani", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "alkesh_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_3.jpg" },
-    { id: 504, subject_id: 5, name: "MR. Hemal J Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "hemal_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_4.jpg" },
-    { id: 505, subject_id: 5, name: "DR. Krunal B Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "krunal_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_5.jpg" },
-    { id: 506, subject_id: 5, name: "DR. Jaimin R Patel", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "jaimin_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_6.jpg" },
-    { id: 507, subject_id: 5, name: "DR. Ankit A Darji", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "ankit_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_7.jpg" },
-    { id: 508, subject_id: 5, name: "MR. Neel Joshi", designation: "Asst. Professor", dept: "Mechanical", cabin: "UPDATING SOON...", email: "neel_me@ldrp.ac.in", linkedin: "#", image: "images/faculty/bme_8.jpg" },
-
-    // --- ID 6: BCPS (Humanities) - 2 Faculty ---
-    { id: 601, subject_id: 6, name: "DR. Sandhya Vyas", designation: "Asst. Professor", dept: "Humanities", cabin: "UPDATING SOON...", email: "UPDATING SOON...", linkedin: "https://www.linkedin.com/in/dr-sandhya-vyas-a75024174/?originalSubdomain=in", image: "images/faculty/bcps_1.jpg" },
-    { id: 602, subject_id: 6, name: "DR. Amee Brahmbhatt", designation: "Asst. Professor", dept: "Humanities", cabin: "UPDATING SOON...", email: "UPDATING SOON...", linkedin: "#", image: "images/faculty/bcps_2.jpg" },
-
-    // --- ID 7: SPORTS - 2 Faculty ---
-    { id: 701, subject_id: 7, name: "Lt. Bhavik Pandya", designation: "Asso. NCC Officer", dept: "Sports", cabin: "Shift 2,Ground Floor,AG-SR 2", email: "UPDATING SOON...", linkedin: "https://www.linkedin.com/in/bhavik-pandya-9725531b2/?originalSubdomain=in", image: "images/faculty/sports_1.jpg" },
-    { id: 702, subject_id: 7, name: "MR. Ashish", designation: "Sports Co-ordinator", dept: "Sports", cabin: "Shift 2,Ground Floor,AG-SR 2", email: "UPDATING SOON...", linkedin: "#", image: "images/faculty/sports_2.jpg" }
-];
-
-// Niche wali line ko update krke 'faculty' add kr dena
-module.exports = { subjects, textbooks, notes, imp_topics, practicals, assignments, pyqs, faculty };
-
-// Force update v10 - Final Fixs
+module.exports = { subjects, textbooks, notes, imp_topics, assignments, pyqs, syllabus };
